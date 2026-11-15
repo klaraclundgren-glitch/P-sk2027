@@ -1,0 +1,1317 @@
+<title>Påsk 2027 Chamonix</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Planner for an Easter 2027 ski trip: Chamonix apartment plus hut-to-hut ski touring, 20–29 March.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Layout: a lift-ticket + topo-sheet planner. Sticky section bar, one left-aligned 1180px column,
+   cards only where an object is real (the plan ticket, hut cards). Accent = piste-marker orange on glacier white. */
+:root{
+  --bg:#F1F5F7;          /* glacier white */
+  --sky:#DDE8EE;
+  --surface:#FFFFFF;
+  --surface-2:#E7EEF2;
+  --ink:#0F1F28;         /* night spruce ink */
+  --ink-2:#44565F;
+  --muted:#6B7D87;
+  --line:#D3DEE4;
+  --grid:#E3EAEE;
+  --accent:#D5421A;      /* piste-marker orange */
+  --accent-ink:#A9330F;
+  --accent-wash:#FBE6DD;
+  --on-accent:#FFFFFF;
+  --glacier:#2C6B95;
+  --glacier-ink:#1F5578;
+  --glacier-wash:#DDEBF4;
+  --slate-wash:#E2E7EA;
+  --good:#1D7A43; --good-wash:#E0F2E7;
+  --warn:#8A5D00; --warn-wash:#FAEFD6;
+  --bad:#B02D2D;  --bad-wash:#F8E2E2;
+  --piste-blue:#1F68C9; --piste-red:#CF2E2E;
+  --nav-bg:rgba(241,245,247,.94);
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#6250d6; --s8:#e34948;
+  --font-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --font-body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C161C; --sky:#132631; --surface:#13212A; --surface-2:#1B2D37; --ink:#E7EFF3; --ink-2:#A9BBC4; --muted:#7F929C;
+    --line:#263944; --grid:#1E313B; --accent:#FF6A3D; --accent-ink:#FF936F; --accent-wash:#3B2219; --on-accent:#1B0A04;
+    --glacier:#76B4DE; --glacier-ink:#9CCBEA; --glacier-wash:#17323F; --slate-wash:#22323B;
+    --good:#55C783; --good-wash:#173326; --warn:#E4B44F; --warn-wash:#3A2E14; --bad:#F27B7B; --bad-wash:#3D1C1C;
+    --piste-blue:#5B9BEB; --piste-red:#EE6161; --nav-bg:rgba(12,22,28,.94);
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#0ca30c; --s7:#9085e9; --s8:#e66767;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C161C; --sky:#132631; --surface:#13212A; --surface-2:#1B2D37; --ink:#E7EFF3; --ink-2:#A9BBC4; --muted:#7F929C;
+  --line:#263944; --grid:#1E313B; --accent:#FF6A3D; --accent-ink:#FF936F; --accent-wash:#3B2219; --on-accent:#1B0A04;
+  --glacier:#76B4DE; --glacier-ink:#9CCBEA; --glacier-wash:#17323F; --slate-wash:#22323B;
+  --good:#55C783; --good-wash:#173326; --warn:#E4B44F; --warn-wash:#3A2E14; --bad:#F27B7B; --bad-wash:#3D1C1C;
+  --piste-blue:#5B9BEB; --piste-red:#EE6161; --nav-bg:rgba(12,22,28,.94);
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#0ca30c; --s7:#9085e9; --s8:#e66767;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--nav-bg)}
+a{color:var(--glacier-ink);text-underline-offset:2px}
+a:hover{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+button{font:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--font-mono)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.num{font-variant-numeric:tabular-nums}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--nav-bg);border-bottom:1px solid var(--line);backdrop-filter:saturate(1.3) blur(8px);-webkit-backdrop-filter:saturate(1.3) blur(8px)}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:52px}
+.brand{font-family:var(--font-display);font-stretch:125%;font-weight:850;text-transform:uppercase;letter-spacing:.03em;font-size:15px;white-space:nowrap;text-decoration:none;color:var(--ink)}
+.brand b{color:var(--accent)}
+.nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-left:auto;min-width:0}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{flex:0 0 auto;text-decoration:none;color:var(--ink-2);font-weight:600;font-size:14px;padding:6px 10px;border-radius:999px}
+.nav-links a:hover{background:var(--surface-2);color:var(--ink)}
+
+/* hero */
+.hero{position:relative;background:linear-gradient(180deg,var(--sky) 0%,var(--bg) 100%);border-bottom:1px solid var(--line);overflow:hidden}
+.hero .wrap{padding-block:44px 0}
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);margin:0}
+h1{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-size:clamp(46px,10vw,112px);line-height:.9;letter-spacing:-.01em;margin:26px 0 14px;text-transform:uppercase;text-wrap:balance}
+h1 .h1-sub{display:block;color:var(--accent);font-size:.5em;line-height:1;margin-top:.12em}
+.hero-sub{font-size:clamp(17px,2.2vw,20px);color:var(--ink-2);max-width:62ch;margin:0}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;margin-top:28px;border-top:1px solid var(--line)}
+.fact{padding:14px 16px 14px 0;border-bottom:1px solid var(--line)}
+.fact .k{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.fact .v{font-family:var(--font-display);font-stretch:110%;font-weight:800;font-size:20px;line-height:1.15;margin-top:2px}
+.fact .d{font-size:14px;color:var(--ink-2);margin-top:2px}
+.ridge{margin-top:18px;color:var(--ink)}
+.ridge svg{display:block;width:100%;height:auto;max-width:100%}
+.ridge .fill{fill:var(--surface)}
+.ridge .edge{fill:none;stroke:var(--ink);stroke-width:1.5}
+.ridge .tick{stroke:var(--muted);stroke-width:1}
+.ridge text{font-family:var(--font-mono);font-size:12px;fill:var(--ink-2)}
+@media (max-width:600px){.ridge text,.ridge .tick{display:none}}
+
+/* sections */
+section{padding-block:56px 8px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;margin-bottom:22px}
+.sec-head > div{min-width:0;max-width:72ch}
+h2{font-family:var(--font-display);font-stretch:115%;font-weight:850;font-size:clamp(28px,4.4vw,42px);line-height:1;margin:6px 0 10px;text-transform:uppercase;text-wrap:balance}
+h3{text-wrap:balance}
+.lede{color:var(--ink-2);max-width:68ch;margin:0}
+.note{font-size:13.5px;color:var(--muted);max-width:75ch}
+
+/* segmented controls & chips */
+.seg-ctl{display:inline-flex;border:1px solid var(--line);border-radius:999px;background:var(--surface);padding:3px;gap:2px;flex-wrap:wrap}
+.seg-ctl button{border:0;background:transparent;border-radius:999px;padding:5px 12px;font-weight:600;font-size:13.5px;cursor:pointer;color:var(--ink-2)}
+.seg-ctl button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-weight:600;font-size:13.5px;cursor:pointer;color:var(--ink-2)}
+.chip:hover{border-color:var(--ink-2)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:999px;padding:8px 16px;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--ink);background:var(--surface-2);color:var(--ink)}
+.btn[disabled]{opacity:.5;cursor:default}
+
+/* plan tabs */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;margin-bottom:18px;scrollbar-width:thin}
+.tab{flex:0 0 auto;display:flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 14px 5px 5px;font-weight:600;font-size:14px;cursor:pointer}
+.tab:hover{border-color:var(--ink-2)}
+.tab .code{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);font-family:var(--font-display);font-stretch:110%;font-weight:850;font-size:14px}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab[aria-selected="true"] .code{background:var(--accent);color:var(--on-accent)}
+.tab .tscore{font-family:var(--font-mono);font-size:12px;opacity:.75}
+
+/* the ticket */
+.ticket{display:grid;grid-template-columns:auto minmax(0,1fr) auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;position:relative}
+.ticket-stub{background:var(--accent);color:var(--on-accent);padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;min-width:120px;position:relative}
+.stub-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+.stub-code{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-size:76px;line-height:.8}
+.stub-score{font-family:var(--font-mono);font-size:13px;font-weight:600}
+.ticket-main{padding:20px 24px;min-width:0;display:flex;flex-direction:column;gap:10px}
+.ticket-main h3{font-family:var(--font-display);font-stretch:112%;font-weight:850;font-size:clamp(22px,3vw,30px);line-height:1.05;margin:0;text-transform:uppercase}
+.ticket-main .tag{margin:0;color:var(--ink-2);font-size:17px}
+.ticket-facts{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--font-mono);font-size:12.5px;color:var(--ink-2)}
+.ticket-facts span{white-space:nowrap}
+.ticket-price{padding:20px 24px;border-left:2px dashed var(--line);display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:2px;position:relative;min-width:200px}
+.ticket-price::before,.ticket-price::after{content:"";position:absolute;left:-10px;width:18px;height:18px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.ticket-price::before{top:-10px}
+.ticket-price::after{bottom:-10px}
+.ticket-price .big{font-family:var(--font-display);font-stretch:110%;font-weight:850;font-size:28px;line-height:1.1}
+.ticket-price .mid{font-family:var(--font-mono);font-size:14px;font-weight:600}
+.ticket-price .lbl{font-size:12.5px;color:var(--muted)}
+.needs{display:inline-flex;gap:6px;align-items:flex-start;font-size:13.5px;background:var(--warn-wash);color:var(--warn);border-radius:8px;padding:6px 10px;font-weight:600;align-self:flex-start}
+@media (max-width:760px){
+  .ticket{grid-template-columns:1fr}
+  .ticket-stub{flex-direction:row;align-items:flex-end;min-width:0}
+  .stub-code{font-size:56px}
+  .ticket-price{border-left:0;border-top:2px dashed var(--line);align-items:flex-start;min-width:0}
+  .ticket-price::before,.ticket-price::after{display:none}
+}
+
+/* night strip */
+.strip-scroll{overflow-x:auto;margin:18px 0 6px;-webkit-overflow-scrolling:touch}
+.strip{display:grid;grid-template-columns:repeat(10,minmax(70px,1fr));min-width:720px;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+.day{padding:10px 8px 10px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:4px;min-width:0}
+.day:last-child{border-right:0}
+.day.hol-day{background:linear-gradient(180deg,var(--accent-wash),transparent 70%)}
+.day .wd{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.day .dt{font-family:var(--font-display);font-stretch:112%;font-weight:850;font-size:26px;line-height:1}
+.day .hol{font-size:12px;line-height:1.25;color:var(--accent-ink);font-weight:700;min-height:31px}
+.day .hol .dst{color:var(--ink-2);font-weight:600}
+.day .leave{display:flex;gap:4px;min-height:18px}
+.lv{font-family:var(--font-mono);font-size:10.5px;font-weight:600;border:1px solid var(--line);border-radius:4px;padding:0 4px;color:var(--ink-2)}
+.night{margin-top:auto;height:30px;border-radius:6px;font-size:12.5px;font-weight:700;display:flex;align-items:center;padding:0 7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.night.apt{background:var(--slate-wash);color:var(--ink)}
+.night.hut{background:var(--accent);color:var(--on-accent)}
+.night.valley{background:var(--glacier-wash);color:var(--glacier-ink)}
+.night.fly{border:1.5px dashed var(--line);color:var(--muted)}
+.legend-row{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--ink-2);align-items:center}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+.sw.apt{background:var(--slate-wash);border:1px solid var(--line)}
+.sw.hut{background:var(--accent)}
+.sw.valley{background:var(--glacier-wash);border:1px solid var(--glacier)}
+
+/* plan body */
+.plan-body{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:28px;margin-top:22px}
+@media (max-width:900px){.plan-body{grid-template-columns:1fr}}
+.itin{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.itin li{display:grid;grid-template-columns:78px minmax(0,1fr) 120px;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);align-items:start}
+.itin-date{font-family:var(--font-mono);font-size:13px;font-weight:600}
+.itin-date .wd{color:var(--muted);font-weight:500;margin-right:4px}
+.itin-txt{font-size:15px}
+.itin-night{font-size:13px;color:var(--ink-2);display:flex;gap:6px;align-items:center;justify-content:flex-end;text-align:right}
+.nd{width:9px;height:9px;border-radius:2px;flex:0 0 auto}
+.nd.apt{background:var(--slate-wash);border:1px solid var(--muted)}
+.nd.hut{background:var(--accent)}
+.nd.valley{background:var(--glacier)}
+@media (max-width:560px){.itin li{grid-template-columns:64px minmax(0,1fr)}.itin-night{grid-column:2;justify-content:flex-start;text-align:left}}
+.side h4{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:600}
+.side-block{margin-bottom:22px}
+.line-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.line-list li{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:baseline;font-size:14.5px}
+.line-list .alt{font-family:var(--font-mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.weather{border-left:3px solid var(--glacier);padding:4px 0 4px 12px;font-size:14.5px;color:var(--ink-2)}
+
+/* custom editor */
+.custom-ed{margin-top:20px;border:1px dashed var(--ink-2);border-radius:12px;padding:16px;background:var(--surface)}
+.custom-ed h4{margin:0 0 4px;font-family:var(--font-display);font-stretch:110%;font-weight:800;font-size:17px;text-transform:uppercase}
+.nights-ed{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:12px 0}
+.nights-ed label{display:grid;gap:3px;font-size:12.5px;font-family:var(--font-mono);color:var(--muted)}
+select,input[type=number]{font:500 14px var(--font-body);padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);min-width:0;width:100%}
+input[type=number]{font-family:var(--font-mono);text-align:right}
+.ed-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.ed-row label{display:grid;gap:3px;font-size:13px;color:var(--ink-2)}
+.warnline{font-size:13px;color:var(--warn);font-weight:600;margin-top:8px}
+
+/* compare */
+.weights{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px 28px;padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.weight label{display:flex;justify-content:space-between;gap:8px;font-weight:700;font-size:14px}
+.weight .wv{font-family:var(--font-mono);color:var(--accent-ink)}
+.weight .hint{font-size:12.5px;color:var(--muted);line-height:1.3;margin-top:1px}
+input[type=range]{width:100%;accent-color:var(--accent);margin:6px 0 0}
+.compare-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;margin-top:24px}
+.rank{display:grid;gap:9px}
+.rank-row{display:grid;grid-template-columns:30px minmax(150px,240px) minmax(0,1fr) 44px;gap:12px;align-items:center;cursor:pointer;border-radius:8px;padding:2px 4px}
+.rank-row:hover{background:var(--surface-2)}
+.rank-pos{font-family:var(--font-mono);font-size:13px;color:var(--muted);text-align:right}
+.rank-name{font-weight:700;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank-name .c{font-family:var(--font-display);font-weight:850;color:var(--accent-ink);margin-right:6px}
+.rank-bar{height:14px;background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px);background-size:25% 100%;border-left:1px solid var(--line)}
+.rank-bar span{display:block;height:100%;background:var(--accent);border-radius:0 4px 4px 0}
+.rank-row.top .rank-bar span{background:var(--ink)}
+.rank-val{font-family:var(--font-mono);font-weight:600;font-size:14px;text-align:right}
+@media (max-width:600px){.rank-row{grid-template-columns:24px minmax(0,1fr) 40px}.rank-bar{grid-column:2 / 4}}
+.table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+thead th{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;white-space:nowrap;background:var(--surface)}
+tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
+.matrix{min-width:980px;font-size:14px}
+.matrix th[scope=row]{font-weight:700;white-space:nowrap}
+.matrix .c{font-family:var(--font-display);font-weight:850;color:var(--accent-ink);margin-right:6px}
+.matrix tr.sel{background:var(--accent-wash)}
+.dots{display:inline-flex;gap:0}
+.dot{width:22px;height:24px;border:0;background:transparent;padding:0;cursor:pointer;display:grid;place-items:center}
+.dot::before{content:"";width:13px;height:13px;border-radius:50%;border:1.5px solid var(--muted);box-sizing:border-box}
+.dot.on::before{background:var(--ink);border-color:var(--ink)}
+.dot:hover::before{border-color:var(--accent)}
+.autoval{font-family:var(--font-mono);font-size:13px;color:var(--ink-2)}
+.score-cell{font-family:var(--font-mono);font-weight:700;font-size:15px}
+.group{padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.group-head{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.group-head h3{margin:0;font-family:var(--font-display);font-stretch:110%;font-weight:800;font-size:18px;text-transform:uppercase}
+.group table{font-size:14px;min-width:640px}
+.person{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.person img{width:22px;height:22px;border-radius:50%}
+.group-note{font-size:13.5px;color:var(--ink-2);margin:8px 0 0}
+.best{background:var(--accent-wash);font-weight:700}
+
+/* costs */
+.cost-grid{display:grid;grid-template-columns:minmax(0,350px) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:960px){.cost-grid{grid-template-columns:1fr}}
+.form{display:grid;gap:12px}
+fieldset{border:1px solid var(--line);border-radius:12px;padding:10px 14px 14px;margin:0;background:var(--surface);display:grid;gap:8px;min-width:0}
+legend{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 6px;font-weight:600}
+.field{display:grid;grid-template-columns:minmax(0,1fr) 104px;align-items:center;gap:10px;font-size:14px}
+.field .u{font-size:12px;color:var(--muted);display:block;line-height:1.2}
+.toggle{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;cursor:pointer}
+.toggle input{width:18px;height:18px;accent-color:var(--accent)}
+.chart-head{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--ink-2);margin-bottom:12px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.bars{display:grid;gap:10px;padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.bar-row{display:grid;grid-template-columns:minmax(120px,190px) minmax(0,1fr) 100px;gap:12px;align-items:center;border-radius:6px;cursor:pointer}
+.bar-row:hover .bar-label{color:var(--accent-ink)}
+.bar-label{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-label .c{font-family:var(--font-display);font-weight:850;color:var(--accent-ink);margin-right:6px}
+.bar-track{display:flex;height:22px;background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px);background-size:25% 100%;border-left:1px solid var(--line)}
+.seg{height:100%;border-right:2px solid var(--surface);min-width:0}
+.seg:last-child{border-right:0;border-radius:0 4px 4px 0}
+.bar-total{font-family:var(--font-mono);font-weight:600;font-size:13.5px;text-align:right;white-space:nowrap}
+.axis{display:grid;grid-template-columns:minmax(120px,190px) minmax(0,1fr) 100px;gap:12px}
+.axis-scale{position:relative;height:16px;font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+.axis-scale span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.axis-scale span:first-child{transform:none}
+.axis-scale span:last-child{transform:translateX(-100%)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+@media (max-width:600px){
+  .bar-row,.axis{grid-template-columns:minmax(0,1fr) 92px}
+  .bar-track{grid-column:1 / 3;grid-row:2}
+  .axis > div:first-child,.axis > div:last-child{display:none}
+  .axis-scale{grid-column:1 / 3}
+}
+.tip{position:fixed;z-index:20;pointer-events:none;background:var(--ink);color:var(--bg);font-size:13px;padding:7px 10px;border-radius:8px;max-width:260px;line-height:1.35;box-shadow:0 4px 18px rgba(0,0,0,.18)}
+.tip b{font-weight:700}
+details.breakdown{margin-top:14px}
+details.breakdown summary{cursor:pointer;font-weight:700;font-size:14px;color:var(--ink-2);padding:6px 0}
+.breakdown table{min-width:860px;font-size:13.5px}
+.breakdown td{font-family:var(--font-mono);text-align:right;white-space:nowrap}
+.breakdown td:first-child,.breakdown th:first-child{text-align:left;font-family:var(--font-body)}
+.breakdown thead th{text-align:right}
+.breakdown thead th:first-child{text-align:left}
+.breakdown tr.total td{font-weight:700}
+
+/* huts */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.card h3{font-family:var(--font-display);font-stretch:108%;font-weight:850;font-size:20px;line-height:1.1;margin:0}
+.card .alt{font-family:var(--font-mono);font-size:13px;color:var(--ink-2);margin-top:4px}
+.cc{font-family:var(--font-mono);font-size:11px;font-weight:600;border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:var(--ink-2);white-space:nowrap}
+.price-tag{font-family:var(--font-display);font-stretch:110%;font-weight:850;font-size:22px;line-height:1;text-align:right;white-space:nowrap}
+.price-tag small{display:block;font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--muted);margin-top:3px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;padding:3px 9px;border-radius:999px;align-self:flex-start}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.pill.likely{background:var(--good-wash);color:var(--good)}
+.pill.confirm{background:var(--warn-wash);color:var(--warn)}
+.pill.winter{background:var(--glacier-wash);color:var(--glacier-ink)}
+.kv{display:grid;grid-template-columns:76px minmax(0,1fr);gap:6px 10px;font-size:14px;margin:0}
+.kv dt{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-family:var(--font-mono);padding-top:3px}
+.kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.demand{display:inline-flex;gap:2px;vertical-align:-1px;margin-right:6px}
+.demand i{width:5px;height:12px;border-radius:1px;background:var(--line)}
+.demand i.on{background:var(--accent)}
+.card-links{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;margin-top:auto;padding-top:4px}
+.card .used{font-size:12.5px;color:var(--muted)}
+
+/* lines */
+.line-filters{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-bottom:12px}
+.line-filters select{width:auto}
+.lines-t{min-width:980px;font-size:14px}
+.lines-t td.n{font-family:var(--font-mono);white-space:nowrap;text-align:right}
+.lines-t th.n{text-align:right}
+.lines-t .lname{font-weight:700}
+.lines-t .lnote{font-size:13px;color:var(--ink-2);max-width:42ch}
+.grade{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-size:13.5px}
+.g{display:inline-flex;gap:2px;align-items:center;width:20px;justify-content:center}
+.g i{display:block;width:11px;height:11px}
+.g.easy i{background:var(--piste-blue);border-radius:50%}
+.g.moderate i{background:var(--piste-red);border-radius:1px}
+.g.steep i,.g.expert i{background:var(--ink);transform:rotate(45deg) scale(.82)}
+.g.expert i{width:9px;height:9px}
+.star{border:0;background:transparent;cursor:pointer;font-size:18px;line-height:1;color:var(--muted);padding:2px 4px}
+.star[aria-pressed="true"]{color:var(--accent)}
+.yes{color:var(--glacier-ink);font-weight:600}
+
+/* flights */
+.fl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.fl{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.route{display:flex;align-items:center;gap:12px;font-family:var(--font-display);font-stretch:120%;font-weight:900;font-size:34px;line-height:1}
+.route .arrow{flex:1;height:2px;background:repeating-linear-gradient(to right,var(--ink-2) 0 6px,transparent 6px 11px);min-width:30px}
+.route-sub{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.fl ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14.5px}
+.fare{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;padding:10px 12px;background:var(--surface-2);border-radius:8px}
+.fare .big{font-family:var(--font-display);font-stretch:110%;font-weight:850;font-size:22px}
+.fare .lbl{font-size:12.5px;color:var(--muted)}
+.fl-links{display:flex;flex-wrap:wrap;gap:8px}
+.timing{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px 24px}
+.timing div{border-top:2px solid var(--ink);padding-top:8px;font-size:14.5px}
+.timing b{display:block;font-family:var(--font-display);font-stretch:110%;font-weight:800;font-size:16px;margin-bottom:2px}
+
+/* booking */
+.book-t{min-width:900px;font-size:14px}
+.book-t td:nth-child(3){font-family:var(--font-mono);white-space:nowrap}
+.lifts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 24px;margin:18px 0 6px}
+.lifts div{font-size:14.5px;border-left:3px solid var(--glacier);padding-left:12px}
+.lifts b{display:block}
+.checklist{list-style:none;padding:0;margin:0;display:grid;gap:0;border-top:1px solid var(--line)}
+.checklist li{display:grid;grid-template-columns:28px 92px minmax(0,1fr);gap:10px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}
+.checklist input{width:18px;height:18px;accent-color:var(--accent);margin-top:2px}
+.checklist .when{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;padding-top:3px}
+.checklist li.done .what{color:var(--muted);text-decoration:line-through}
+@media (max-width:520px){.checklist li{grid-template-columns:28px minmax(0,1fr)}.checklist .when{grid-column:2}.checklist .what{grid-column:2}}
+.sync{font-size:13px;color:var(--muted)}
+
+footer{margin-top:64px;border-top:1px solid var(--line);background:var(--surface)}
+footer .wrap{padding-block:28px 40px;display:grid;gap:14px}
+.sources{columns:2 320px;column-gap:28px;font-size:13px;margin:0;padding-left:18px}
+.sources li{break-inside:avoid;margin-bottom:4px}
+</style>
+
+<div class="tip" id="tip" hidden></div>
+
+<nav class="nav" aria-label="Sections">
+  <div class="wrap">
+    <a class="brand" href="#top">Påsk<b>·</b>2027</a>
+    <div class="nav-links">
+      <a href="#plans">Plans</a>
+      <a href="#compare">Compare</a>
+      <a href="#costs">Costs</a>
+      <a href="#huts">Huts</a>
+      <a href="#lines">Ski lines</a>
+      <a href="#flights">Flights</a>
+      <a href="#booking">Booking</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">Mont Blanc massif · 20–29 March 2027</p>
+    <h1>Påsk 2027<span class="h1-sub">Chamonix + huts</span></h1>
+    <p class="hero-sub">Four nights in a friend's apartment, then ski touring from refuges close to the valley. Compare the options, rate them your way and see what each one costs from Oslo and Stockholm.</p>
+    <div class="facts">
+      <div class="fact"><div class="k">Trip</div><div class="v">9 nights</div><div class="d">Sat 20 March to Easter Monday 29 March</div></div>
+      <div class="fact"><div class="k">Easter Sunday</div><div class="v">28 March</div><div class="d">Clocks go forward that night, so alpine starts lose an hour.</div></div>
+      <div class="fact"><div class="k">Leave days</div><div class="v">NO 3 · SE 4</div><div class="d">Norway 22–24 March, Sweden 22–25 March.</div></div>
+      <div class="fact"><div class="k">Grands Montets</div><div class="v">Lognan only</div><div class="d">New gondola to Lognan this winter. The summit lift returns in December 2027.</div></div>
+    </div>
+    <div class="ridge" aria-hidden="true">
+      <svg viewBox="0 0 1200 190" preserveAspectRatio="xMidYMax meet">
+        <path class="fill" d="M0,170 L60,142 L110,120 L170,72 L205,104 L250,96 L300,120 L350,86 L420,42 L445,62 L470,76 L500,110 L560,118 L620,100 L660,104 L700,80 L730,98 L780,86 L820,62 L880,74 L940,50 L1000,22 L1060,46 L1120,70 L1160,92 L1200,118 L1200,190 L0,190 Z"/>
+        <path class="edge" d="M0,170 L60,142 L110,120 L170,72 L205,104 L250,96 L300,120 L350,86 L420,42 L445,62 L470,76 L500,110 L560,118 L620,100 L660,104 L700,80 L730,98 L780,86 L820,62 L880,74 L940,50 L1000,22 L1060,46 L1120,70 L1160,92 L1200,118"/>
+        <line class="tick" x1="170" y1="66" x2="170" y2="40"/><text x="170" y="32" text-anchor="middle">Aig. d'Argentière 3901</text>
+        <line class="tick" x1="420" y1="36" x2="420" y2="16"/><text x="420" y="11" text-anchor="middle">Aig. Verte 4122</text>
+        <line class="tick" x1="700" y1="74" x2="700" y2="50"/><text x="700" y="42" text-anchor="middle">Aig. du Midi 3842</text>
+        <line class="tick" x1="1000" y1="16" x2="1000" y2="8"/><text x="985" y="12" text-anchor="end">Mont Blanc ≈4806</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="plans">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Itineraries</p>
+          <h2>Eight ways to spend the week</h2>
+          <p class="lede">Every plan keeps the apartment for 20–23 March and keeps the skiing close: one or two huts, several nights in each. Pick one to see its nights, day-by-day plan and cost. The last tab lets you build your own.</p>
+        </div>
+      </div>
+      <div class="tabs" role="tablist" id="planTabs" aria-label="Plans"></div>
+      <div id="planDetail"></div>
+    </div>
+  </section>
+
+  <section id="compare">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Your ratings</p>
+          <h2>Compare and rank</h2>
+          <p class="lede">The dots are starting ratings, 1–5. Click any dot to change it, and use the sliders to set how much each criterion matters to you. Value is worked out from the cost estimate. Everything you change is saved.</p>
+        </div>
+        <button class="btn ghost" data-act="reset-ratings" type="button">Reset ratings and weights</button>
+      </div>
+      <div class="weights" id="weights"></div>
+      <div class="compare-grid">
+        <div>
+          <h3 class="eyebrow" style="margin-bottom:10px">Ranking · weighted score out of 100</h3>
+          <div class="rank" id="rank"></div>
+        </div>
+        <div class="table-scroll"><table class="matrix" id="matrix"></table></div>
+        <div class="group" id="group"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="costs">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Per person estimate</p>
+          <h2>What it costs</h2>
+          <p class="lede">Change the assumptions on the left and every plan updates. Prices are researched estimates from November 2026, not quotes. Huts are half board; the apartment is free.</p>
+        </div>
+      </div>
+      <div class="cost-grid">
+        <form class="form" id="costForm" autocomplete="off"></form>
+        <div style="min-width:0">
+          <div class="chart-head">
+            <div class="seg-ctl" role="group" aria-label="Traveller">
+              <button type="button" data-act="origin" data-v="osl">From Oslo</button>
+              <button type="button" data-act="origin" data-v="arn">From Stockholm</button>
+              <button type="button" data-act="origin" data-v="avg">Group average</button>
+            </div>
+            <div class="seg-ctl" role="group" aria-label="Currency">
+              <button type="button" data-act="cur" data-v="NOK">NOK</button>
+              <button type="button" data-act="cur" data-v="SEK">SEK</button>
+              <button type="button" data-act="cur" data-v="EUR">EUR</button>
+            </div>
+          </div>
+          <div class="legend" id="costLegend"></div>
+          <div class="bars" id="costBars"></div>
+          <details class="breakdown">
+            <summary>Show the breakdown as a table</summary>
+            <div class="table-scroll" style="margin-top:8px"><table id="costTable"></table></div>
+          </details>
+          <p class="note" id="costNote"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="huts">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Refuges</p>
+          <h2>Huts within reach</h2>
+          <p class="lede">The huts used in the plans, with what we know about late March 2027. Hut keepers publish exact dates over the winter, so treat the status as a forecast and confirm before booking.</p>
+        </div>
+      </div>
+      <div class="chips" id="hutFilters" role="group" aria-label="Filter huts"></div>
+      <div class="cards" id="hutCards"></div>
+    </div>
+  </section>
+
+  <section id="lines">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Descents</p>
+          <h2>Ski lines</h2>
+          <p class="lede">Classic tours from each base. Symbols follow piste colours: blue circle easy, red square moderate, black diamond steep, double diamond expert. Height gains and slopes are rounded; check a topo before you go. Star lines to build a shortlist.</p>
+        </div>
+      </div>
+      <div class="line-filters" id="lineFilters"></div>
+      <div class="table-scroll"><table class="lines-t" id="linesTable"></table></div>
+    </div>
+  </section>
+
+  <section id="flights">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Getting there</p>
+          <h2>Flights to Geneva</h2>
+          <p class="lede">Geneva is about 1 h 15 from Chamonix. Both cities have direct flights, but Easter is peak season, and your dates match Norway's påskeferie exactly.</p>
+        </div>
+      </div>
+      <div class="fl-grid">
+        <article class="fl">
+          <div class="route"><span>OSL</span><span class="arrow"></span><span>GVA</span></div>
+          <div class="route-sub"><span>Oslo Gardermoen</span><span>≈2 h 35 direct</span><span>Genève</span></div>
+          <ul>
+            <li>Direct with <b>SAS</b> and <b>Norwegian</b>. Frequency varies a lot over the season, so check that your exact days have a direct flight.</li>
+            <li>easyJet stopped flying from Oslo in October 2026, so it is not an option.</li>
+            <li>Book the ski bag together with the ticket; it costs more at the airport.</li>
+          </ul>
+          <div class="fare"><span class="lbl">Off-peak return</span><span class="big">≈1 200–2 500 NOK</span><span class="lbl">Easter estimate</span><span class="big">≈2 500–4 500 NOK</span></div>
+          <div class="fl-links">
+            <a class="btn" href="https://www.google.com/travel/flights?q=Flights%20to%20GVA%20from%20OSL%20on%202027-03-20%20through%202027-03-29" target="_blank" rel="noopener">Google Flights 20–29 Mar</a>
+            <a class="btn ghost" href="https://www.skyscanner.net/transport/flights/osl/gva/270320/270329/" target="_blank" rel="noopener">Skyscanner</a>
+            <a class="btn ghost" href="https://www.google.com/travel/flights?q=Flights%20to%20GVA%20from%20OSL%20on%202027-03-19%20through%202027-03-30" target="_blank" rel="noopener">19–30 Mar</a>
+          </div>
+        </article>
+        <article class="fl">
+          <div class="route"><span>ARN</span><span class="arrow"></span><span>GVA</span></div>
+          <div class="route-sub"><span>Stockholm Arlanda</span><span>≈2 h 45 direct</span><span>Genève</span></div>
+          <ul>
+            <li>Direct with <b>SAS</b> and <b>SWISS</b>. Sources disagree on how often; SWISS also connects via Zürich several times a day.</li>
+            <li>Fallback: fly to Zürich and take the train via Martigny to Chamonix (about 4 h).</li>
+            <li>Swedish prices on this route were about 50% higher in 2026 than the year before, so don't wait for a sale.</li>
+          </ul>
+          <div class="fare"><span class="lbl">Off-peak return</span><span class="big">≈1 200–3 500 SEK</span><span class="lbl">Easter estimate</span><span class="big">≈2 500–4 500 SEK</span></div>
+          <div class="fl-links">
+            <a class="btn" href="https://www.google.com/travel/flights?q=Flights%20to%20GVA%20from%20ARN%20on%202027-03-20%20through%202027-03-29" target="_blank" rel="noopener">Google Flights 20–29 Mar</a>
+            <a class="btn ghost" href="https://www.skyscanner.net/transport/flights/arn/gva/270320/270329/" target="_blank" rel="noopener">Skyscanner</a>
+            <a class="btn ghost" href="https://www.google.com/travel/flights?q=Flights%20to%20ZRH%20from%20ARN%20on%202027-03-20%20through%202027-03-29" target="_blank" rel="noopener">Via Zürich</a>
+          </div>
+        </article>
+      </div>
+      <div class="timing">
+        <div><b>Out Sat 20 March</b>The first day of Norway's Easter week, so the busiest day to leave Oslo. A Friday evening flight is often cheaper and gives you a full ski day on the 20th.</div>
+        <div><b>Home Mon 29 March</b>Easter Monday is a holiday in Norway, Sweden and France, so return fares peak. Tuesday 30 March is usually cheaper and gives a spare weather day.</div>
+        <div><b>Timetable change</b>Airlines switch to the summer timetable on Sunday 28 March. Check that the direct route still runs on the 29th before you book.</div>
+        <div><b>Airport to Chamonix</b>Bus from about €14–30 one way, shared transfer about €30–50. Book a transfer that waits for delayed flights.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="booking">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Availability</p>
+          <h2>Booking and what's open</h2>
+          <p class="lede">Easter is the busiest weekend of the spring touring season, and the Haute Route huts fill first. Hut nights from Thursday 25 to Sunday 28 March are the hardest to get.</p>
+        </div>
+      </div>
+      <div class="table-scroll"><table class="book-t" id="bookTable"></table></div>
+      <div class="lifts">
+        <div><b>Grands Montets</b>New Argentière–Lognan gondola due for Christmas 2026; Plan Joran is the backup. Area open daily 5 Dec 2026 – 2 May 2027. Summit lift back in Dec 2027.</div>
+        <div><b>Chamonix lifts</b>Ski season 19 Dec 2026 – 2 May 2027. The Aiguille du Midi and the Skyway run in winter but stop in strong wind.</div>
+        <div><b>Avalanche bulletins</b>Météo-France BERA for the Mont-Blanc massif, SLF for Valais and the Aosta Valley bulletin for Courmayeur. The Office de Haute Montagne in Chamonix has daily conditions.</div>
+      </div>
+      <h3 class="eyebrow" style="margin:28px 0 10px">To-do list</h3>
+      <p class="sync" id="checkSync">Saved in this browser.</p>
+      <ul class="checklist" id="checklist"></ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="note"><b>About the numbers.</b> Researched 15 November 2026. Hut prices are the latest published (often 2025) or marked estimates. Flight ranges are estimates from fare aggregators, not live prices. Exchange rates are editable under Costs. Ski-line grades and height gains are rounded; use a current topo, the avalanche bulletin and a guide's judgement on the day.</p>
+    <ul class="sources">
+      <li><a href="https://seechamonix.com/accommodation/huts/argentiere-refuge-2771m-massif-du-mont-blanc" target="_blank" rel="noopener">Argentière refuge (seechamonix)</a></li>
+      <li><a href="https://www.refuges.info/point/2441/refuge-garde/cabane-du-Trient/en/" target="_blank" rel="noopener">Cabane du Trient (refuges.info)</a></li>
+      <li><a href="https://cas-diablerets.ch/wp-content/uploads/2026/07/2026-07-Annonce-gardien-Trient-v2-avec-photos.pdf" target="_blank" rel="noopener">Trient hut keeper notice, CAS Diablerets (July 2026)</a></li>
+      <li><a href="https://hautesavoiemontblanc-tourisme.com/offres/refuge-albert-1er-chamonix-mont-blanc-fr-5827866/" target="_blank" rel="noopener">Refuge Albert 1er (tourist office)</a></li>
+      <li><a href="https://www.haute-savoie-tourisme.org/203434-refuge-des-conscrits" target="_blank" rel="noopener">Refuge des Conscrits (Haute-Savoie Tourisme)</a></li>
+      <li><a href="https://www.rifugiotorino.com/en/" target="_blank" rel="noopener">Rifugio Torino</a> and <a href="https://skitourguru.com/en/hut/152-rifugio-torino" target="_blank" rel="noopener">skitourguru</a></li>
+      <li><a href="https://www.refuges.info/point/342/refuge-garde/refuge-des-Cosmiques/en/" target="_blank" rel="noopener">Refuge des Cosmiques (refuges.info)</a></li>
+      <li><a href="https://www.refuges.info/point/275/refuge-garde/refuge-du-Requin/en/" target="_blank" rel="noopener">Refuge du Requin (refuges.info)</a></li>
+      <li><a href="https://www.salvan.ch/en/refuge-de-loriaz-fp214" target="_blank" rel="noopener">Refuge de Loriaz (Salvan tourism)</a></li>
+      <li><a href="https://www.verbier.ch/en/offers/cabane-mont-fort-verbier-en-2788465" target="_blank" rel="noopener">Cabane du Mont Fort (Verbier)</a></li>
+      <li><a href="https://www.skiworld.co.uk/blog/grands-montets-reopening-2026-27/" target="_blank" rel="noopener">Grands Montets reopening 2026/27</a></li>
+      <li><a href="https://www.snowsportsnews.com/newsrepository/2026/october/grands-montets-rebuild-enters-final-stretch-as-chamonix-prepares-for-summit-return/" target="_blank" rel="noopener">Grands Montets rebuild, final stretch (Oct 2026)</a></li>
+      <li><a href="https://cosleyhouston.com/alp-ski/hr-d2d/hr-day2.htm" target="_blank" rel="noopener">Haute Route day 2: Argentière to Trient</a></li>
+      <li><a href="https://pistehors.com/backcountry/wiki/Haute-Savoie/Le-Col-Du-Passon" target="_blank" rel="noopener">Col du Passon (pistehors)</a></li>
+      <li><a href="https://www.flightconnections.com/flights-from-osl-to-gva" target="_blank" rel="noopener">OSL–GVA direct flights</a> and <a href="https://deeparrival.com/news/easyjet-leaves-oslo-october-23-2026/" target="_blank" rel="noopener">easyJet leaves Oslo</a></li>
+      <li><a href="https://www.flightconnections.com/flights-from-arn-to-gva" target="_blank" rel="noopener">ARN–GVA direct flights</a> and <a href="https://www.momondo.se/flyg/stockholm/geneve" target="_blank" rel="noopener">momondo fares</a></li>
+      <li><a href="https://www.seechamonix.com/transfers/coach-transfer" target="_blank" rel="noopener">Geneva–Chamonix transfers</a> and <a href="https://www.flixbus.com/bus-routes/bus-geneva-airport-chamonix" target="_blank" rel="noopener">FlixBus</a></li>
+      <li><a href="https://evolution2.com/en/chamonix/ski-guiding" target="_blank" rel="noopener">Guide day rates (Evolution 2)</a></li>
+      <li><a href="https://www.chamonix.net/francais/actualite/-acheter-mbu-chamonix-forfait-de-ski-2027" target="_blank" rel="noopener">Mont Blanc Unlimited 2026/27</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var $=function(s,el){return (el||document).querySelector(s);};
+var $$=function(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s));};
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function clone(o){return JSON.parse(JSON.stringify(o));}
+
+/* ---------- data ---------- */
+var DAYS=[
+  {d:20,wd:"Sat",hol:""},
+  {d:21,wd:"Sun",hol:"Palm Sunday"},
+  {d:22,wd:"Mon",hol:"",no:1,se:1},
+  {d:23,wd:"Tue",hol:"",no:1,se:1},
+  {d:24,wd:"Wed",hol:"",no:1,se:1},
+  {d:25,wd:"Thu",hol:"Maundy Thu",note:"Holiday in Norway",se:1},
+  {d:26,wd:"Fri",hol:"Good Friday"},
+  {d:27,wd:"Sat",hol:"Easter Eve"},
+  {d:28,wd:"Sun",hol:"Easter Sunday",note:"Clocks +1 h"},
+  {d:29,wd:"Mon",hol:"Easter Monday"}
+];
+var SKI_DAYS=8;
+
+var HUTS={
+  argentiere:{name:"Refuge d'Argentière",short:"Argentière",cc:"FR",alt:2771,op:"French Alpine Club (FFCAM)",hb:72,cur:"EUR",est:true,
+    priceNote:"Half board. Older listings say €65; budget about €70–75.",
+    season:"Guarded for the spring touring season, usually early March to mid-May.",
+    status:"likely",statusText:"Expected open · dates not published yet",glacier:true,demand:3,
+    access:"New Argentière–Lognan gondola, then 2–3 h skinning up the Argentière glacier. No Grands Montets summit lift until Dec 2027.",
+    book:"FFCAM online booking, or contact the hut.",
+    links:[["seechamonix","https://seechamonix.com/accommodation/huts/argentiere-refuge-2771m-massif-du-mont-blanc"],["refuges.info","https://www.refuges.info/point/317/refuge-garde/refuge-d-Argentiere/en/"]]},
+  trient:{name:"Cabane du Trient",short:"Trient",cc:"CH",alt:3170,op:"Swiss Alpine Club, Diablerets section",hb:97,cur:"CHF",est:false,
+    priceNote:"Half board CHF 97 for non-members (2025) plus tourist tax. Members pay less.",
+    season:"Spring season March–April (2025: 7 March – 30 April), summer June–September.",
+    status:"likely",statusText:"Opens March 2027 · new hut keeper being hired",glacier:true,demand:3,
+    access:"From the Le Tour lifts over the Col du Tour (4–5 h), or from Argentière via the Col du Chardonnet and Fenêtre de Saleina. Exit to Champex by the Val d'Arpette.",
+    book:"Online form at cas-diablerets.ch · trient@cas-diablerets.ch · +41 27 783 14 38",
+    links:[["CAS Diablerets","https://cas-diablerets.ch/"],["refuges.info","https://www.refuges.info/point/2441/refuge-garde/cabane-du-Trient/en/"]]},
+  albert:{name:"Refuge Albert 1er",short:"Albert 1er",cc:"FR",alt:2706,op:"French Alpine Club (FFCAM)",hb:15,cur:"EUR",est:true,self:true,
+    priceNote:"Winter room only, self-catered. Small fee; bring food, a stove and a sleeping bag.",
+    season:"Winter room open and unguarded until 2 May 2027. You must book the night.",
+    status:"winter",statusText:"Winter room only in March",glacier:true,demand:2,
+    access:"Le Tour lifts (Charamillon, Autannes), then 1.5–2 h. A stepping stone to the Col du Tour and Trient.",
+    book:"Reserve through the hut's FFCAM page, even when unguarded.",
+    links:[["Tourist office","https://hautesavoiemontblanc-tourisme.com/offres/refuge-albert-1er-chamonix-mont-blanc-fr-5827866/"]]},
+  cosmiques:{name:"Refuge des Cosmiques",short:"Cosmiques",cc:"FR",alt:3613,op:"Compagnie des Guides de Chamonix",hb:80,cur:"EUR",est:true,
+    priceNote:"Half board was €69 in 2020; budget about €80.",
+    season:"Usually opens in February for the Vallée Blanche season.",
+    status:"confirm",statusText:"Usually open · confirm by phone",glacier:true,demand:3,
+    access:"Aiguille du Midi cable car, then about 20 minutes skiing down and across to the hut.",
+    book:"Phone only.",
+    links:[["refuges.info","https://www.refuges.info/point/342/refuge-garde/refuge-des-Cosmiques/en/"]]},
+  torino:{name:"Rifugio Torino",short:"Torino",cc:"IT",alt:3375,op:"Italian Alpine Club (CAI)",hb:65,cur:"EUR",est:false,
+    priceNote:"Half board €65 (2025). Private room €250.",
+    season:"The hut says it can be reached all year by the Skyway, but some listings show only a winter room in winter. Confirm before planning around it.",
+    status:"confirm",statusText:"Winter status unclear · email to confirm",glacier:true,demand:2,
+    access:"Skyway Monte Bianco from Courmayeur, then a 5-minute walk. From Chamonix: Aiguille du Midi, Vallée Blanche, then 1.5–2 h skin up to the Col du Géant.",
+    book:"Email only; no deposit at the moment.",
+    links:[["rifugiotorino.com","https://www.rifugiotorino.com/en/"],["skitourguru","https://skitourguru.com/en/hut/152-rifugio-torino"]]},
+  requin:{name:"Refuge du Requin",short:"Requin",cc:"FR",alt:2516,op:"French Alpine Club (FFCAM)",hb:75,cur:"EUR",est:false,
+    priceNote:"Half board €75 (2026); students and under-18s €65.",
+    season:"Open mid-January to mid-May when the Vallée Blanche is in condition. Listings disagree, so confirm.",
+    status:"confirm",statusText:"Likely open · depends on snow",glacier:true,demand:2,
+    access:"Aiguille du Midi, then about 1 h 30 skiing down the Vallée Blanche.",
+    book:"contact@refugedurequin.fr",
+    links:[["refuges.info","https://www.refuges.info/point/275/refuge-garde/refuge-du-Requin/en/"]]},
+  conscrits:{name:"Refuge des Conscrits",short:"Conscrits",cc:"FR",alt:2602,op:"CAF Saint-Gervais",hb:76.3,cur:"EUR",est:false,
+    priceNote:"Half board €76.30; bed only €34 (€17 for CAF members).",
+    season:"Guarded mid-March to early May (2026: 16 March – 4 May). Winter room before that.",
+    status:"likely",statusText:"Expected guarded from mid-March",glacier:true,demand:2,
+    access:"From Les Contamines (Notre-Dame de la Gorge) up the Tré-la-Tête glacier: about 1400 m and 4–5 h.",
+    book:"Through the hut or CAF Saint-Gervais.",
+    links:[["Haute-Savoie Tourisme","https://www.haute-savoie-tourisme.org/203434-refuge-des-conscrits"]]},
+  loriaz:{name:"Refuge de Loriaz",short:"Loriaz",cc:"FR",alt:2020,op:"Commune of Vallorcine",hb:55,cur:"EUR",est:true,
+    priceNote:"No published half-board price found; €55 is a placeholder.",
+    season:"Staffed in winter for the ski season; 30 places in two heated dorms.",
+    status:"likely",statusText:"Staffed in winter",glacier:false,demand:1,
+    access:"Train to Vallorcine (free with the Chamonix guest card), then 2–2.5 h on skins. No glacier.",
+    book:"refuge.loriaz@orange.fr · +33 6 52 53 69 73",
+    links:[["Salvan tourism","https://www.salvan.ch/en/refuge-de-loriaz-fp214"]]},
+  montfort:{name:"Cabane du Mont Fort",short:"Mont Fort",cc:"CH",alt:2457,op:"Swiss Alpine Club",hb:110,cur:"CHF",est:true,
+    priceNote:"Winter prices are higher than summer; CHF 110 is an estimate.",
+    season:"Open through the winter with lift access (2026: 1 January – 30 April).",
+    status:"likely",statusText:"Open in winter · confirm Easter",glacier:false,demand:2,
+    access:"Train Chamonix → Martigny → Le Châble, gondola to Verbier, then ski in from the lifts.",
+    book:"Through the hut or Verbier tourism.",
+    links:[["Verbier","https://www.verbier.ch/en/offers/cabane-mont-fort-verbier-en-2788465"],["SAC portal","https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/2147000179/"]]}
+};
+var HUT_IDS=Object.keys(HUTS);
+
+var LINES=[
+  {id:"amethystes",name:"Glacier des Améthystes → Col du Tour Noir",base:"argentiere",top:3535,up:800,down:800,grade:"easy",slope:"≈30°",glacier:true,note:"Wide, mellow glacier; a good first day with the north faces in view."},
+  {id:"colargentiere",name:"Col d'Argentière",base:"argentiere",top:3552,up:800,down:800,grade:"moderate",slope:"30–35°",glacier:true,note:"Long climb under the Triolet, Courtes, Droites and Verte north faces to the Swiss border."},
+  {id:"chardonnet",name:"Col du Chardonnet",base:"argentiere",top:3323,up:600,down:600,grade:"steep",slope:"≈40°",glacier:true,note:"Steep final slope, often with a fixed rope. The Haute Route's door into Switzerland."},
+  {id:"passon",name:"Col du Passon → Le Tour",base:"argentiere",top:3028,up:450,down:1500,grade:"steep",slope:"≈40° at top",glacier:true,note:"Popular bootpack couloir, then the Glacier du Tour down to Le Tour. A good exit day."},
+  {id:"milieu",name:"Aiguille d'Argentière, Glacier du Milieu",base:"argentiere",top:3901,up:1150,down:1150,grade:"expert",slope:"40°+",glacier:true,note:"Big and serious, steeper every season; may need a short bootpack. Guide recommended."},
+  {id:"skiout",name:"Argentière glacier → Lognan → village",base:"argentiere",top:2771,up:0,down:1500,grade:"moderate",slope:"25–30°",glacier:true,note:"The way home if snow reaches the bottom; otherwise ride down from Lognan."},
+  {id:"coldutour",name:"Col du Tour from Le Tour",base:"trient",top:3281,up:1100,down:150,grade:"moderate",slope:"35° at col",glacier:true,note:"The way onto the Trient plateau from Le Tour; short steep crampon pitch at the col."},
+  {id:"teteblanche",name:"Tête Blanche & Aiguilles du Tour",base:"trient",top:3421,up:300,down:300,grade:"easy",slope:"25–30°",glacier:true,note:"Short climbs from the plateau. The Aiguille du Tour summit (3544 m) is a rock scramble."},
+  {id:"orny",name:"Pointe d'Orny → Combe d'Orny",base:"trient",top:3271,up:150,down:800,grade:"easy",slope:"≈30°",glacier:true,note:"Quick laps on the plateau, or a longer run down the Combe d'Orny toward Champex."},
+  {id:"grandefourche",name:"Grande Fourche",base:"trient",top:3610,up:450,down:450,grade:"moderate",slope:"≈35°",glacier:true,note:"High point on the plateau rim; short scramble to the top."},
+  {id:"arpette",name:"Col des Écandies → Val d'Arpette → Champex",base:"trient",top:2796,up:100,down:1700,grade:"moderate",slope:"35° entry",glacier:false,note:"Classic exit: a short steep entry, then a long valley run to Champex."},
+  {id:"vbclassic",name:"Vallée Blanche, classic",base:"cosmiques",top:3842,up:0,down:2800,grade:"easy",slope:"≈25°",glacier:true,note:"Starts with the arête on foot. Crevasses everywhere: go with someone who knows the line."},
+  {id:"envers",name:"Envers du Plan",base:"cosmiques",top:3842,up:0,down:2800,grade:"steep",slope:"35°+",glacier:true,note:"Steeper, more crevassed variant past the Requin. Guide territory."},
+  {id:"tacul",name:"Mont Blanc du Tacul",base:"cosmiques",top:4248,up:700,down:700,grade:"expert",slope:"40°+",glacier:true,note:"A 4000 m summit on skis with serac exposure. Good conditions and a guide only."},
+  {id:"toula",name:"Toula glacier → Pavillon",base:"torino",top:3466,up:0,down:1300,grade:"steep",slope:"≈40° at top",glacier:true,note:"Ladders or a fixed rope at the start, then big freeride to Pavillon. Skyway back up."},
+  {id:"marbrees",name:"Couloir des Marbrées",base:"torino",top:3535,up:150,down:1300,grade:"expert",slope:"≈45°",glacier:true,note:"Steep couloir down toward the Toula side. Experts only."},
+  {id:"entreves",name:"Aiguille & Col d'Entrèves",base:"torino",top:3600,up:300,down:300,grade:"moderate",slope:"30–35°",glacier:true,note:"Short tours on the Glacier du Géant right from the Torino hut."},
+  {id:"domes",name:"Dômes de Miage traverse",base:"conscrits",top:3673,up:1100,down:1100,grade:"moderate",slope:"≈35°",glacier:true,note:"Classic ridge traverse, partly on foot, then ski back down to the Tré-la-Tête glacier."},
+  {id:"berangere",name:"Aiguille de la Bérangère",base:"conscrits",top:3425,up:850,down:850,grade:"moderate",slope:"30–35°",glacier:true,note:"Friendly summit with a view of Mont Blanc's south side."},
+  {id:"terrasse",name:"Pointe de la Terrasse",base:"loriaz",top:2734,up:750,down:750,grade:"moderate",slope:"≈35°",glacier:false,note:"The summit above the hut, with descents on several aspects."},
+  {id:"loriazbowl",name:"Loriaz bowl laps",base:"loriaz",top:2400,up:400,down:400,grade:"easy",slope:"25–30°",glacier:false,note:"Short laps around the hut for a mellow or stormy day."},
+  {id:"rosablanche",name:"Rosablanche",base:"montfort",top:3336,up:900,down:900,grade:"moderate",slope:"30–35°",glacier:true,note:"The classic summit from the Mont Fort hut, over the Grand Désert glacier."},
+  {id:"montgele",name:"Mont Gelé faces",base:"montfort",top:3023,up:0,down:800,grade:"steep",slope:"≈40°",glacier:false,note:"Lift-served steep faces above the hut when the Mont Gelé cable car runs."},
+  {id:"buet",name:"Mont Buet from Le Buet",base:"valley",top:3096,up:1750,down:1750,grade:"moderate",slope:"≈30°",glacier:false,note:"A long classic day from the valley floor near Vallorcine."},
+  {id:"belvedere",name:"Col du Belvédère, Aiguilles Rouges",base:"valley",top:2780,up:400,down:900,grade:"moderate",slope:"≈35°",glacier:false,note:"Short skin from the Index lift with Mont Blanc straight across the valley."},
+  {id:"balme",name:"Le Tour – Balme off-piste",base:"valley",top:2270,up:0,down:800,grade:"easy",slope:"25–30°",glacier:false,note:"Lift-served warm-up with runs toward Vallorcine."}
+];
+var LINE_BY={};LINES.forEach(function(l){LINE_BY[l.id]=l;});
+var GRADE_NAME={easy:"Easy",moderate:"Moderate",steep:"Steep",expert:"Expert"};
+
+var CRITERIA=[
+  {id:"ski",name:"Ski quality",hint:"Length and quality of the descents"},
+  {id:"variety",name:"Line variety",hint:"How many good options from the base"},
+  {id:"logistics",name:"Easy logistics",hint:"Few moves, short approaches, simple exit"},
+  {id:"margin",name:"Safety margin",hint:"Less technical terrain, easy retreat"},
+  {id:"comfort",name:"Comfort",hint:"Beds, food and showers at the hut"},
+  {id:"calm",name:"Calm at Easter",hint:"Fewer people on the hut and the lines"},
+  {id:"booking",name:"Booking odds",hint:"Chance of getting beds on these dates"},
+  {id:"value",name:"Value",hint:"From the cost estimate: cheapest is 5",auto:true}
+];
+
+var APT={
+  20:"Fly to Geneva and transfer to Chamonix (about 1 h 15). Shop and sort gear.",
+  21:"Warm-up on the lifts: Grands Montets by the new Lognan gondola, or Le Tour – Balme. Beacon drill.",
+  22:"Day tour: Col du Belvédère from the Index lift in the Aiguilles Rouges.",
+  23:"Buffer day: ski if the weather is good, otherwise rest, rent kit and pack.",
+  29:"Transfer to Geneva and fly home."
+};
+function days(o){var r={};for(var k in APT)r[k]=APT[k];for(var j in o)r[j]=o[j];return r;}
+
+var PLANS=[
+  {id:"A",name:"Argentière base camp",tag:"One hut, four nights and the best couloir menu in the valley.",
+   nights:["apt","apt","apt","apt","argentiere","argentiere","argentiere","argentiere","valley"],
+   days:days({24:"Lognan gondola, then skin 2–3 h up the Argentière glacier to the hut. Short afternoon lap.",25:"Glacier des Améthystes to the Col du Tour Noir: a mellow first glacier day.",26:"Col du Chardonnet and back, or the long Col d'Argentière.",27:"Big day: Aiguille d'Argentière by the Glacier du Milieu if conditions are good, otherwise the Col d'Argentière.",28:"Easter Sunday: Col du Passon, then the Glacier du Tour down to Le Tour. Night in the valley."}),
+   lines:["amethystes","chardonnet","colargentiere","milieu","passon","belvedere"],lifts:185,transport:0,guideDays:5,
+   weather:"Easy to retreat: two hours down to Lognan and the lifts. Trees around Argentière and Vallorcine for storm days.",
+   ratings:{ski:5,variety:5,logistics:5,margin:3,comfort:3,calm:2,booking:2}},
+  {id:"B",name:"Argentière → Trient",tag:"The first stage of the Chamonix–Zermatt Haute Route, two nights at each hut.",
+   nights:["apt","apt","apt","apt","argentiere","argentiere","trient","trient","valley"],
+   days:days({24:"Lognan gondola, then skin up the Argentière glacier to the hut.",25:"Col du Passon couloir and back, or the Améthystes if you want it mellow.",26:"Traverse: Col du Chardonnet (crampons, often a fixed rope), down to the Saleina glacier (often an abseil), up the Fenêtre de Saleina and over the plateau to Trient. About 1030 m up, 640 m down.",27:"Plateau du Trient: Tête Blanche, the Aiguilles du Tour and laps off the Pointe d'Orny.",28:"Easter Sunday: Col des Écandies and the long Val d'Arpette run to Champex, about 1700 m down. Bus and train back, or sleep near Martigny.",29:"Train or transfer to Geneva and fly home."}),
+   lines:["chardonnet","passon","teteblanche","orny","arpette"],lifts:130,transport:45,guideDays:5,
+   weather:"If wind or fog closes the cols on the 26th, stay a third night at Argentière and leave by Lognan instead.",
+   ratings:{ski:5,variety:4,logistics:3,margin:2,comfort:4,calm:2,booking:2}},
+  {id:"C",name:"Trient plateau base",tag:"A big, friendly glacier plateau with a modern Swiss hut in the middle.",
+   nights:["apt","apt","apt","apt","trient","trient","trient","trient","valley"],
+   days:days({24:"Le Tour lifts, skin the Glacier du Tour and cross the Col du Tour to the Trient hut. About 1100 m up, 4–5 h.",25:"Tête Blanche and the Aiguilles du Tour.",26:"Pointe d'Orny and the Combe d'Orny, or the Grande Fourche.",27:"Free day on the plateau: powder laps, or a look down the Fenêtre de Saleina.",28:"Easter Sunday: Val d'Arpette to Champex, or back over the Col du Tour to Le Tour. Night in the valley."}),
+   lines:["coldutour","teteblanche","orny","grandefourche","arpette"],lifts:140,transport:45,guideDays:5,
+   weather:"The plateau is a whiteout trap. In fog, wait at the hut or leave early down the Val d'Arpette.",
+   ratings:{ski:4,variety:3,logistics:4,margin:4,comfort:4,calm:3,booking:3}},
+  {id:"D",name:"Vallée Blanche & Torino",tag:"Lift-served high mountain: three nights at 3375 m on the Italian side.",
+   nights:["apt","apt","apt","apt","torino","torino","torino","cosmiques","valley"],
+   days:days({23:"Guided classic Vallée Blanche: learn the glacier and check the snow.",24:"Aiguille du Midi, ski the Vallée Blanche to the Gros Rognon and skin 1.5–2 h up to the Torino hut.",25:"Toula glacier down to Pavillon, Skyway back up. Experts can try the Marbrées couloir.",26:"Aiguille and Col d'Entrèves, with afternoon laps on the Glacier du Géant.",27:"Cross the Glacier du Géant and skin up to the Cosmiques hut.",28:"Easter Sunday: Envers du Plan or the classic Vallée Blanche down to Chamonix. Night in the valley."}),
+   lines:["vbclassic","toula","marbrees","entreves","envers"],lifts:240,transport:0,guideDays:6,
+   weather:"Wind stops the Midi and the Skyway and can leave you stuck up high. Keep a spare day; Courmayeur's lifts are plan B.",
+   ratings:{ski:4,variety:4,logistics:4,margin:3,comfort:4,calm:2,booking:3}},
+  {id:"E",name:"Loriaz, no glacier",tag:"No ropes, no crevasses: a cosy hut above Vallorcine and the Aiguilles Rouges.",
+   nights:["apt","apt","apt","apt","loriaz","loriaz","loriaz","valley","valley"],
+   days:days({24:"Train to Vallorcine (free with the guest card) and skin 2–2.5 h up to the Refuge de Loriaz.",25:"Pointe de la Terrasse.",26:"Laps in the Loriaz bowl, or a tour toward Emosson.",27:"Ski down to Vallorcine and spend the afternoon on the Le Tour – Balme lifts. Night in the valley.",28:"Easter Sunday: Mont Buet from Le Buet (about 1750 m up), or the Col du Belvédère."}),
+   lines:["terrasse","loriazbowl","buet","belvedere","balme"],lifts:150,transport:0,guideDays:0,
+   weather:"The lowest-risk plan here: no glacier, a short approach and trees close by.",
+   ratings:{ski:3,variety:3,logistics:5,margin:5,comfort:3,calm:4,booking:4}},
+  {id:"F",name:"Verbier & Mont Fort",tag:"The comfiest hut on the list, with Verbier's lifts as a turbo.",
+   nights:["apt","apt","apt","apt","montfort","montfort","montfort","montfort","valley"],
+   days:days({24:"Train Chamonix → Martigny → Le Châble, gondola to Verbier, then ski in to the Cabane du Mont Fort.",25:"Rosablanche over the Grand Désert glacier.",26:"Mont Gelé faces, or powder laps around the hut.",27:"Rest, or a taste of the Haute Route toward Prafleuri and back.",28:"Easter Sunday: ski down to Verbier and take the train back to Chamonix."}),
+   lines:["rosablanche","montgele"],lifts:275,transport:60,guideDays:4,
+   weather:"Verbier's lifts and trees make bad-weather days easy.",
+   ratings:{ski:4,variety:4,logistics:4,margin:4,comfort:5,calm:3,booking:3}},
+  {id:"G",name:"Conscrits & Dômes de Miage",tag:"The quieter south-west corner of the massif and a classic ridge traverse.",
+   nights:["apt","apt","apt","apt","conscrits","conscrits","conscrits","conscrits","valley"],
+   days:days({24:"Bus or taxi to Les Contamines, then up the Tré-la-Tête glacier to the Conscrits hut. About 1400 m up, 4–5 h.",25:"Aiguille de la Bérangère.",26:"Dômes de Miage traverse.",27:"Short day or rest, or a second run on the Bérangère if the snow is good.",28:"Easter Sunday: ski out to Les Contamines. Night in the valley."}),
+   lines:["berangere","domes"],lifts:105,transport:40,guideDays:5,
+   weather:"The long approach makes retreat slow, so wait for a clear window before going up.",
+   ratings:{ski:4,variety:3,logistics:3,margin:3,comfort:3,calm:4,booking:3}},
+  {id:"H",name:"Huts before the Easter rush",tag:"Hut nights Monday to Thursday, then Easter weekend from the valley.",
+   nights:["apt","apt","argentiere","argentiere","trient","trient","valley","valley","valley"],
+   days:days({22:"Lognan gondola and up to the Argentière hut. Afternoon lap on the Améthystes.",23:"Col d'Argentière, or the Col du Passon and back.",24:"Traverse to the Trient hut over the Col du Chardonnet and the Fenêtre de Saleina.",25:"Plateau du Trient: Tête Blanche and the Pointe d'Orny.",26:"Good Friday: Val d'Arpette down to Champex, train back to Chamonix. Night in the valley.",27:"Valley day: Col du Belvédère, or lift skiing (busy).",28:"Easter Sunday: Mont Buet from Le Buet, or a lazy lift day."}),
+   lines:["amethystes","colargentiere","chardonnet","teteblanche","arpette","buet"],lifts:130,transport:45,guideDays:5,
+   needs:"Leaves the apartment after two nights and needs three valley nights at the end, unless the apartment dates can move.",
+   weather:"Two spare valley days at the end let you shift the hut days if a storm comes through.",
+   ratings:{ski:4,variety:4,logistics:3,margin:2,comfort:4,calm:4,booking:4}}
+];
+var PLAN_IDS=PLANS.map(function(p){return p.id;}).concat(["custom"]);
+
+var CATS=[
+  {id:"flights",name:"Flights & bags",short:"Flights",v:"--s1"},
+  {id:"transfers",name:"Transfers & trains",short:"Transfers",v:"--s2"},
+  {id:"huts",name:"Hut nights",short:"Huts",v:"--s3"},
+  {id:"valley",name:"Valley beds",short:"Valley",v:"--s4"},
+  {id:"lifts",name:"Lifts",short:"Lifts",v:"--s5"},
+  {id:"guide",name:"Guide",short:"Guide",v:"--s6"},
+  {id:"gear",name:"Gear rental",short:"Gear",v:"--s7"},
+  {id:"food",name:"Food, extras & buffer",short:"Food etc.",v:"--s8"}
+];
+
+var COST_FIELDS=[
+  {group:"Group",fields:[
+    {k:"nOsl",label:"Travellers from Oslo",step:1,min:0},
+    {k:"nArn",label:"Travellers from Stockholm",step:1,min:0}]},
+  {group:"Flights, return per person",fields:[
+    {k:"oslFare",label:"Oslo–Geneva",u:"NOK, Easter estimate",step:100,min:0},
+    {k:"oslBag",label:"Ski bag + checked bag",u:"NOK, both ways",step:50,min:0},
+    {k:"arnFare",label:"Stockholm–Geneva",u:"SEK, Easter estimate",step:100,min:0},
+    {k:"arnBag",label:"Ski bag + checked bag",u:"SEK, both ways",step:50,min:0},
+    {k:"transfer",label:"Geneva ⇄ Chamonix",u:"€ return, bus or shared",step:5,min:0}]},
+  {group:"Beds & food, per person",fields:[
+    {k:"valleyBed",label:"Valley bed per night",u:"€, gîte or hotel at Easter",step:5,min:0},
+    {k:"food",label:"Food per valley day",u:"€",step:5,min:0},
+    {k:"hutExtras",label:"Hut extras per night",u:"€, lunch, drinks, water",step:5,min:0},
+    {toggle:"club",label:"Alpine club card (cheaper hut beds)"},
+    {k:"clubDisc",label:"Saving per hut night",u:"€",step:1,min:0}]},
+  {group:"Guide",fields:[
+    {toggle:"guided",label:"Hire an IFMGA guide for the hut days"},
+    {k:"guideRate",label:"Guide day rate",u:"€ per guide, high season",step:10,min:0},
+    {k:"guideExp",label:"Guide expenses per day",u:"€ hut and lifts",step:5,min:0},
+    {k:"perGuide",label:"Clients per guide",step:1,min:1}]},
+  {group:"Gear",fields:[
+    {toggle:"rent",label:"Rent touring kit"},
+    {k:"gearDay",label:"Skis, skins, boots",u:"€ per day",step:1,min:0},
+    {k:"avyDay",label:"Beacon, shovel, probe",u:"€ per day",step:1,min:0},
+    {k:"glacierDay",label:"Harness, crampons, axe",u:"€ per hut day",step:1,min:0}]},
+  {group:"Money",fields:[
+    {k:"buffer",label:"Contingency",u:"% on everything but flights",step:1,min:0},
+    {k:"eurNok",label:"1 EUR in NOK",step:0.05,min:0.01},
+    {k:"eurSek",label:"1 EUR in SEK",step:0.05,min:0.01},
+    {k:"chfEur",label:"1 CHF in EUR",step:0.01,min:0.01}]}
+];
+var DEFAULT_COST={nOsl:2,nArn:2,oslFare:3200,oslBag:800,arnFare:3000,arnBag:700,transfer:60,valleyBed:80,food:35,hutExtras:20,club:false,clubDisc:12,guided:true,guideRate:550,guideExp:60,perGuide:4,rent:true,gearDay:40,avyDay:10,glacierDay:10,buffer:10,eurNok:11.7,eurSek:11.0,chfEur:1.07};
+var DEFAULT_WEIGHTS={ski:5,variety:4,logistics:3,margin:2,comfort:1,calm:1,booking:3,value:2};
+var DEFAULT_CUSTOM={nights:["apt","apt","apt","apt","albert","trient","trient","trient","valley"],lifts:140,transport:45,guideDays:5};
+var CUSTOM_RATINGS={ski:3,variety:3,logistics:3,margin:3,comfort:3,calm:3,booking:3};
+
+var CHECKS=[
+  {id:"apt",when:"Now",what:"Confirm the apartment nights with your friend: 20–23 March, or also the night of the 24th?"},
+  {id:"flights",when:"Now",what:"Book flights from Oslo and Stockholm. Check that the direct return still runs on 29 March in the summer timetable."},
+  {id:"huts",when:"Now",what:"Ask the huts for Easter 2027 beds: Argentière (FFCAM online), Trient (CAS Diablerets form), Torino (email)."},
+  {id:"guide",when:"Dec",what:"Book an IFMGA guide for the hut days; Easter dates go early."},
+  {id:"insure",when:"Dec",what:"Check that insurance covers off-piste touring and helicopter rescue, or join an alpine club."},
+  {id:"valley",when:"Jan",what:"Book the valley bed for 28 March (and 26–27 March for plan H)."},
+  {id:"gear",when:"Feb",what:"Reserve touring and glacier kit, or service your own."},
+  {id:"skills",when:"Mar",what:"Practise beacon search and crevasse rescue together."},
+  {id:"bulletin",when:"Week before",what:"Read the avalanche bulletin and call the huts to reconfirm."},
+  {id:"lifts",when:"Week before",what:"Check lift status: Lognan gondola, Aiguille du Midi and the Skyway."}
+];
+
+/* ---------- state ---------- */
+var KEY="pask2027-planner-v1";
+function defaults(){
+  var r={};PLANS.forEach(function(p){r[p.id]=clone(p.ratings);});r.custom=clone(CUSTOM_RATINGS);
+  return {updatedAt:0,sel:"A",cur:"NOK",origin:"osl",ratings:r,weights:clone(DEFAULT_WEIGHTS),cost:clone(DEFAULT_COST),custom:clone(DEFAULT_CUSTOM),shortlist:{},checks:{},hutFilter:"all",lineBase:"all",lineGrade:"all",noGlacier:false,starred:false};
+}
+var S=defaults();
+function applySaved(saved){
+  if(!saved||typeof saved!=="object")return;
+  ["sel","cur","origin","hutFilter","lineBase","lineGrade"].forEach(function(k){if(typeof saved[k]==="string")S[k]=saved[k];});
+  ["noGlacier","starred"].forEach(function(k){if(typeof saved[k]==="boolean")S[k]=saved[k];});
+  if(typeof saved.updatedAt==="number")S.updatedAt=saved.updatedAt;
+  if(saved.ratings&&typeof saved.ratings==="object"){for(var pid in S.ratings){var r=saved.ratings[pid];if(r&&typeof r==="object"){for(var c in S.ratings[pid]){if(typeof r[c]==="number")S.ratings[pid][c]=clamp(Math.round(r[c]),1,5);}}}}
+  if(saved.weights&&typeof saved.weights==="object"){for(var w in S.weights){if(typeof saved.weights[w]==="number")S.weights[w]=clamp(Math.round(saved.weights[w]),0,5);}}
+  if(saved.cost&&typeof saved.cost==="object"){for(var k in S.cost){var v=saved.cost[k];if(typeof v===typeof S.cost[k]&&(typeof v!=="number"||isFinite(v)))S.cost[k]=v;}}
+  var cu=saved.custom;
+  if(cu&&typeof cu==="object"){
+    if(Array.isArray(cu.nights)&&cu.nights.length===9&&cu.nights.every(validNight))S.custom.nights=cu.nights.slice();
+    ["lifts","transport","guideDays"].forEach(function(k){if(typeof cu[k]==="number"&&isFinite(cu[k]))S.custom[k]=cu[k];});
+  }
+  if(saved.shortlist&&typeof saved.shortlist==="object")S.shortlist=Object.assign({},saved.shortlist);
+  if(saved.checks&&typeof saved.checks==="object")S.checks=Object.assign({},saved.checks);
+  if(PLAN_IDS.indexOf(S.sel)<0)S.sel="A";
+  if(["NOK","SEK","EUR"].indexOf(S.cur)<0)S.cur="NOK";
+  if(["osl","arn","avg"].indexOf(S.origin)<0)S.origin="osl";
+}
+function validNight(n){return n==="apt"||n==="valley"||!!HUTS[n];}
+function loadLocal(){try{var raw=localStorage.getItem(KEY);return raw?JSON.parse(raw):null;}catch(e){return null;}}
+function writeLocal(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var pushTimer=null;
+function persist(){S.updatedAt=Date.now();writeLocal();clearTimeout(pushTimer);pushTimer=setTimeout(pushRemote,1500);}
+applySaved(loadLocal());
+
+/* ---------- model ---------- */
+function nightType(n){return n==="apt"?"apt":n==="valley"?"valley":"hut";}
+function nightLabel(n){return n==="apt"?"Apartment":n==="valley"?"Valley bed":HUTS[n].short;}
+function customPlan(){
+  var n=S.custom.nights,d={};
+  DAYS.forEach(function(day,i){
+    if(i===0){d[day.d]=APT[20];return;}
+    if(i===9){d[day.d]=APT[29];return;}
+    var prev=n[i-1],cur=n[i];
+    if(cur===prev){d[day.d]=cur==="apt"||cur==="valley"?"Day tour or lift skiing from the valley.":"Tour from the "+HUTS[cur].short+" hut.";}
+    else if(HUTS[cur]){d[day.d]=(HUTS[prev]?"Move from "+HUTS[prev].short+" to the "+HUTS[cur].short+" hut.":"Go up to the "+HUTS[cur].short+" hut.");}
+    else{d[day.d]=HUTS[prev]?"Ski down from "+HUTS[prev].short+". Night in the "+(cur==="apt"?"apartment.":"valley."):"Valley day.";}
+  });
+  var lines=[];n.forEach(function(x){if(HUTS[x])LINES.forEach(function(l){if(l.base===x&&lines.indexOf(l.id)<0)lines.push(l.id);});});
+  return {id:"custom",custom:true,name:"Build your own",tag:"Choose a bed for every night and rate the result yourself.",nights:n,days:d,lines:lines.slice(0,7),
+    lifts:+S.custom.lifts||0,transport:+S.custom.transport||0,guideDays:+S.custom.guideDays||0,
+    weather:"Check each hut's season and access in the hut cards before you commit."};
+}
+function allPlans(){return PLANS.concat([customPlan()]);}
+function planById(id){return id==="custom"?customPlan():PLANS.filter(function(p){return p.id===id;})[0];}
+function codeOf(p){return p.custom?"+":p.id;}
+
+function cost(plan,origin){
+  var c=S.cost,r={flights:0,transfers:0,huts:0,valley:0,lifts:0,guide:0,gear:0,food:0};
+  r.flights=origin==="arn"?(c.arnFare+c.arnBag)/c.eurSek:(c.oslFare+c.oslBag)/c.eurNok;
+  r.transfers=c.transfer+plan.transport;
+  var hutN=0,glacierN=0;
+  plan.nights.forEach(function(n){
+    if(n==="apt"){r.food+=c.food;}
+    else if(n==="valley"){r.valley+=c.valleyBed;r.food+=c.food;}
+    else{var h=HUTS[n];hutN++;if(h.glacier)glacierN++;var p=h.cur==="CHF"?h.hb*c.chfEur:h.hb;
+      if(h.self)p+=15;else if(c.club)p=Math.max(0,p-c.clubDisc);
+      r.huts+=p;r.food+=c.hutExtras;}
+  });
+  r.food+=c.food;
+  r.lifts=plan.lifts;
+  var people=Math.max(1,c.nOsl+c.nArn);
+  if(c.guided&&plan.guideDays>0){var guides=Math.ceil(people/Math.max(1,c.perGuide));r.guide=plan.guideDays*(c.guideRate+c.guideExp)*guides/people;}
+  if(c.rent){r.gear=SKI_DAYS*(c.gearDay+c.avyDay)+(glacierN>0?(hutN+1)*c.glacierDay:0);}
+  var nonFlight=r.transfers+r.huts+r.valley+r.lifts+r.guide+r.gear+r.food;
+  r.food+=nonFlight*c.buffer/100;
+  r.total=0;CATS.forEach(function(k){r.total+=r[k.id];});
+  return r;
+}
+function costView(plan,origin){
+  if(origin!=="avg")return cost(plan,origin);
+  var a=cost(plan,"osl"),b=cost(plan,"arn"),no=S.cost.nOsl,na=S.cost.nArn,t=no+na;
+  if(t<=0){no=1;na=0;t=1;}
+  var r={};CATS.concat([{id:"total"}]).forEach(function(k){r[k.id]=(a[k.id]*no+b[k.id]*na)/t;});return r;
+}
+function toCur(eur,cur){return cur==="NOK"?eur*S.cost.eurNok:cur==="SEK"?eur*S.cost.eurSek:eur;}
+function fmt(eur,cur){cur=cur||S.cur;var v=toCur(eur,cur);
+  if(cur==="EUR")return "€"+Math.round(v).toLocaleString("en-GB");
+  return (Math.round(v/50)*50).toLocaleString("en-GB").replace(/,/g," ")+" "+cur;}
+
+function scoreAll(){
+  var plans=allPlans(),avg=plans.map(function(p){return costView(p,"avg").total;});
+  var mn=Math.min.apply(null,avg),mx=Math.max.apply(null,avg);
+  return plans.map(function(p,i){
+    var value=mx-mn<1?3:5-4*(avg[i]-mn)/(mx-mn);
+    var r=Object.assign({},S.ratings[p.id],{value:value}),sw=0,s=0;
+    CRITERIA.forEach(function(c){var w=S.weights[c.id];sw+=w;s+=w*r[c.id];});
+    return {id:p.id,plan:p,value:value,avg:avg[i],score:sw?Math.round(s/sw/5*100):0};
+  });
+}
+
+/* ---------- plans ---------- */
+function stripHTML(plan){
+  return '<div class="strip" role="group" aria-label="Nights for '+esc(plan.name)+'">'+DAYS.map(function(d,i){
+    var night;
+    if(i<9){var n=plan.nights[i];night='<div class="night '+nightType(n)+'" title="Night of '+d.d+' March: '+esc(nightLabel(n))+'">'+esc(nightLabel(n))+'</div>';}
+    else night='<div class="night fly">Fly home</div>';
+    var lv=(d.no?'<span class="lv" title="Leave day in Norway">NO</span>':'')+(d.se?'<span class="lv" title="Leave day in Sweden">SE</span>':'');
+    return '<div class="day'+(d.hol?' hol-day':'')+'"><div class="wd">'+d.wd+'</div><div class="dt">'+d.d+'</div><div class="hol">'+esc(d.hol||'')+(d.note?'<br><span class="dst">'+esc(d.note)+'</span>':'')+'</div><div class="leave">'+lv+'</div>'+night+'</div>';
+  }).join("")+'</div>';
+}
+function gradeHTML(g){var icon=g==="expert"?'<i></i><i></i>':'<i></i>';return '<span class="grade"><span class="g '+g+'" aria-hidden="true">'+icon+'</span>'+GRADE_NAME[g]+'</span>';}
+function renderTabs(sc){
+  var by={};sc.forEach(function(s){by[s.id]=s.score;});
+  $("#planTabs").innerHTML=allPlans().map(function(p){
+    return '<button class="tab" role="tab" type="button" data-act="sel" data-v="'+p.id+'" aria-selected="'+(S.sel===p.id)+'"><span class="code">'+codeOf(p)+'</span>'+esc(p.name)+' <span class="tscore">'+by[p.id]+'</span></button>';
+  }).join("");
+}
+function renderPlan(sc){
+  var p=planById(S.sel),s=sc.filter(function(x){return x.id===p.id;})[0];
+  var co=cost(p,"osl"),ca=cost(p,"arn"),av=costView(p,"avg");
+  var cnt={apt:0,hut:0,valley:0};p.nights.forEach(function(n){cnt[nightType(n)]++;});
+  var huts=[];p.nights.forEach(function(n){if(HUTS[n]&&huts.indexOf(n)<0)huts.push(n);});
+  var glacier=huts.some(function(h){return HUTS[h].glacier;})||p.lines.some(function(l){return LINE_BY[l]&&LINE_BY[l].glacier;});
+  var h='<div class="ticket">'+
+    '<div class="ticket-stub"><span class="stub-label">Plan</span><span class="stub-code">'+codeOf(p)+'</span><span class="stub-score">Score '+s.score+'/100</span></div>'+
+    '<div class="ticket-main"><h3>'+esc(p.name)+'</h3><p class="tag">'+esc(p.tag)+'</p>'+
+      '<div class="ticket-facts"><span>'+cnt.apt+' apartment</span><span>'+cnt.hut+' hut</span><span>'+cnt.valley+' valley</span><span>Huts: '+(huts.map(function(x){return esc(HUTS[x].short)+' '+HUTS[x].alt+' m';}).join(', ')||'none')+'</span><span>Glacier: '+(glacier?'yes':'no')+'</span><span>Guide days: '+p.guideDays+'</span></div>'+
+      (p.needs?'<span class="needs">'+esc(p.needs)+'</span>':'')+
+    '</div>'+
+    '<div class="ticket-price"><span class="lbl">Per person, estimate</span><span class="big num">'+fmt(co.total,"NOK")+'</span><span class="lbl">from Oslo</span><span class="mid num">'+fmt(ca.total,"SEK")+'</span><span class="lbl">from Stockholm · group avg '+fmt(av.total,"EUR")+'</span></div>'+
+  '</div>';
+  h+='<div class="strip-scroll">'+stripHTML(p)+'</div>';
+  h+='<div class="legend-row"><span><i class="sw apt"></i>Friend\'s apartment</span><span><i class="sw hut"></i>Hut night</span><span><i class="sw valley"></i>Valley bed</span><span><span class="lv">NO</span> <span class="lv">SE</span> leave day needed</span></div>';
+  if(p.custom)h+=customEditorHTML();
+  h+='<div class="plan-body"><div><h4 class="eyebrow" style="margin:0 0 8px">Day by day</h4><ol class="itin">'+DAYS.map(function(d,i){
+      var n=p.nights[i];
+      return '<li><div class="itin-date"><span class="wd">'+d.wd+'</span>'+d.d+'</div><div class="itin-txt">'+esc(p.days[d.d]||'')+'</div><div class="itin-night">'+(i<9?'<span class="nd '+nightType(n)+'"></span>'+esc(nightLabel(n)):'')+'</div></li>';
+    }).join('')+'</ol></div>'+
+    '<aside class="side"><div class="side-block"><h4>Key lines</h4><ul class="line-list">'+(p.lines.length?p.lines.map(function(id){var l=LINE_BY[id];return '<li><span class="g '+l.grade+'" title="'+GRADE_NAME[l.grade]+'" aria-label="'+GRADE_NAME[l.grade]+'">'+(l.grade==="expert"?'<i></i><i></i>':'<i></i>')+'</span><span>'+esc(l.name)+'</span><span class="alt">'+l.top+' m</span></li>';}).join(''):'<li class="muted">Pick some huts to see their lines.</li>')+'</ul></div>'+
+    '<div class="side-block"><h4>If the weather turns</h4><p class="weather">'+esc(p.weather)+'</p></div>'+
+    '<div class="side-block"><h4>Cost per person, from Oslo</h4>'+miniCost(co)+'</div></aside></div>';
+  $("#planDetail").innerHTML=h;
+}
+function miniCost(c){
+  return '<dl class="kv">'+CATS.filter(function(k){return c[k.id]>0.5;}).map(function(k){return '<dt>'+esc(k.short)+'</dt><dd class="num">'+fmt(c[k.id],"NOK")+' <span class="muted small">'+fmt(c[k.id],"EUR")+'</span></dd>';}).join('')+'</dl>';
+}
+function customEditorHTML(){
+  var opts=function(sel){return ['<option value="apt"'+(sel==="apt"?' selected':'')+'>Apartment</option>','<option value="valley"'+(sel==="valley"?' selected':'')+'>Valley bed</option>'].concat(HUT_IDS.map(function(id){return '<option value="'+id+'"'+(sel===id?' selected':'')+'>'+esc(HUTS[id].name)+'</option>';})).join('');};
+  var late=S.custom.nights.some(function(n,i){return n==="apt"&&i>=5;});
+  return '<div class="custom-ed"><h4>Choose your nights</h4><p class="note" style="margin:0">Each box is where you sleep that night. Lifts, trains and guide days are per person totals for the whole trip.</p>'+
+    '<div class="nights-ed">'+S.custom.nights.map(function(n,i){var d=DAYS[i];return '<label for="cn-'+i+'">'+d.wd+' '+d.d+' Mar<select id="cn-'+i+'" data-cn="'+i+'">'+opts(n)+'</select></label>';}).join('')+'</div>'+
+    '<div class="ed-row"><label for="cx-lifts">Lift tickets, € per person<input type="number" id="cx-lifts" data-cx="lifts" min="0" step="5" value="'+S.custom.lifts+'"></label>'+
+    '<label for="cx-transport">Trains and buses, € per person<input type="number" id="cx-transport" data-cx="transport" min="0" step="5" value="'+S.custom.transport+'"></label>'+
+    '<label for="cx-guideDays">Guide days<input type="number" id="cx-guideDays" data-cx="guideDays" min="0" max="9" step="1" value="'+S.custom.guideDays+'"></label></div>'+
+    (late?'<p class="warnline">The apartment is only available 20–24 March. Ask your friend before planning nights there after the 24th.</p>':'')+
+  '</div>';
+}
+
+/* ---------- compare ---------- */
+function buildWeights(){
+  $("#weights").innerHTML=CRITERIA.map(function(c){
+    return '<div class="weight"><label for="w-'+c.id+'"><span>'+esc(c.name)+'</span><span class="wv" id="wv-'+c.id+'">×'+S.weights[c.id]+'</span></label><div class="hint">'+esc(c.hint)+'</div><input type="range" id="w-'+c.id+'" data-w="'+c.id+'" min="0" max="5" step="1" value="'+S.weights[c.id]+'"></div>';
+  }).join('');
+}
+function syncWeights(){CRITERIA.forEach(function(c){var i=$("#w-"+c.id);if(i)i.value=S.weights[c.id];var v=$("#wv-"+c.id);if(v)v.textContent="×"+S.weights[c.id];});}
+function renderRank(sc){
+  var sorted=sc.slice().sort(function(a,b){return b.score-a.score;});
+  $("#rank").innerHTML=sorted.map(function(s,i){
+    return '<div class="rank-row'+(i===0?' top':'')+'" data-act="sel" data-v="'+s.id+'" data-jump="1" role="button" tabindex="0" aria-label="Open plan '+esc(s.plan.name)+', score '+s.score+'"><span class="rank-pos">'+(i+1)+'</span><span class="rank-name"><span class="c">'+codeOf(s.plan)+'</span>'+esc(s.plan.name)+'</span><span class="rank-bar"><span style="width:'+s.score+'%"></span></span><span class="rank-val">'+s.score+'</span></div>';
+  }).join('');
+}
+function renderMatrix(sc){
+  var by={};sc.forEach(function(s){by[s.id]=s;});
+  var head='<thead><tr><th scope="col">Plan</th>'+CRITERIA.map(function(c){return '<th scope="col" title="'+esc(c.hint)+'">'+esc(c.name)+' <span style="color:var(--accent-ink)">×'+S.weights[c.id]+'</span></th>';}).join('')+'<th scope="col">Cost / person</th><th scope="col">Score</th></tr></thead>';
+  var body='<tbody>'+allPlans().map(function(p){
+    var s=by[p.id];
+    return '<tr'+(S.sel===p.id?' class="sel"':'')+'><th scope="row"><span class="c">'+codeOf(p)+'</span>'+esc(p.name)+'</th>'+CRITERIA.map(function(c){
+      if(c.auto)return '<td><span class="autoval">'+s.value.toFixed(1)+' auto</span></td>';
+      var v=S.ratings[p.id][c.id],dots='';
+      for(var i=1;i<=5;i++)dots+='<button type="button" class="dot'+(i<=v?' on':'')+'" data-act="rate" data-p="'+p.id+'" data-c="'+c.id+'" data-v="'+i+'" aria-label="'+esc(c.name)+' for '+esc(p.name)+': '+i+' of 5"'+(i===v?' aria-pressed="true"':'')+'></button>';
+      return '<td><span class="dots" role="group" aria-label="'+esc(c.name)+'">'+dots+'</span></td>';
+    }).join('')+'<td class="mono num">'+fmt(s.avg)+'</td><td class="score-cell">'+s.score+'</td></tr>';
+  }).join('')+'</tbody>';
+  $("#matrix").innerHTML=head+body;
+}
+
+/* ---------- costs ---------- */
+function buildCostForm(){
+  $("#costForm").innerHTML=COST_FIELDS.map(function(g){
+    return '<fieldset><legend>'+esc(g.group)+'</legend>'+g.fields.map(function(f){
+      if(f.toggle)return '<label class="toggle" for="c-'+f.toggle+'"><input type="checkbox" id="c-'+f.toggle+'" data-ct="'+f.toggle+'"'+(S.cost[f.toggle]?' checked':'')+'>'+esc(f.label)+'</label>';
+      return '<div class="field"><label for="c-'+f.k+'">'+esc(f.label)+(f.u?'<span class="u">'+esc(f.u)+'</span>':'')+'</label><input type="number" id="c-'+f.k+'" data-ck="'+f.k+'" step="'+f.step+'" min="'+f.min+'" value="'+S.cost[f.k]+'" inputmode="decimal"></div>';
+    }).join('')+'</fieldset>';
+  }).join('')+'<button class="btn ghost" type="button" data-act="reset-cost">Reset cost assumptions</button>';
+}
+function syncCostForm(){
+  for(var k in S.cost){var el=$("#c-"+k);if(!el)continue;if(el.type==="checkbox")el.checked=!!S.cost[k];else if(document.activeElement!==el)el.value=S.cost[k];}
+}
+function niceStep(max){var raw=max/4,mag=Math.pow(10,Math.floor(Math.log10(raw))),n=raw/mag;var s=n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10;return s*mag;}
+function renderCosts(){
+  $$('[data-act="origin"]').forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.v===S.origin));});
+  $$('[data-act="cur"]').forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.v===S.cur));});
+  $("#costLegend").innerHTML=CATS.map(function(k){return '<span><i style="background:var('+k.v+')"></i>'+esc(k.name)+'</span>';}).join('');
+  var plans=allPlans(),rows=plans.map(function(p){return {p:p,c:costView(p,S.origin)};});
+  var maxCur=Math.max.apply(null,rows.map(function(r){return toCur(r.c.total,S.cur);}));
+  var step=niceStep(maxCur||1),top=step*4;
+  var who=S.origin==="osl"?"a traveller from Oslo":S.origin==="arn"?"a traveller from Stockholm":"the group average";
+  var bars=rows.map(function(r){
+    var segs=CATS.map(function(k){var v=toCur(r.c[k.id],S.cur);if(v<=0.5)return '';var w=v/top*100;
+      return '<span class="seg" style="width:'+w.toFixed(3)+'%;background:var('+k.v+')" data-tip="'+esc('<b>'+codeOf(r.p)+' · '+k.name+'</b><br>'+fmt(r.c[k.id])+' of '+fmt(r.c.total))+'"></span>';}).join('');
+    return '<div class="bar-row" data-act="sel" data-v="'+r.p.id+'" title="Open plan '+esc(r.p.name)+'"><span class="bar-label"><span class="c">'+codeOf(r.p)+'</span>'+esc(r.p.name)+'</span><span class="bar-track">'+segs+'</span><span class="bar-total">'+fmt(r.c.total)+'</span></div>';
+  }).join('');
+  var ticks='';for(var i=0;i<=4;i++){ticks+='<span style="left:'+(i*25)+'%">'+fmtAxis(step*i)+'</span>';}
+  $("#costBars").innerHTML=bars+'<div class="axis"><div></div><div class="axis-scale">'+ticks+'</div><div></div></div>';
+  var head='<thead><tr><th scope="col">Plan</th>'+CATS.map(function(k){return '<th scope="col">'+esc(k.name)+'</th>';}).join('')+'<th scope="col">Total</th></tr></thead>';
+  var body='<tbody>'+rows.map(function(r){return '<tr><th scope="row">'+codeOf(r.p)+' · '+esc(r.p.name)+'</th>'+CATS.map(function(k){return '<td>'+fmt(r.c[k.id])+'</td>';}).join('')+'<td><b>'+fmt(r.c.total)+'</b></td></tr>';}).join('')+'</tbody>';
+  $("#costTable").innerHTML=head+body;
+  var c=S.cost,people=c.nOsl+c.nArn;
+  $("#costNote").textContent="Per person for "+who+", "+people+" people in total. "+(c.guided?"Guide cost is split across the group ("+Math.ceil(Math.max(1,people)/Math.max(1,c.perGuide))+" guide"+(Math.ceil(Math.max(1,people)/Math.max(1,c.perGuide))>1?"s":"")+"). ":"No guide. ")+(c.rent?"Rental covers "+SKI_DAYS+" ski days. ":"Own gear. ")+"Swiss huts are converted at 1 CHF = €"+c.chfEur+". The hover on each bar shows the parts.";
+}
+function fmtAxis(v){if(S.cur==="EUR")return "€"+Math.round(v).toLocaleString("en-GB");return v>=1000?(Math.round(v/100)/10).toLocaleString("en-GB")+"k":String(Math.round(v));}
+
+/* ---------- huts ---------- */
+var HUT_FILTERS=[["all","All huts"],["FR","France"],["CH","Switzerland"],["IT","Italy"],["noglacier","No glacier"],["meals","Meals served"]];
+function renderHuts(){
+  $("#hutFilters").innerHTML=HUT_FILTERS.map(function(f){return '<button class="chip" type="button" data-act="hutf" data-v="'+f[0]+'" aria-pressed="'+(S.hutFilter===f[0])+'">'+f[1]+'</button>';}).join('');
+  var used={};PLANS.forEach(function(p){p.nights.forEach(function(n){if(HUTS[n]){used[n]=used[n]||[];if(used[n].indexOf(p.id)<0)used[n].push(p.id);}});});
+  var ids=HUT_IDS.filter(function(id){var h=HUTS[id],f=S.hutFilter;
+    if(f==="all")return true;if(f==="noglacier")return !h.glacier;if(f==="meals")return !h.self;return h.cc===f;});
+  $("#hutCards").innerHTML=ids.map(function(id){var h=HUTS[id];
+    var dem='<span class="demand" aria-hidden="true">'+[1,2,3].map(function(i){return '<i'+(i<=h.demand?' class="on"':'')+'></i>';}).join('')+'</span>'+["","Quiet","Busy","Very busy"][h.demand];
+    var price=h.cur==="CHF"?"CHF "+h.hb:"€"+h.hb;
+    return '<article class="card"><div class="card-top"><div><h3>'+esc(h.name)+'</h3><div class="alt">'+h.alt+' m · <span class="cc">'+h.cc+'</span> · '+esc(h.op)+'</div></div><div class="price-tag">'+price+'<small>'+(h.self?'winter room':'half board')+(h.est?' · est.':'')+'</small></div></div>'+
+      '<span class="pill '+h.status+'">'+esc(h.statusText)+'</span>'+
+      '<dl class="kv"><dt>Season</dt><dd>'+esc(h.season)+'</dd><dt>Access</dt><dd>'+esc(h.access)+'</dd><dt>Price</dt><dd>'+esc(h.priceNote)+'</dd><dt>Book</dt><dd>'+esc(h.book)+'</dd><dt>Easter</dt><dd>'+dem+'</dd><dt>Glacier</dt><dd>'+(h.glacier?'Yes: rope, harness and crevasse skills':'No')+'</dd></dl>'+
+      '<div class="used">'+(used[id]?'Used in plan '+used[id].join(', '):'Use it in Build your own')+'</div>'+
+      '<div class="card-links">'+h.links.map(function(l){return '<a href="'+l[1]+'" target="_blank" rel="noopener">'+esc(l[0])+' ↗</a>';}).join('')+'</div></article>';
+  }).join('');
+}
+
+/* ---------- lines ---------- */
+function baseName(b){return b==="valley"?"Valley day":HUTS[b]?HUTS[b].short:b;}
+function renderLineFilters(){
+  var bases=["all"];LINES.forEach(function(l){if(bases.indexOf(l.base)<0)bases.push(l.base);});
+  $("#lineFilters").innerHTML='<label class="small" for="lf-base">From <select id="lf-base" data-lf="base">'+bases.map(function(b){return '<option value="'+b+'"'+(S.lineBase===b?' selected':'')+'>'+(b==="all"?"Any base":esc(baseName(b)))+'</option>';}).join('')+'</select></label>'+
+    '<div class="chips" role="group" aria-label="Grade">'+["all","easy","moderate","steep","expert"].map(function(g){return '<button class="chip" type="button" data-act="lgrade" data-v="'+g+'" aria-pressed="'+(S.lineGrade===g)+'">'+(g==="all"?"Any grade":GRADE_NAME[g])+'</button>';}).join('')+'</div>'+
+    '<label class="toggle" for="lf-ng"><input type="checkbox" id="lf-ng" data-lf="noGlacier"'+(S.noGlacier?' checked':'')+'>No glacier</label>'+
+    '<label class="toggle" for="lf-st"><input type="checkbox" id="lf-st" data-lf="starred"'+(S.starred?' checked':'')+'>Starred only ('+Object.keys(S.shortlist).filter(function(k){return S.shortlist[k];}).length+')</label>';
+}
+function renderLines(){
+  var rows=LINES.filter(function(l){
+    if(S.lineBase!=="all"&&l.base!==S.lineBase)return false;
+    if(S.lineGrade!=="all"&&l.grade!==S.lineGrade)return false;
+    if(S.noGlacier&&l.glacier)return false;
+    if(S.starred&&!S.shortlist[l.id])return false;return true;});
+  var head='<thead><tr><th scope="col"><span class="sr">Star</span></th><th scope="col">Line</th><th scope="col">From</th><th scope="col" class="n">Top</th><th scope="col" class="n">Up</th><th scope="col" class="n">Down</th><th scope="col">Grade</th><th scope="col">Steepest</th><th scope="col">Glacier</th></tr></thead>';
+  var body='<tbody>'+(rows.length?rows.map(function(l){var on=!!S.shortlist[l.id];
+    return '<tr><td><button class="star" type="button" data-act="star" data-v="'+l.id+'" aria-pressed="'+on+'" aria-label="'+(on?'Remove from':'Add to')+' shortlist: '+esc(l.name)+'">'+(on?'★':'☆')+'</button></td><td><div class="lname">'+esc(l.name)+'</div><div class="lnote">'+esc(l.note)+'</div></td><td>'+esc(baseName(l.base))+'</td><td class="n">'+l.top+' m</td><td class="n">'+(l.up?'↑'+l.up+' m':'lift')+'</td><td class="n">↓'+l.down+' m</td><td>'+gradeHTML(l.grade)+'</td><td class="mono small">'+esc(l.slope)+'</td><td>'+(l.glacier?'<span class="yes">Yes</span>':'No')+'</td></tr>';
+  }).join(''):'<tr><td colspan="9" class="muted">No lines match these filters.</td></tr>')+'</tbody>';
+  $("#linesTable").innerHTML=head+body;
+}
+
+/* ---------- booking ---------- */
+function renderBooking(){
+  var head='<thead><tr><th scope="col">Hut</th><th scope="col">Late March 2027</th><th scope="col">Price</th><th scope="col">How to book</th><th scope="col">Easter demand</th></tr></thead>';
+  var body='<tbody>'+HUT_IDS.map(function(id){var h=HUTS[id];
+    return '<tr><th scope="row">'+esc(h.name)+' <span class="cc">'+h.cc+'</span></th><td><span class="pill '+h.status+'">'+esc(h.statusText)+'</span></td><td>'+(h.cur==="CHF"?"CHF ":"€")+h.hb+(h.est?' est.':'')+'</td><td>'+esc(h.book)+'</td><td>'+["","Quiet","Busy","Very busy"][h.demand]+'</td></tr>';}).join('')+'</tbody>';
+  $("#bookTable").innerHTML=head+body;
+}
+var shared={checks:null,readOnly:false};
+function checkState(id){return shared.checks?!!shared.checks[id]:!!S.checks[id];}
+function renderChecklist(){
+  var ro=shared.checks&&shared.readOnly;
+  $("#checklist").innerHTML=CHECKS.map(function(c){var on=checkState(c.id);
+    return '<li class="'+(on?'done':'')+'"><input type="checkbox" id="ck-'+c.id+'" data-ck2="'+c.id+'"'+(on?' checked':'')+(ro?' disabled':'')+'><label class="when" for="ck-'+c.id+'">'+esc(c.when)+'</label><label class="what" for="ck-'+c.id+'">'+esc(c.what)+'</label></li>';}).join('');
+  $("#checkSync").textContent=shared.checks?(ro?"Shared list. Only people with edit access can tick items.":"Shared with everyone who opens this page."):"Saved in this browser.";
+}
+
+/* ---------- group scores (db) ---------- */
+var R={db:null,user:null,id:null,writing:false,pending:false,canWrite:null,votes:[],loaded:false,note:"",tok:0,checkChain:Promise.resolve()};
+function renderGroup(){
+  var box=$("#group"),tok=++R.tok;
+  if(!R.db||!R.id){
+    box.innerHTML='<div class="group-head"><h3>Group scores</h3></div><p class="group-note">'+(R.note||"Open this page signed in to claude.ai to share your scores with the group. Your ratings are saved in this browser.")+'</p>';
+    return;
+  }
+  var sc=scoreAll(),plans=allPlans().filter(function(p){return !p.custom;});
+  var btn='<button class="btn" type="button" data-act="share"'+(R.canWrite===false?' disabled':'')+'>'+(R.votes.some(function(v){return v.id===R.id;})?'Update my scores':'Share my scores')+'</button>';
+  var ids=R.votes.map(function(v){return v.id;});
+  var draw=function(ps){
+    if(tok!==R.tok)return;
+    box.innerHTML='<div class="group-head"><h3>Group scores</h3>'+btn+'</div>';
+    if(!R.votes.length){var p=document.createElement("p");p.className="group-note";p.textContent=R.loaded?"No one has shared yet. Share yours, then send the link to the others so they can add theirs.":"Loading the group's scores…";box.appendChild(p);if(R.note){var n0=document.createElement("p");n0.className="group-note";n0.textContent=R.note;box.appendChild(n0);}return;}
+    var wrap=document.createElement("div");wrap.className="table-scroll";wrap.style.marginTop="6px";
+    var t=document.createElement("table");
+    var thead='<thead><tr><th scope="col">Person</th><th scope="col">Top pick</th>'+plans.map(function(p){return '<th scope="col" title="'+esc(p.name)+'">'+p.id+'</th>';}).join('')+'</tr></thead>';
+    t.innerHTML=thead+'<tbody></tbody>';
+    var tb=t.querySelector("tbody"),sums={},cnt=0;
+    R.votes.forEach(function(v){
+      var d=v.data||{},scores=d.scores&&typeof d.scores==="object"?d.scores:{};
+      var tr=document.createElement("tr");
+      var th=document.createElement("th");th.scope="row";
+      var person=document.createElement("span");person.className="person";
+      var prof=ps&&ps[v.id];
+      if(prof&&prof.avatarUrl){var img=document.createElement("img");img.src=prof.avatarUrl;img.alt="";person.appendChild(img);}
+      var nm=document.createElement("span");nm.textContent=(prof&&prof.name)||(v.id===R.id?"You":"Someone");if(v.id===R.id&&prof&&prof.name)nm.textContent+=" (you)";person.appendChild(nm);
+      th.appendChild(person);tr.appendChild(th);
+      var best=null;plans.forEach(function(p){var x=+scores[p.id];if(isFinite(x)&&(best===null||x>+scores[best]))best=p.id;});
+      var tdTop=document.createElement("td");tdTop.textContent=best?best+" · "+planById(best).name:"–";tr.appendChild(tdTop);
+      cnt++;
+      plans.forEach(function(p){var x=+scores[p.id];var td=document.createElement("td");td.className="mono num"+(p.id===best?" best":"");td.textContent=isFinite(x)?String(Math.round(x)):"–";if(isFinite(x))sums[p.id]=(sums[p.id]||0)+x;tr.appendChild(td);});
+      tb.appendChild(tr);
+    });
+    var avg=document.createElement("tr");var tha=document.createElement("th");tha.scope="row";tha.textContent="Group average";avg.appendChild(tha);
+    var bestAvg=null;plans.forEach(function(p){if(sums[p.id]!==undefined&&(bestAvg===null||sums[p.id]>sums[bestAvg]))bestAvg=p.id;});
+    var tdb=document.createElement("td");tdb.textContent=bestAvg?bestAvg+" · "+planById(bestAvg).name:"–";tdb.style.fontWeight="700";avg.appendChild(tdb);
+    plans.forEach(function(p){var td=document.createElement("td");td.className="mono num"+(p.id===bestAvg?" best":"");td.textContent=sums[p.id]!==undefined?String(Math.round(sums[p.id]/cnt)):"–";avg.appendChild(td);});
+    tb.appendChild(avg);
+    wrap.appendChild(t);box.appendChild(wrap);
+    var n=document.createElement("p");n.className="group-note";n.textContent=R.note||"Each person's scores use their own ratings and weights. Share again after changing yours.";box.appendChild(n);
+  };
+  if(ids.length&&R.user){R.user.profiles(ids).then(draw,function(){draw({});});}else draw({});
+}
+async function shareScores(){
+  if(!R.db||!R.id)return;
+  var sc=scoreAll(),scores={},best=null;
+  sc.forEach(function(s){if(s.id!=="custom"){scores[s.id]=s.score;if(!best||s.score>scores[best])best=s.id;}});
+  var b=$('[data-act="share"]');if(b)b.disabled=true;
+  try{
+    await R.db.collection("votes").doc(R.id).set({scores:scores,top:best,ratings:clone(S.ratings),weights:clone(S.weights),updatedAt:new Date().toISOString()});
+    R.note="Your scores are shared.";
+  }catch(e){
+    if(e&&e.code==="invalid_argument"){R.canWrite=false;R.note="This view can't save scores. Ask the owner to give you edit access, then share again.";}
+    else if(e&&e.code==="unavailable"){R.note="Couldn't reach the store. Try again in a moment.";}
+    else R.note="Couldn't save your scores right now.";
+  }
+  renderGroup();
+}
+async function pushRemote(){
+  if(!R.db||!R.id)return;
+  if(R.writing){R.pending=true;return;}
+  R.writing=true;
+  try{await R.db.doc("data/users/"+R.id+"/planner").set({state:JSON.stringify(S),updatedAt:S.updatedAt});}catch(e){}
+  finally{R.writing=false;if(R.pending){R.pending=false;pushRemote();}}
+}
+function writeChecks(next){
+  R.checkChain=R.checkChain.then(function(){return R.db.doc("trip/checklist").set({done:next,updatedAt:new Date().toISOString()});}).catch(function(e){
+    if(e&&e.code==="invalid_argument"){shared.readOnly=true;renderChecklist();}
+  });
+}
+async function initRemote(){
+  if(!window.claude||typeof window.claude.use!=="function"){renderGroup();return;}
+  var db=null,user=null;
+  try{var res=await Promise.all([window.claude.use("db"),window.claude.use("user")]);db=res[0];user=res[1];}catch(e){}
+  if(!db||!user){R.note="Group scores aren't available in this view. Your ratings are saved in this browser.";renderGroup();return;}
+  var id=null;try{id=await user.id();}catch(e){}
+  R.db=db;R.user=user;R.id=id;
+  try{R.canWrite=await user.can("data.write");}catch(e){R.canWrite=null;}
+  if(!id){R.note="Sign in to claude.ai to share your scores with the group.";renderGroup();return;}
+  try{
+    var snap=await db.doc("data/users/"+id+"/planner").get();
+    if(snap.exists){var d=snap.data();if(d&&typeof d.updatedAt==="number"&&d.updatedAt>(S.updatedAt||0)&&typeof d.state==="string"){applySaved(JSON.parse(d.state));S.updatedAt=d.updatedAt;writeLocal();renderAll(true);}}
+  }catch(e){}
+  var timer=setTimeout(function(){if(!R.loaded){R.loaded=true;R.note="The group's scores can't be reached yet; they will appear when the connection returns.";renderGroup();}},10000);
+  db.collection("votes").onSnapshot(function(s){
+    R.votes=s.docs.filter(function(x){return x.exists;}).map(function(x){return {id:x.id,data:x.data()};});
+    if(!s.metadata.fromCache){R.loaded=true;clearTimeout(timer);if(/can't be reached/.test(R.note))R.note="";}
+    renderGroup();
+  },function(){clearTimeout(timer);R.loaded=true;R.note="Group scores are unavailable right now.";renderGroup();});
+  db.doc("trip/checklist").onSnapshot(function(s){
+    var d=s.exists?s.data():null;shared.checks=Object.assign({},d&&d.done&&typeof d.done==="object"?d.done:{});
+    if(R.canWrite===false)shared.readOnly=true;
+    renderChecklist();
+  },function(){shared.checks=null;renderChecklist();});
+  renderGroup();
+}
+
+/* ---------- render all ---------- */
+function renderAll(full){
+  var sc=scoreAll();
+  renderTabs(sc);renderPlan(sc);renderRank(sc);renderMatrix(sc);renderCosts();
+  if(full){syncWeights();syncCostForm();renderHuts();renderLineFilters();renderLines();renderChecklist();}
+  renderGroup();
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click",function(e){
+  var t=e.target.closest("[data-act]");if(!t)return;
+  var a=t.dataset.act,v=t.dataset.v;
+  if(a==="sel"){S.sel=v;persist();renderAll();if(t.dataset.jump||t.classList.contains("bar-row")){var el=$("#plans");if(el)el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});}}
+  else if(a==="rate"){S.ratings[t.dataset.p][t.dataset.c]=+v;persist();renderAll();var f=$('[data-act="rate"][data-p="'+t.dataset.p+'"][data-c="'+t.dataset.c+'"][data-v="'+v+'"]');if(f)f.focus();}
+  else if(a==="origin"){S.origin=v;persist();renderCosts();}
+  else if(a==="cur"){S.cur=v;persist();renderCosts();renderMatrix(scoreAll());}
+  else if(a==="hutf"){S.hutFilter=v;persist();renderHuts();}
+  else if(a==="lgrade"){S.lineGrade=v;persist();renderLineFilters();renderLines();}
+  else if(a==="star"){S.shortlist[v]=!S.shortlist[v];if(!S.shortlist[v])delete S.shortlist[v];persist();renderLineFilters();renderLines();var s2=$('[data-act="star"][data-v="'+v+'"]');if(s2)s2.focus();}
+  else if(a==="reset-ratings"){var d=defaults();S.ratings=d.ratings;S.weights=d.weights;persist();syncWeights();renderAll();}
+  else if(a==="reset-cost"){S.cost=clone(DEFAULT_COST);persist();syncCostForm();renderAll();}
+  else if(a==="share"){shareScores();}
+});
+document.addEventListener("keydown",function(e){
+  if((e.key==="Enter"||e.key===" ")&&e.target.classList&&e.target.classList.contains("rank-row")){e.preventDefault();e.target.click();}
+});
+document.addEventListener("input",function(e){
+  var t=e.target;
+  if(t.dataset.w){S.weights[t.dataset.w]=+t.value;var wv=$("#wv-"+t.dataset.w);if(wv)wv.textContent="×"+t.value;persist();var sc=scoreAll();renderTabs(sc);renderRank(sc);renderMatrix(sc);renderPlan(sc);}
+  else if(t.dataset.ck){var n=parseFloat(t.value);if(isFinite(n)&&n>=0){S.cost[t.dataset.ck]=n;persist();var sc2=scoreAll();renderCosts();renderTabs(sc2);renderRank(sc2);renderMatrix(sc2);renderPlan(sc2);}}
+  else if(t.dataset.cx){var m=parseFloat(t.value);if(isFinite(m)&&m>=0){S.custom[t.dataset.cx]=m;persist();var id=t.id;var sc3=scoreAll();renderTabs(sc3);renderRank(sc3);renderMatrix(sc3);renderCosts();refreshPlanKeepFocus(id,sc3);}}
+});
+document.addEventListener("change",function(e){
+  var t=e.target;
+  if(t.dataset.ct){S.cost[t.dataset.ct]=t.checked;persist();renderAll();}
+  else if(t.dataset.cn!==undefined){S.custom.nights[+t.dataset.cn]=t.value;persist();var id=t.id;var sc=scoreAll();renderTabs(sc);renderRank(sc);renderMatrix(sc);renderCosts();refreshPlanKeepFocus(id,sc);}
+  else if(t.dataset.lf){if(t.dataset.lf==="base")S.lineBase=t.value;else S[t.dataset.lf]=t.checked;persist();renderLineFilters();renderLines();var el=$("#"+t.id);if(el)el.focus();}
+  else if(t.dataset.ck2){var id2=t.dataset.ck2,val=t.checked;
+    if(shared.checks&&!shared.readOnly){shared.checks[id2]=val;if(!val)delete shared.checks[id2];renderChecklist();writeChecks(Object.assign({},shared.checks));}
+    else if(!shared.checks){S.checks[id2]=val;if(!val)delete S.checks[id2];persist();renderChecklist();}
+    var c=$("#ck-"+id2);if(c)c.focus();}
+});
+function refreshPlanKeepFocus(id,sc){renderPlan(sc);var el=$("#"+id);if(el){el.focus();if(el.type==="number"){try{var l=el.value.length;el.setSelectionRange(l,l);}catch(x){}}}}
+
+/* tooltip */
+var tip=$("#tip");
+function showTip(e){
+  var s=e.target.closest&&e.target.closest("[data-tip]");
+  if(!s){tip.hidden=true;return;}
+  tip.innerHTML=s.getAttribute("data-tip");tip.hidden=false;
+  var x=e.clientX+14,y=e.clientY+14,w=tip.offsetWidth,h=tip.offsetHeight;
+  if(x+w>window.innerWidth-8)x=e.clientX-w-14;if(y+h>window.innerHeight-8)y=e.clientY-h-14;
+  tip.style.left=Math.max(8,x)+"px";tip.style.top=Math.max(8,y)+"px";
+}
+document.addEventListener("pointermove",showTip);
+document.addEventListener("pointerdown",function(e){if(e.pointerType!=="mouse")showTip(e);});
+document.addEventListener("scroll",function(){tip.hidden=true;},{passive:true});
+
+/* boot */
+buildWeights();buildCostForm();renderAll(true);initRemote();
+})();
+</script>
