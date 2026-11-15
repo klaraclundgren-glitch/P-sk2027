@@ -30,6 +30,7 @@
   --bad:#B02D2D;  --bad-wash:#F8E2E2;
   --piste-blue:#1F68C9; --piste-red:#CF2E2E;
   --nav-bg:rgba(241,245,247,.94);
+  --map-filter:none;
   --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#6250d6; --s8:#e34948;
   --font-display:"Archivo","Arial Narrow",system-ui,sans-serif;
   --font-body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -41,7 +42,7 @@
     --line:#263944; --grid:#1E313B; --accent:#FF6A3D; --accent-ink:#FF936F; --accent-wash:#3B2219; --on-accent:#1B0A04;
     --glacier:#76B4DE; --glacier-ink:#9CCBEA; --glacier-wash:#17323F; --slate-wash:#22323B;
     --good:#55C783; --good-wash:#173326; --warn:#E4B44F; --warn-wash:#3A2E14; --bad:#F27B7B; --bad-wash:#3D1C1C;
-    --piste-blue:#5B9BEB; --piste-red:#EE6161; --nav-bg:rgba(12,22,28,.94);
+    --piste-blue:#5B9BEB; --piste-red:#EE6161; --nav-bg:rgba(12,22,28,.94); --map-filter:brightness(.58) contrast(1.1) saturate(.8);
     --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#0ca30c; --s7:#9085e9; --s8:#e66767;
     color-scheme:dark;
   }
@@ -51,7 +52,7 @@
   --line:#263944; --grid:#1E313B; --accent:#FF6A3D; --accent-ink:#FF936F; --accent-wash:#3B2219; --on-accent:#1B0A04;
   --glacier:#76B4DE; --glacier-ink:#9CCBEA; --glacier-wash:#17323F; --slate-wash:#22323B;
   --good:#55C783; --good-wash:#173326; --warn:#E4B44F; --warn-wash:#3A2E14; --bad:#F27B7B; --bad-wash:#3D1C1C;
-  --piste-blue:#5B9BEB; --piste-red:#EE6161; --nav-bg:rgba(12,22,28,.94);
+  --piste-blue:#5B9BEB; --piste-red:#EE6161; --nav-bg:rgba(12,22,28,.94); --map-filter:brightness(.58) contrast(1.1) saturate(.8);
   --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#0ca30c; --s7:#9085e9; --s8:#e66767;
   color-scheme:dark;
 }
@@ -374,6 +375,52 @@ details.breakdown summary{cursor:pointer;font-weight:700;font-size:14px;color:va
 @media (max-width:520px){.checklist li{grid-template-columns:28px minmax(0,1fr)}.checklist .when{grid-column:2}.checklist .what{grid-column:2}}
 .sync{font-size:13px;color:var(--muted)}
 
+/* map */
+.map-wrap{margin-top:26px}
+.map-tools{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.map-tools .chips{gap:6px}
+.map-tools .chip{padding:4px 10px;font-size:13px}
+.map-box{position:relative;width:100%;aspect-ratio:3/2;max-height:78vh;min-height:300px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface-2);touch-action:pan-y}
+@media (max-width:700px){.map-box{aspect-ratio:4/5}}
+.map-box.zoomed{touch-action:none}
+.map-box svg{display:block;width:100%;height:100%;cursor:grab;user-select:none;-webkit-user-select:none}
+.map-box svg.drag{cursor:grabbing}
+.relief{filter:var(--map-filter)}
+.map-zoom{position:absolute;top:10px;right:10px;display:grid;gap:6px}
+.map-zoom button{min-width:36px;height:36px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-weight:700;font-size:13px;cursor:pointer;padding:0 10px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.map-zoom button:hover{border-color:var(--ink-2)}
+.map-scale{position:absolute;left:10px;bottom:10px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-family:var(--font-mono);font-size:11px;color:var(--ink-2);display:flex;flex-direction:column;gap:3px}
+.map-scale i{display:block;height:5px;border:1.5px solid var(--ink);border-top:0}
+.map-legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--ink-2);margin-top:10px;align-items:center}
+.map-legend span{display:inline-flex;align-items:center;gap:7px}
+.map-legend svg{width:30px;height:12px;overflow:visible}
+.leg{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.leg.ski,.leg.tour{stroke:var(--accent)}
+.leg.lift{stroke:var(--ink)}
+.leg.transport{stroke:var(--glacier)}
+.leg-halo{fill:none;stroke:var(--surface);stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+.leg-hit{fill:none;stroke:transparent;pointer-events:stroke}
+.leg-g,.badge{transition:opacity .15s}
+.dim{opacity:.13}
+.lift-net{fill:none;stroke:var(--ink-2);opacity:.7}
+.lift-net.closed{stroke:var(--bad);opacity:.8}
+.pl-label{paint-order:stroke;stroke:var(--surface);stroke-linejoin:round;fill:var(--ink);font-family:var(--font-body)}
+.pl-label.peak,.pl-label.col,.pl-label.lift{fill:var(--ink-2);font-weight:600}
+.pl-label.col{font-style:italic}
+.pl-label.hut{font-weight:800}
+.pl-label.inplan{fill:var(--accent-ink)}
+.pl-label .a{font-family:var(--font-mono);font-weight:500;fill:var(--muted)}
+.mk-town{fill:var(--ink)}
+.mk-peak{fill:var(--ink-2)}
+.mk-col{fill:var(--surface);stroke:var(--ink-2)}
+.mk-lift{fill:var(--surface);stroke:var(--ink)}
+.mk-hut{fill:var(--surface);stroke:var(--ink)}
+.mk-hut.inplan{fill:var(--accent);stroke:var(--surface)}
+.badge circle{fill:var(--accent);stroke:var(--surface)}
+.badge text{fill:var(--on-accent);font-family:var(--font-mono);font-weight:600;text-anchor:middle;dominant-baseline:central}
+.country{font-family:var(--font-display);font-stretch:125%;font-weight:800;letter-spacing:.35em;fill:var(--ink);opacity:.2;pointer-events:none}
+.map-note{font-family:var(--font-mono);fill:var(--ink-2);pointer-events:none}
+
 footer{margin-top:64px;border-top:1px solid var(--line);background:var(--surface)}
 footer .wrap{padding-block:28px 40px;display:grid;gap:14px}
 .sources{columns:2 320px;column-gap:28px;font-size:13px;margin:0;padding-left:18px}
@@ -387,6 +434,7 @@ footer .wrap{padding-block:28px 40px;display:grid;gap:14px}
     <a class="brand" href="#top">Påsk<b>·</b>2027</a>
     <div class="nav-links">
       <a href="#plans">Plans</a>
+      <a href="#map">Map</a>
       <a href="#compare">Compare</a>
       <a href="#costs">Costs</a>
       <a href="#huts">Huts</a>
@@ -428,11 +476,38 @@ footer .wrap{padding-block:28px 40px;display:grid;gap:14px}
         <div>
           <p class="eyebrow">Itineraries</p>
           <h2>Eight ways to spend the week</h2>
-          <p class="lede">Every plan keeps the apartment for 20–23 March and keeps the skiing close: one or two huts, several nights in each. Pick one to see its nights, day-by-day plan and cost. The last tab lets you build your own.</p>
+          <p class="lede">Every plan keeps the apartment for 20–23 March and keeps the skiing close: one or two huts, several nights in each. Pick one to see its nights, route map, day-by-day plan and cost. The last tab lets you build your own.</p>
         </div>
       </div>
       <div class="tabs" role="tablist" id="planTabs" aria-label="Plans"></div>
-      <div id="planDetail"></div>
+      <div id="planTop"></div>
+      <div class="map-wrap" id="map">
+        <div class="map-tools">
+          <div class="chips" id="mapDays" role="group" aria-label="Show day"></div>
+          <div class="chips" id="mapLayers" role="group" aria-label="Map layers"></div>
+        </div>
+        <div class="map-box" id="mapBox">
+          <svg id="mapSvg" role="img" aria-label="Shaded relief map of the Mont Blanc area with the selected plan's route" viewBox="0 0 1600 1305" preserveAspectRatio="xMidYMid meet"><image class="relief" href="relief.webp" x="0" y="0" width="1600" height="1305" preserveAspectRatio="none"/><g id="mapOv"></g></svg>
+          <div class="map-zoom">
+            <button type="button" data-act="mapzoom" data-v="in" aria-label="Zoom in">+</button>
+            <button type="button" data-act="mapzoom" data-v="out" aria-label="Zoom out">−</button>
+            <button type="button" data-act="mapzoom" data-v="plan">Plan</button>
+            <button type="button" data-act="mapzoom" data-v="all">All</button>
+          </div>
+          <div class="map-scale" id="mapScale"></div>
+        </div>
+        <div class="map-legend">
+          <span><svg viewBox="0 0 30 12" aria-hidden="true"><line x1="2" y1="6" x2="28" y2="6" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/></svg>On skis, moving base</span>
+          <span><svg viewBox="0 0 30 12" aria-hidden="true"><line x1="2" y1="6" x2="28" y2="6" stroke="var(--accent)" stroke-width="2.4" stroke-dasharray="6 4" stroke-linecap="round"/></svg>Day tour</span>
+          <span><svg viewBox="0 0 30 12" aria-hidden="true"><line x1="2" y1="6" x2="28" y2="6" stroke="var(--ink)" stroke-width="2"/></svg>Lift</span>
+          <span><svg viewBox="0 0 30 12" aria-hidden="true"><line x1="3" y1="6" x2="28" y2="6" stroke="var(--glacier)" stroke-width="2.4" stroke-dasharray="0.1 4.5" stroke-linecap="round"/></svg>Train or bus</span>
+          <span><svg viewBox="-8 -9 16 14" aria-hidden="true"><path d="M-6,4 L-6,-3 L0,-8 L6,-3 L6,4 Z" fill="var(--accent)" stroke="var(--surface)"/></svg>Hut in this plan</span>
+          <span><svg viewBox="-8 -6 16 12" aria-hidden="true"><path d="M0,-5 L5,4 L-5,4 Z" fill="var(--ink-2)"/></svg>Summit</span>
+          <span><svg viewBox="-8 -6 16 12" aria-hidden="true"><path d="M0,-4 L4,0 L0,4 L-4,0 Z" fill="var(--surface)" stroke="var(--ink-2)"/></svg>Col</span>
+        </div>
+        <p class="note">Drag to pan when zoomed in, and hover a route or a day below to pick it out. Relief from the open AWS Terrain Tiles elevation data. Routes are drawn straight between waypoints and summit and col positions are approximate, so this is a planning sketch, not a navigation map.</p>
+      </div>
+      <div id="planBody"></div>
     </div>
   </section>
 
@@ -617,6 +692,8 @@ footer .wrap{padding-block:28px 40px;display:grid;gap:14px}
       <li><a href="https://www.seechamonix.com/transfers/coach-transfer" target="_blank" rel="noopener">Geneva–Chamonix transfers</a> and <a href="https://www.flixbus.com/bus-routes/bus-geneva-airport-chamonix" target="_blank" rel="noopener">FlixBus</a></li>
       <li><a href="https://evolution2.com/en/chamonix/ski-guiding" target="_blank" rel="noopener">Guide day rates (Evolution 2)</a></li>
       <li><a href="https://www.chamonix.net/francais/actualite/-acheter-mbu-chamonix-forfait-de-ski-2027" target="_blank" rel="noopener">Mont Blanc Unlimited 2026/27</a></li>
+      <li><a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">Map relief: AWS Terrain Tiles (open elevation data)</a></li>
+      <li><a href="https://valleedutrient.ch/en/refuge-de-loriaz-fp47818" target="_blank" rel="noopener">Refuge de Loriaz location (Vallée du Trient)</a></li>
     </ul>
   </div>
 </footer>
@@ -881,7 +958,7 @@ var CHECKS=[
 var KEY="pask2027-planner-v1";
 function defaults(){
   var r={};PLANS.forEach(function(p){r[p.id]=clone(p.ratings);});r.custom=clone(CUSTOM_RATINGS);
-  return {updatedAt:0,sel:"A",cur:"NOK",origin:"osl",ratings:r,weights:clone(DEFAULT_WEIGHTS),cost:clone(DEFAULT_COST),custom:clone(DEFAULT_CUSTOM),shortlist:{},checks:{},hutFilter:"all",lineBase:"all",lineGrade:"all",noGlacier:false,starred:false};
+  return {updatedAt:0,sel:"A",cur:"NOK",origin:"osl",ratings:r,weights:clone(DEFAULT_WEIGHTS),cost:clone(DEFAULT_COST),custom:clone(DEFAULT_CUSTOM),shortlist:{},checks:{},mapLayers:{lifts:true,huts:true,peaks:true},hutFilter:"all",lineBase:"all",lineGrade:"all",noGlacier:false,starred:false};
 }
 var S=defaults();
 function applySaved(saved){
@@ -898,6 +975,7 @@ function applySaved(saved){
     ["lifts","transport","guideDays"].forEach(function(k){if(typeof cu[k]==="number"&&isFinite(cu[k]))S.custom[k]=cu[k];});
   }
   if(saved.shortlist&&typeof saved.shortlist==="object")S.shortlist=Object.assign({},saved.shortlist);
+  if(saved.mapLayers&&typeof saved.mapLayers==="object"){for(var ml in S.mapLayers){if(typeof saved.mapLayers[ml]==="boolean")S.mapLayers[ml]=saved.mapLayers[ml];}}
   if(saved.checks&&typeof saved.checks==="object")S.checks=Object.assign({},saved.checks);
   if(PLAN_IDS.indexOf(S.sel)<0)S.sel="A";
   if(["NOK","SEK","EUR"].indexOf(S.cur)<0)S.cur="NOK";
@@ -1010,14 +1088,16 @@ function renderPlan(sc){
   h+='<div class="strip-scroll">'+stripHTML(p)+'</div>';
   h+='<div class="legend-row"><span><i class="sw apt"></i>Friend\'s apartment</span><span><i class="sw hut"></i>Hut night</span><span><i class="sw valley"></i>Valley bed</span><span><span class="lv">NO</span> <span class="lv">SE</span> leave day needed</span></div>';
   if(p.custom)h+=customEditorHTML();
-  h+='<div class="plan-body"><div><h4 class="eyebrow" style="margin:0 0 8px">Day by day</h4><ol class="itin">'+DAYS.map(function(d,i){
+  $("#planTop").innerHTML=h;
+  h='<div class="plan-body"><div><h4 class="eyebrow" style="margin:0 0 8px">Day by day</h4><ol class="itin">'+DAYS.map(function(d,i){
       var n=p.nights[i];
-      return '<li><div class="itin-date"><span class="wd">'+d.wd+'</span>'+d.d+'</div><div class="itin-txt">'+esc(p.days[d.d]||'')+'</div><div class="itin-night">'+(i<9?'<span class="nd '+nightType(n)+'"></span>'+esc(nightLabel(n)):'')+'</div></li>';
+      return '<li data-day="'+d.d+'"><div class="itin-date"><span class="wd">'+d.wd+'</span>'+d.d+'</div><div class="itin-txt">'+esc(p.days[d.d]||'')+'</div><div class="itin-night">'+(i<9?'<span class="nd '+nightType(n)+'"></span>'+esc(nightLabel(n)):'')+'</div></li>';
     }).join('')+'</ol></div>'+
     '<aside class="side"><div class="side-block"><h4>Key lines</h4><ul class="line-list">'+(p.lines.length?p.lines.map(function(id){var l=LINE_BY[id];return '<li><span class="g '+l.grade+'" title="'+GRADE_NAME[l.grade]+'" aria-label="'+GRADE_NAME[l.grade]+'">'+(l.grade==="expert"?'<i></i><i></i>':'<i></i>')+'</span><span>'+esc(l.name)+'</span><span class="alt">'+l.top+' m</span></li>';}).join(''):'<li class="muted">Pick some huts to see their lines.</li>')+'</ul></div>'+
     '<div class="side-block"><h4>If the weather turns</h4><p class="weather">'+esc(p.weather)+'</p></div>'+
     '<div class="side-block"><h4>Cost per person, from Oslo</h4>'+miniCost(co)+'</div></aside></div>';
-  $("#planDetail").innerHTML=h;
+  $("#planBody").innerHTML=h;
+  syncMap();
 }
 function miniCost(c){
   return '<dl class="kv">'+CATS.filter(function(k){return c[k.id]>0.5;}).map(function(k){return '<dt>'+esc(k.short)+'</dt><dd class="num">'+fmt(c[k.id],"NOK")+' <span class="muted small">'+fmt(c[k.id],"EUR")+'</span></dd>';}).join('')+'</dl>';
@@ -1253,6 +1333,242 @@ async function initRemote(){
   renderGroup();
 }
 
+/* ---------- map ---------- */
+var MAPM={gx0:543745,gy0:372498,s:0.8200922603792927,W:1600,H:1305,n:1048576};
+var M_PER_UNIT=156543.03392*Math.cos(45.94*Math.PI/180)/4096/MAPM.s;
+function proj(ll){var x=(ll[1]+180)/360*MAPM.n-MAPM.gx0,r=ll[0]*Math.PI/180;var y=(1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*MAPM.n-MAPM.gy0;return [x*MAPM.s,y*MAPM.s];}
+var PL={
+  chamonix:{n:"Chamonix",t:"town",ll:[45.9237,6.8694],alt:1035,major:1},
+  leshouches:{n:"Les Houches",t:"town",ll:[45.8907,6.7986],alt:1008},
+  argentiere_v:{n:"Argentière",t:"town",ll:[45.9814,6.9286],alt:1252,major:1},
+  letour:{n:"Le Tour",t:"town",ll:[45.9993,6.9424],alt:1453},
+  vallorcine:{n:"Vallorcine",t:"town",ll:[46.0328,6.9326],alt:1260,major:1},
+  lebuet:{n:"Le Buet",t:"town",ll:[46.0225,6.92],alt:1340},
+  trient_v:{n:"Trient",t:"town",ll:[46.0567,6.9948],alt:1279},
+  champex:{n:"Champex",t:"town",ll:[46.0294,7.1167],alt:1466,major:1},
+  orsieres:{n:"Orsières",t:"town",ll:[46.0287,7.1453],alt:902},
+  martigny:{n:"Martigny",t:"town",ll:[46.1025,7.0727],alt:471,major:1},
+  lechable:{n:"Le Châble",t:"town",ll:[46.0794,7.2108],alt:821},
+  verbier:{n:"Verbier",t:"town",ll:[46.0966,7.2287],alt:1500,major:1},
+  stgervais:{n:"Saint-Gervais",t:"town",ll:[45.8921,6.712],alt:850},
+  contamines:{n:"Les Contamines",t:"town",ll:[45.8217,6.7269],alt:1164,major:1},
+  ndgorge:{n:"N.-D. de la Gorge",t:"town",ll:[45.79649,6.7226],alt:1210},
+  courmayeur:{n:"Courmayeur",t:"town",ll:[45.7969,6.969],alt:1224,major:1},
+  montblanc:{n:"Mont Blanc",t:"peak",ll:[45.83287,6.86405],alt:4806,major:1},
+  tacul:{n:"Mont Blanc du Tacul",t:"peak",ll:[45.85726,6.88637],alt:4248},
+  verte:{n:"Aiguille Verte",t:"peak",ll:[45.93492,6.96911],alt:4122},
+  aigargentiere:{n:"Aig. d'Argentière",t:"peak",ll:[45.95974,7.01889],alt:3901},
+  chardonnet_aig:{n:"Aig. du Chardonnet",t:"peak",ll:[45.96809,7.00104],alt:3824},
+  dolent:{n:"Mont Dolent",t:"peak",ll:[45.92154,7.04636],alt:3820},
+  aigtour:{n:"Aig. du Tour",t:"peak",ll:[45.99458,7.00996],alt:3544},
+  orny_pt:{n:"Pointe d'Orny",t:"peak",ll:[46.00197,7.04258],alt:3271},
+  domes:{n:"Dômes de Miage",t:"peak",ll:[45.81061,6.78955],alt:3673},
+  berangere:{n:"Aig. de la Bérangère",t:"peak",ll:[45.80296,6.77856],alt:3425},
+  buet:{n:"Mont Buet",t:"peak",ll:[46.02462,6.85272],alt:3096},
+  terrasse:{n:"Pointe de la Terrasse",t:"peak",ll:[46.04178,6.8922],alt:2734},
+  rosablanche:{n:"Rosablanche",t:"peak",ll:[46.06537,7.33921],alt:3336},
+  montfort_pk:{n:"Mont Fort",t:"peak",ll:[46.08038,7.31827],alt:3329},
+  montgele:{n:"Mont Gelé",t:"peak",ll:[46.09681,7.27913],alt:3023},
+  marbrees:{n:"Aig. de Marbrées",t:"peak",ll:[45.85128,6.9413],alt:3535},
+  entreves:{n:"Aig. d'Entrèves",t:"peak",ll:[45.8432,6.916],alt:3600},
+  col_chardonnet:{n:"Col du Chardonnet",t:"col",ll:[45.9743,7.00996],alt:3323},
+  col_passon:{n:"Col du Passon",t:"col",ll:[45.97788,6.99177],alt:3028},
+  col_tour:{n:"Col du Tour",t:"col",ll:[45.99792,7.00893],alt:3281},
+  fen_saleina:{n:"Fenêtre de Saleina",t:"col",ll:[45.98504,7.03571],alt:3261},
+  col_ecandies:{n:"Col des Écandies",t:"col",ll:[46.0251,7.0443],alt:2796},
+  col_tournoir:{n:"Col du Tour Noir",t:"col",ll:[45.95473,7.03674],alt:3535},
+  col_argentiere:{n:"Col d'Argentière",t:"col",ll:[45.9385,7.03537],alt:3552},
+  col_belvedere:{n:"Col du Belvédère",t:"col",ll:[45.98694,6.87023],alt:2780},
+  col_geant:{n:"Col du Géant",t:"col",ll:[45.8465,6.92654],alt:3365},
+  col_chassoure:{n:"Col de Chassoure",t:"col",ll:[46.09466,7.27432],alt:2740},
+  midi:{n:"Aiguille du Midi",t:"lift",ll:[45.87854,6.88637],alt:3842,major:1},
+  plan_aig:{n:"Plan de l'Aiguille",t:"lift",ll:[45.89311,6.88122],alt:2317},
+  montenvers:{n:"Montenvers",t:"lift",ll:[45.93014,6.91761],alt:1913},
+  lespraz:{n:"Les Praz",t:"lift",ll:[45.94399,6.89358],alt:1060},
+  flegere:{n:"La Flégère",t:"lift",ll:[45.96094,6.88705],alt:1877},
+  index:{n:"L'Index",t:"lift",ll:[45.95783,6.86611],alt:2385},
+  lognan:{n:"Lognan",t:"lift",ll:[45.96833,6.94748],alt:1972},
+  bochard:{n:"Bochard",t:"lift",ll:[45.95115,6.9492],alt:2765},
+  gm_top:{n:"Grands Montets top (closed)",t:"lift",ll:[45.94614,6.96121],alt:3275},
+  autannes:{n:"Les Autannes",t:"lift",ll:[46.01461,6.93958],alt:2195},
+  pontal:{n:"Skyway base",t:"lift",ll:[45.81468,6.95503],alt:1300},
+  pavillon:{n:"Pavillon",t:"lift",ll:[45.83023,6.94542],alt:2173},
+  helbronner:{n:"Punta Helbronner",t:"lift",ll:[45.8462,6.9352],alt:3466},
+  ruinettes:{n:"Les Ruinettes",t:"lift",ll:[46.08823,7.25235],alt:2195},
+  saleina_gl:{t:"wp",ll:[45.978,7.03]},
+  vb_mid:{t:"wp",ll:[45.87,6.905]},
+  glacier_tour:{t:"wp",ll:[45.9915,6.9745]},
+  tre_la_tete:{t:"wp",ll:[45.80248,6.74389]},
+  sembrancher:{t:"wp",ll:[46.0778,7.1498]},
+  finhaut:{t:"wp",ll:[46.083,6.977]},
+  chatelard:{t:"wp",ll:[46.06,6.958]}
+};
+var HUT_LL={argentiere:[45.94636,7.00457],trient:[45.99956,7.04355],albert:[45.99675,6.98663],cosmiques:[45.87323,6.88557],torino:[45.84436,6.93384],requin:[45.88463,6.9297],conscrits:[45.78695,6.76605],loriaz:[46.039,6.9132],montfort:[46.0836,7.281]};
+HUT_IDS.forEach(function(id){PL[id]={n:HUTS[id].short,t:"hut",ll:HUT_LL[id],alt:HUTS[id].alt,major:1};});
+for(var pid0 in PL)PL[pid0].xy=proj(PL[pid0].ll);
+var LIFTS=[
+  {n:"Aiguille du Midi cable car",ids:["chamonix","plan_aig","midi"]},
+  {n:"Montenvers rack railway",ids:["chamonix","montenvers"]},
+  {n:"Flégère and Index lifts",ids:["lespraz","flegere","index"]},
+  {n:"Grands Montets: new Lognan gondola and Bochard",ids:["argentiere_v","lognan","bochard"]},
+  {n:"Grands Montets summit lift: closed until December 2027",ids:["lognan","gm_top"],closed:1},
+  {n:"Le Tour: Charamillon and Autannes",ids:["letour","autannes"]},
+  {n:"Skyway Monte Bianco",ids:["pontal","pavillon","helbronner"]},
+  {n:"Verbier gondolas",ids:["lechable","verbier","ruinettes"]}
+];
+var COUNTRIES=[["FRANCE",[45.958,6.735]],["ITALY",[45.772,7.05]],["SWITZERLAND",[46.045,7.17]]];
+function L(d,t,ids,label){return {d:d,t:t,ids:ids,label:label};}
+var APT_LEGS=[L(21,"transport",["chamonix","argentiere_v"],"Bus to Argentière"),L(21,"lift",["argentiere_v","lognan","bochard"],"Warm-up on the Grands Montets lifts"),L(22,"lift",["lespraz","flegere","index"],"Flégère and Index lifts"),L(22,"tour",["index","col_belvedere"],"Col du Belvédère")];
+var TO_ARG=function(d){return [L(d,"transport",["chamonix","argentiere_v"],"Bus or train to Argentière"),L(d,"lift",["argentiere_v","lognan"],"Lognan gondola"),L(d,"ski",["lognan","argentiere"],"Skin up the Argentière glacier to the hut")];};
+var TRAV=function(d){return L(d,"ski",["argentiere","col_chardonnet","saleina_gl","fen_saleina","trient"],"Traverse over the Col du Chardonnet and Fenêtre de Saleina to Trient");};
+var HOME_CH=function(d){return [L(d,"ski",["trient","col_ecandies","champex"],"Col des Écandies and the Val d'Arpette to Champex"),L(d,"transport",["champex","orsieres","sembrancher","martigny","finhaut","chatelard","vallorcine","argentiere_v","chamonix"],"Bus and train back to Chamonix")];};
+var TOUR_T=function(d){return L(d,"tour",["trient","aigtour"],"Tête Blanche and the Aiguilles du Tour");};
+var LEGS={
+  A:APT_LEGS.concat(TO_ARG(24),[L(25,"tour",["argentiere","col_tournoir"],"Glacier des Améthystes to the Col du Tour Noir"),L(26,"tour",["argentiere","col_chardonnet"],"Col du Chardonnet and back"),L(27,"tour",["argentiere","aigargentiere"],"Aiguille d'Argentière by the Glacier du Milieu"),L(28,"ski",["argentiere","col_passon","glacier_tour","letour"],"Col du Passon, then the Glacier du Tour down to Le Tour"),L(28,"transport",["letour","argentiere_v","chamonix"],"Bus back to Chamonix")]),
+  B:APT_LEGS.concat(TO_ARG(24),[L(25,"tour",["argentiere","col_passon"],"Col du Passon couloir and back"),TRAV(26),TOUR_T(27),L(27,"tour",["trient","orny_pt"],"Laps off the Pointe d'Orny")],HOME_CH(28)),
+  C:APT_LEGS.concat([L(24,"transport",["chamonix","argentiere_v","letour"],"Bus to Le Tour"),L(24,"lift",["letour","autannes"],"Le Tour lifts"),L(24,"ski",["autannes","albert","col_tour","trient"],"Glacier du Tour and the Col du Tour to the Trient hut"),TOUR_T(25),L(26,"tour",["trient","orny_pt"],"Pointe d'Orny and the Combe d'Orny"),L(27,"tour",["trient","fen_saleina"],"Over to the Fenêtre de Saleina")],HOME_CH(28)),
+  D:APT_LEGS.concat([L(23,"lift",["chamonix","plan_aig","midi"],"Aiguille du Midi"),L(23,"ski",["midi","vb_mid","requin","montenvers"],"Classic Vallée Blanche with a guide"),L(23,"transport",["montenvers","chamonix"],"Montenvers train down"),L(24,"lift",["chamonix","plan_aig","midi"],"Aiguille du Midi"),L(24,"ski",["midi","vb_mid","col_geant","torino"],"Vallée Blanche, then skin up to the Torino hut"),L(25,"ski",["torino","helbronner","pavillon"],"Toula glacier down to Pavillon"),L(25,"lift",["pavillon","helbronner"],"Skyway back up"),L(26,"tour",["torino","entreves"],"Aiguille d'Entrèves"),L(27,"ski",["torino","col_geant","vb_mid","cosmiques"],"Across the Glacier du Géant to the Cosmiques hut"),L(28,"ski",["cosmiques","vb_mid","requin","montenvers"],"Envers du Plan or the Vallée Blanche"),L(28,"transport",["montenvers","chamonix"],"Montenvers train down")]),
+  E:APT_LEGS.concat([L(24,"transport",["chamonix","argentiere_v","vallorcine"],"Train to Vallorcine"),L(24,"ski",["vallorcine","loriaz"],"Skin up to the Refuge de Loriaz"),L(25,"tour",["loriaz","terrasse"],"Pointe de la Terrasse"),L(27,"ski",["loriaz","vallorcine"],"Ski down to Vallorcine"),L(27,"transport",["vallorcine","letour"],"Bus to Le Tour"),L(27,"lift",["letour","autannes"],"Afternoon on the Le Tour lifts"),L(27,"transport",["letour","argentiere_v","chamonix"],"Back to Chamonix"),L(28,"transport",["chamonix","argentiere_v","lebuet"],"Train to Le Buet"),L(28,"tour",["lebuet","buet"],"Mont Buet")]),
+  F:APT_LEGS.concat([L(24,"transport",["chamonix","argentiere_v","vallorcine","chatelard","finhaut","martigny","sembrancher","lechable"],"Train to Le Châble"),L(24,"lift",["lechable","verbier","ruinettes"],"Gondolas to Les Ruinettes"),L(24,"ski",["ruinettes","montfort"],"Ski in to the Mont Fort hut"),L(25,"tour",["montfort","rosablanche"],"Rosablanche"),L(26,"tour",["montfort","col_chassoure","montgele"],"Mont Gelé faces"),L(28,"ski",["montfort","ruinettes","verbier"],"Ski down to Verbier"),L(28,"lift",["verbier","lechable"],"Gondola down to Le Châble"),L(28,"transport",["lechable","sembrancher","martigny","finhaut","chatelard","vallorcine","argentiere_v","chamonix"],"Train back to Chamonix")]),
+  G:APT_LEGS.concat([L(24,"transport",["chamonix","leshouches","stgervais","contamines","ndgorge"],"Bus or taxi to Notre-Dame de la Gorge"),L(24,"ski",["ndgorge","tre_la_tete","conscrits"],"Up the Tré-la-Tête glacier to the hut"),L(25,"tour",["conscrits","berangere"],"Aiguille de la Bérangère"),L(26,"tour",["conscrits","domes"],"Dômes de Miage traverse"),L(28,"ski",["conscrits","tre_la_tete","ndgorge"],"Ski out to Notre-Dame de la Gorge"),L(28,"transport",["ndgorge","contamines","stgervais","leshouches","chamonix"],"Back to Chamonix")]),
+  H:[APT_LEGS[0],APT_LEGS[1]].concat(TO_ARG(22),[L(23,"tour",["argentiere","col_argentiere"],"Col d'Argentière"),TRAV(24),TOUR_T(25),L(25,"tour",["trient","orny_pt"],"Pointe d'Orny")],HOME_CH(26),[L(27,"lift",["lespraz","flegere","index"],"Flégère and Index lifts"),L(27,"tour",["index","col_belvedere"],"Col du Belvédère"),L(28,"transport",["chamonix","argentiere_v","lebuet"],"Train to Le Buet"),L(28,"tour",["lebuet","buet"],"Mont Buet")])
+};
+var LINE_PL={amethystes:"col_tournoir",colargentiere:"col_argentiere",chardonnet:"col_chardonnet",passon:"col_passon",milieu:"aigargentiere",coldutour:"col_tour",teteblanche:"aigtour",orny:"orny_pt",arpette:"col_ecandies",tacul:"tacul",toula:"pavillon",marbrees:"marbrees",entreves:"entreves",domes:"domes",berangere:"berangere",terrasse:"terrasse",rosablanche:"rosablanche",montgele:"montgele"};
+function planLegs(p){
+  if(!p.custom)return LEGS[p.id]||[];
+  var legs=[],count={},base=function(n){return HUTS[n]?n:"chamonix";};
+  for(var i=1;i<9;i++){var d=DAYS[i].d,a=base(p.nights[i-1]),b=base(p.nights[i]);
+    if(a!==b)legs.push(L(d,"ski",[a,b],HUTS[b]?"Move to the "+HUTS[b].short+" hut":"Back down to the valley"));
+    else if(HUTS[b]){var ls=LINES.filter(function(l){return l.base===b&&LINE_PL[l.id];});var k=count[b]||0;count[b]=k+1;
+      if(ls.length){var ln=ls[k%ls.length];legs.push(L(d,"tour",[b,LINE_PL[ln.id]],ln.name));}}
+  }
+  return legs;
+}
+var TYPE_NAME={ski:"On skis",tour:"Day tour, out and back",lift:"Lift",transport:"Train or bus"};
+function dayName(d){var x=DAYS.filter(function(y){return y.d===d;})[0];return x?x.wd+" "+d+" Mar":String(d);}
+var MV={x:0,y:0,w:MAPM.W,h:MAPM.H},MS={plan:null,day:"all",peek:null,drag:null};
+function mapAspect(){var b=$("#mapSvg").getBoundingClientRect();return b.width>0&&b.height>0?b.height/b.width:MAPM.H/MAPM.W;}
+function clampView(){
+  var a=mapAspect(),maxW=Math.max(MAPM.W,MAPM.H/a),minW=MAPM.W/14,cx=MV.x+MV.w/2,cy=MV.y+MV.h/2;
+  MV.w=clamp(MV.w,minW,maxW);MV.h=MV.w*a;MV.x=cx-MV.w/2;MV.y=cy-MV.h/2;
+  MV.x=MV.w>=MAPM.W?(MAPM.W-MV.w)/2:clamp(MV.x,0,MAPM.W-MV.w);
+  MV.y=MV.h>=MAPM.H?(MAPM.H-MV.h)/2:clamp(MV.y,0,MAPM.H-MV.h);
+}
+function fitBox(x0,y0,x1,y1,pad){var a=mapAspect(),w=Math.max(x1-x0,60)*(1+2*pad),h=Math.max(y1-y0,60)*(1+2*pad);if(h/w<a)h=w*a;else w=h/a;MV={x:(x0+x1)/2-w/2,y:(y0+y1)/2-h/2,w:w,h:h};clampView();}
+function fitPlan(){
+  var p=planById(S.sel),pts=[PL.chamonix.xy];
+  planLegs(p).forEach(function(l){if(l.t!=="transport")l.ids.forEach(function(id){pts.push(PL[id].xy);});});
+  p.nights.forEach(function(n){if(PL[n])pts.push(PL[n].xy);});
+  var xs=pts.map(function(q){return q[0];}),ys=pts.map(function(q){return q[1];});
+  fitBox(Math.min.apply(null,xs),Math.min.apply(null,ys),Math.max.apply(null,xs),Math.max.apply(null,ys),0.12);
+}
+function f1(v){return Math.round(v*10)/10;}
+function ptsStr(ids){return ids.map(function(id){var q=PL[id].xy;return f1(q[0])+","+f1(q[1]);}).join(" ");}
+function along(ids,frac){var q=ids.map(function(id){return PL[id].xy;}),seg=[],tot=0;
+  for(var i=1;i<q.length;i++){var l=Math.hypot(q[i][0]-q[i-1][0],q[i][1]-q[i-1][1]);seg.push(l);tot+=l;}
+  var t=tot*frac;for(var j=0;j<seg.length;j++){if(t<=seg[j]||j===seg.length-1){var r=seg[j]?Math.min(1,t/seg[j]):0;return [q[j][0]+(q[j+1][0]-q[j][0])*r,q[j][1]+(q[j+1][1]-q[j][1])*r];}t-=seg[j];}
+  return q[0];}
+function markerSVG(id,pl,u,inPlan){
+  var q=pl.xy,x=f1(q[0]),y=f1(q[1]),k=u;
+  if(pl.t==="hut")return '<path class="mk-hut'+(inPlan?' inplan':'')+'" transform="translate('+x+' '+y+') scale('+f1(k*(inPlan?1.25:1)*100)/100+')" d="M-6,4 L-6,-3 L0,-8 L6,-3 L6,4 Z" stroke-width="1.4"/>';
+  if(pl.t==="town")return '<rect class="mk-town" x="'+f1(q[0]-3*k)+'" y="'+f1(q[1]-3*k)+'" width="'+f1(6*k)+'" height="'+f1(6*k)+'"/>';
+  if(pl.t==="peak")return '<path class="mk-peak" transform="translate('+x+' '+y+') scale('+Math.round(k*100)/100+')" d="M0,-5 L5,4 L-5,4 Z"/>';
+  if(pl.t==="col")return '<path class="mk-col" transform="translate('+x+' '+y+') scale('+Math.round(k*100)/100+')" d="M0,-4 L4,0 L0,4 L-4,0 Z" stroke-width="1.3"/>';
+  return '<circle class="mk-lift" cx="'+x+'" cy="'+y+'" r="'+f1(3.2*k)+'" stroke-width="'+f1(1.4*k)+'"/>';
+}
+function placeTip(id,pl,inPlan){
+  var t={town:"Village",hut:"Hut",peak:"Summit",col:"Col",lift:"Lift station"}[pl.t];
+  var extra=pl.t==="hut"?'<br>'+esc(HUTS[id].statusText)+(inPlan?'<br>In this plan':''):'';
+  return '<b>'+esc(HUTS[id]?HUTS[id].name:pl.n)+'</b> '+pl.alt+' m<br>'+t+extra;
+}
+function renderMap(){
+  var svg=$("#mapSvg");if(!svg)return;
+  var cw=svg.getBoundingClientRect().width||900,u=MV.w/cw,zoomed=MV.w<MAPM.W*0.97,zoom2=MV.w<=MAPM.W*0.5;
+  svg.setAttribute("viewBox",[MV.x,MV.y,MV.w,MV.h].map(f1).join(" "));
+  $("#mapBox").classList.toggle("zoomed",zoomed);
+  var p=planById(S.sel),legs=planLegs(p),Ly=S.mapLayers,used={},inPlan={};
+  legs.forEach(function(l){l.ids.forEach(function(id){used[id]=1;});});
+  p.nights.forEach(function(n){if(HUTS[n]){inPlan[n]=1;used[n]=1;}});
+  var h='';
+  COUNTRIES.forEach(function(c){var q=proj(c[1]);h+='<text class="country" x="'+f1(q[0])+'" y="'+f1(q[1])+'" font-size="30" text-anchor="middle">'+c[0]+'</text>';});
+  var g=proj([45.93,6.69]);h+='<text class="map-note" x="'+f1(g[0])+'" y="'+f1(g[1])+'" font-size="'+f1(Math.max(11*u,9))+'">← Geneva airport, about 80 km</text>';
+  if(Ly.lifts)LIFTS.forEach(function(l){h+='<polyline class="lift-net'+(l.closed?' closed':'')+'" points="'+ptsStr(l.ids)+'" stroke-width="'+f1(1.4*u)+'"'+(l.closed?' stroke-dasharray="'+f1(4*u)+' '+f1(3*u)+'"':'')+'/><polyline class="leg-hit" points="'+ptsStr(l.ids)+'" stroke-width="'+f1(10*u)+'" data-tip="'+esc('<b>'+esc(l.n)+'</b>')+'"/>';});
+  var order={transport:0,lift:1,tour:2,ski:3};
+  legs.slice().sort(function(a,b){return order[a.t]-order[b.t];}).forEach(function(l){
+    var d=ptsStr(l.ids),w=l.t==="ski"?3.2:l.t==="tour"?2.5:l.t==="lift"?2:2.4;
+    var dash=l.t==="tour"?f1(6*u)+" "+f1(4.5*u):l.t==="transport"?f1(0.1*u)+" "+f1(4.6*u):"";
+    var tip='<b>'+dayName(l.d)+'</b><br>'+esc(l.label)+'<br><span style="opacity:.75">'+TYPE_NAME[l.t]+'</span>';
+    h+='<g class="leg-g" data-day="'+l.d+'"><polyline class="leg-halo" points="'+d+'" stroke-width="'+f1((w+3)*u)+'"/><polyline class="leg '+l.t+'" points="'+d+'" stroke-width="'+f1(w*u)+'"'+(dash?' stroke-dasharray="'+dash+'"':'')+'/><polyline class="leg-hit" points="'+d+'" stroke-width="'+f1(14*u)+'" data-tip="'+esc(tip)+'"/></g>';
+  });
+  /* places */
+  var ids=Object.keys(PL).filter(function(id){var pl=PL[id];
+    if(pl.t==="wp")return false;
+    if(used[id])return true;
+    if(pl.t==="town")return true;
+    if(pl.t==="hut")return Ly.huts;
+    if(pl.t==="peak"||pl.t==="col")return Ly.peaks&&(pl.major||zoom2||pl.t==="peak");
+    if(pl.t==="lift")return Ly.lifts&&(pl.major||zoomed);
+    return false;});
+  var prio=function(id){var pl=PL[id];return inPlan[id]?0:used[id]&&pl.t!=="town"?1:pl.major?2:pl.t==="hut"?3:pl.t==="town"?4:5;};
+  ids.sort(function(a,b){return prio(a)-prio(b);});
+  var boxes=[],labels='',marks='';
+  ids.forEach(function(id){var pl=PL[id],ip=!!inPlan[id];marks+='<g data-tip="'+esc(placeTip(id,pl,ip))+'">'+markerSVG(id,pl,u,ip)+'<circle cx="'+f1(pl.xy[0])+'" cy="'+f1(pl.xy[1])+'" r="'+f1(9*u)+'" fill="transparent"/></g>';});
+  var vis=function(q){return q[0]>=MV.x&&q[0]<=MV.x+MV.w&&q[1]>=MV.y&&q[1]<=MV.y+MV.h;};
+  ids.forEach(function(id){var pl=PL[id],pr=prio(id);
+    if(pr>=4&&!zoom2&&!(pl.t==="town"))return;
+    if(pr===5&&!zoom2)return;
+    if(!vis(pl.xy))return;
+    var fs=(pl.t==="town"||pl.t==="hut"?12.5:11.5)*u,alt=(pl.t==="peak"||pl.t==="col"||pl.t==="hut")?' '+pl.alt:'';
+    var w=(pl.n.length*0.55+alt.length*0.62)*fs,hgt=fs*1.1,x=pl.xy[0],y=pl.xy[1],off=8*u;
+    var cand=[[x+off,y+fs*0.35,"start"],[x-off,y+fs*0.35,"end"],[x,y-off-fs*0.15,"middle"],[x,y+off+fs*0.85,"middle"]];
+    for(var c=0;c<cand.length;c++){var cx=cand[c][0],cy=cand[c][1],an=cand[c][2];
+      var bx=an==="start"?cx:an==="end"?cx-w:cx-w/2,by=cy-fs*0.85,bb=[bx-2*u,by-1*u,bx+w+2*u,by+hgt+1*u];
+      if(boxes.some(function(o){return !(bb[2]<o[0]||bb[0]>o[2]||bb[3]<o[1]||bb[1]>o[3]);}))continue;
+      boxes.push(bb);
+      labels+='<text class="pl-label '+pl.t+(ip2(id)?' inplan':'')+'" x="'+f1(cx)+'" y="'+f1(cy)+'" text-anchor="'+an+'" font-size="'+f1(fs)+'" stroke-width="'+f1(3*u)+'">'+esc(pl.n)+(alt?'<tspan class="a" font-size="'+f1(fs*0.85)+'">'+alt+'</tspan>':'')+'</text>';
+      break;}
+  });
+  function ip2(id){return !!inPlan[id];}
+  /* day badges */
+  var badges='',bpos=[];
+  legs.forEach(function(l){if(l.t!=="ski"&&l.t!=="tour")return;
+    var q=along(l.ids,l.t==="tour"?0.62:0.5),tries=0;
+    while(tries<4&&bpos.some(function(o){return Math.hypot(o[0]-q[0],o[1]-q[1])<17*u;})){q=[q[0]+13*u,q[1]-9*u];tries++;}
+    bpos.push(q);
+    badges+='<g class="badge" data-day="'+l.d+'" data-tip="'+esc('<b>'+dayName(l.d)+'</b><br>'+esc(l.label))+'"><circle cx="'+f1(q[0])+'" cy="'+f1(q[1])+'" r="'+f1(8.5*u)+'" stroke-width="'+f1(1.5*u)+'"/><text x="'+f1(q[0])+'" y="'+f1(q[1])+'" font-size="'+f1(9.5*u)+'">'+l.d+'</text></g>';
+  });
+  $("#mapOv").innerHTML=h+marks+labels+badges;
+  applyMapDim();
+  var mpp=M_PER_UNIT*u,nice=[200,500,1000,2000,5000,10000,20000],len=nice[nice.length-1];
+  for(var i=0;i<nice.length;i++){if(nice[i]/mpp>=60){len=nice[i];break;}}
+  $("#mapScale").innerHTML=(len>=1000?(len/1000)+' km':len+' m')+'<i style="width:'+Math.round(len/mpp)+'px"></i>';
+}
+function applyMapDim(){var day=MS.peek!=null?MS.peek:MS.day;
+  $$("#mapOv .leg-g,#mapOv .badge").forEach(function(el){el.classList.toggle("dim",day!=="all"&&+el.getAttribute("data-day")!==+day);});}
+function renderMapChips(){
+  var days=[];planLegs(planById(S.sel)).forEach(function(l){if(days.indexOf(l.d)<0)days.push(l.d);});days.sort(function(a,b){return a-b;});
+  if(MS.day!=="all"&&days.indexOf(+MS.day)<0)MS.day="all";
+  $("#mapDays").innerHTML='<button class="chip" type="button" data-act="mapday" data-v="all" aria-pressed="'+(MS.day==="all")+'">All days</button>'+days.map(function(d){var x=DAYS.filter(function(y){return y.d===d;})[0];return '<button class="chip" type="button" data-act="mapday" data-v="'+d+'" aria-pressed="'+(+MS.day===d)+'">'+x.wd+' '+d+'</button>';}).join('');
+  $("#mapLayers").innerHTML=[["lifts","Lifts"],["huts","Other huts"],["peaks","Summits & cols"]].map(function(o){return '<button class="chip" type="button" data-act="maplayer" data-v="'+o[0]+'" aria-pressed="'+!!S.mapLayers[o[0]]+'">'+o[1]+'</button>';}).join('');
+}
+function syncMap(){
+  if(!$("#mapSvg"))return;
+  if(MS.plan!==S.sel){MS.plan=S.sel;MS.day="all";fitPlan();}
+  renderMapChips();renderMap();
+}
+function zoomBy(f,cx,cy){if(cx==null){cx=MV.x+MV.w/2;cy=MV.y+MV.h/2;}var rx=(cx-MV.x)/MV.w,ry=(cy-MV.y)/MV.h;MV.w*=f;MV.h*=f;MV.x=cx-rx*MV.w;MV.y=cy-ry*MV.h;clampView();renderMap();}
+(function(){
+  var svg=$("#mapSvg");if(!svg)return;
+  svg.addEventListener("pointerdown",function(e){if(MV.w>=MAPM.W*0.97&&e.pointerType!=="mouse")return;if(e.button!==0&&e.pointerType==="mouse")return;
+    MS.drag={x:e.clientX,y:e.clientY,vx:MV.x,vy:MV.y,u:MV.w/(svg.getBoundingClientRect().width||1)};svg.classList.add("drag");try{svg.setPointerCapture(e.pointerId);}catch(x){}});
+  svg.addEventListener("pointermove",function(e){if(!MS.drag)return;var d=MS.drag;MV.x=d.vx-(e.clientX-d.x)*d.u;MV.y=d.vy-(e.clientY-d.y)*d.u;clampView();svg.setAttribute("viewBox",[MV.x,MV.y,MV.w,MV.h].map(f1).join(" "));});
+  var end=function(){if(!MS.drag)return;MS.drag=null;svg.classList.remove("drag");renderMap();};
+  svg.addEventListener("pointerup",end);svg.addEventListener("pointercancel",end);
+  svg.addEventListener("dblclick",function(e){var b=svg.getBoundingClientRect(),u=MV.w/b.width;zoomBy(0.6,MV.x+(e.clientX-b.left)*u,MV.y+(e.clientY-b.top)*u);});
+  if(window.ResizeObserver){var last=0;new ResizeObserver(function(){var w=$("#mapBox").getBoundingClientRect().width;if(Math.abs(w-last)<2)return;last=w;clampView();renderMap();}).observe($("#mapBox"));}
+})();
+document.addEventListener("mouseover",function(e){var li=e.target.closest&&e.target.closest(".itin li[data-day]");var d=li?+li.dataset.day:null;if(d!==MS.peek){MS.peek=d;applyMapDim();}});
+
 /* ---------- render all ---------- */
 function renderAll(full){
   var sc=scoreAll();
@@ -1275,6 +1591,9 @@ document.addEventListener("click",function(e){
   else if(a==="reset-ratings"){var d=defaults();S.ratings=d.ratings;S.weights=d.weights;persist();syncWeights();renderAll();}
   else if(a==="reset-cost"){S.cost=clone(DEFAULT_COST);persist();syncCostForm();renderAll();}
   else if(a==="share"){shareScores();}
+  else if(a==="mapday"){MS.day=v==="all"?"all":+v;renderMapChips();applyMapDim();}
+  else if(a==="maplayer"){S.mapLayers[v]=!S.mapLayers[v];persist();renderMapChips();renderMap();}
+  else if(a==="mapzoom"){if(v==="in")zoomBy(0.6);else if(v==="out")zoomBy(1/0.6);else if(v==="plan"){fitPlan();renderMap();}else{fitBox(0,0,MAPM.W,MAPM.H,0);renderMap();}}
 });
 document.addEventListener("keydown",function(e){
   if((e.key==="Enter"||e.key===" ")&&e.target.classList&&e.target.classList.contains("rank-row")){e.preventDefault();e.target.click();}
