@@ -158,6 +158,21 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:6px 0 0}
 .bed.valley{background:var(--glacier-wash);color:var(--glacier-ink)}
 .bed.home{border:1.5px dashed var(--line);color:var(--muted)}
 
+/* difficulty pills, tab groups, summaries */
+.lvl{display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.lvl.big{font-size:14.5px;padding:5px 12px}
+.lvl.easy{background:var(--good-wash);color:var(--good)}
+.lvl.moderate{background:var(--glacier-wash);color:var(--glacier-ink)}
+.lvl.demanding{background:var(--warn-wash);color:var(--warn)}
+.lvl.serious{background:var(--bad-wash);color:var(--bad)}
+.tab-sep{flex:0 0 auto;align-self:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:0 2px 0 8px;white-space:nowrap}
+.inshort{margin-top:20px;background:var(--surface-2);border-radius:16px;padding:16px 20px}
+.inshort .k{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);font-weight:600}
+.inshort p{margin:6px 0 0;font-size:clamp(17px,2vw,19px);line-height:1.5;max-width:75ch}
+.rank-name .sum{display:block;font-size:14.5px;color:var(--ink-2);line-height:1.4;margin-top:3px}
+.rank-name .mini{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-top:6px}
+.rank-name .drv{font-size:13px;color:var(--muted)}
+
 /* rating */
 .rating{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:28px;align-items:start}
 @media (max-width:760px){.rating{grid-template-columns:1fr}}
@@ -247,7 +262,7 @@ thead th{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.08em;text
 
 /* compare */
 .rank{display:grid;gap:10px}
-.rank-row{display:grid;grid-template-columns:30px 48px minmax(0,1.2fr) minmax(0,1fr) 130px 24px;gap:14px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:14px;text-decoration:none;color:var(--ink)}
+.rank-row{display:grid;grid-template-columns:30px 48px minmax(0,2fr) minmax(120px,0.8fr) 130px 24px;gap:16px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:14px;text-decoration:none;color:var(--ink)}
 .rank-row:hover{border-color:var(--accent);color:var(--ink)}
 .rank-row.first{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
 .rank-pos{font-family:var(--font-mono);font-size:14px;color:var(--muted);text-align:right}
@@ -350,7 +365,8 @@ details.more summary{cursor:pointer;font-weight:700;padding:10px 0;color:var(--i
 .leg{fill:none;stroke-linecap:round;stroke-linejoin:round}
 .leg.ski,.leg.tour{stroke:var(--accent)}
 .leg.lift{stroke:var(--ink)}
-.leg.transport{stroke:var(--glacier)}
+.leg.transport,.leg.car{stroke:var(--glacier)}
+.map-note{font-family:var(--font-mono);fill:var(--ink-2);pointer-events:none;paint-order:stroke;stroke:var(--surface);stroke-width:3px}
 .leg-halo{fill:none;stroke:var(--surface);stroke-linecap:round;stroke-linejoin:round;opacity:.9}
 .leg-hit{fill:none;stroke:transparent;pointer-events:stroke}
 .leg-g,.badge{transition:opacity .15s}
@@ -395,7 +411,7 @@ footer .card{background:var(--surface);border-radius:18px;padding:22px 26px;box-
 <div class="hero"><div class="wrap">
   <p class="eyebrow">Mont Blanc massif · Easter 2027</p>
   <h1>Huts &amp; lines <span>around Chamonix</span></h1>
-  <p class="sub">Seven ways to spend the Easter days on skis, from Wednesday 24 to Easter Monday 29 March. The apartment days before are the same in every plan, so they are left out.</p>
+  <p class="sub">Nine ways to spend the Easter days on skis, from Wednesday 24 to Easter Monday 29 March, all without a guide. Four start from Chamonix; five are road trips to quieter valleys in France, Italy and Switzerland. The apartment days before are the same in every plan, so they are left out.</p>
 </div></div>
 
 <main class="wrap">
@@ -442,7 +458,7 @@ footer .card{background:var(--surface);border-radius:18px;padding:22px 26px;box-
       <div class="legend" id="costLegend" style="margin-bottom:14px"></div>
       <div class="bars" id="costBars"></div>
       <details class="more"><summary>Show prices as a table</summary><div class="table-scroll" style="margin-bottom:14px"><table class="money" id="costTable"></table></div></details>
-      <details class="more"><summary>Cost assumptions: group, beds, guide, gear, exchange rates</summary><form class="assume" id="assume" autocomplete="off"></form><button class="btn ghost" type="button" data-act="reset-cost" style="margin-bottom:14px">Reset cost assumptions</button></details>
+      <details class="more"><summary>Cost assumptions: group, beds, car, gear, exchange rates</summary><form class="assume" id="assume" autocomplete="off"></form><button class="btn ghost" type="button" data-act="reset-cost" style="margin-bottom:14px">Reset cost assumptions</button></details>
     </div>
 
     <div class="sec group" id="group"></div>
@@ -459,7 +475,7 @@ footer .card{background:var(--surface);border-radius:18px;padding:22px 26px;box-
         <div class="chips" id="mapLayers" role="group" aria-label="Map layers"></div>
       </div>
       <div class="map-box" id="mapBox">
-        <svg id="mapSvg" role="img" aria-label="Relief map with this alternative's route" viewBox="0 0 1600 1305" preserveAspectRatio="xMidYMid meet"><image class="relief" href="relief.webp" x="0" y="0" width="1600" height="1305" preserveAspectRatio="none"/><g id="mapOv"></g></svg>
+        <svg id="mapSvg" role="img" aria-label="Relief map with this alternative's route" viewBox="0 0 2200 2403" preserveAspectRatio="xMidYMid meet"><image class="relief" href="relief.webp" x="0" y="0" width="2200" height="2403" preserveAspectRatio="none"/><g id="mapOv"></g></svg>
         <div class="map-zoom">
           <button type="button" data-act="mapzoom" data-v="in" aria-label="Zoom in">+</button>
           <button type="button" data-act="mapzoom" data-v="out" aria-label="Zoom out">−</button>
@@ -473,6 +489,7 @@ footer .card{background:var(--surface);border-radius:18px;padding:22px 26px;box-
         <span><svg viewBox="0 0 30 12" aria-hidden="true"><line x1="2" y1="6" x2="28" y2="6" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="6 4" stroke-linecap="round"/></svg>Day tour</span>
         <span><svg viewBox="0 0 30 12" aria-hidden="true"><line x1="2" y1="6" x2="28" y2="6" stroke="var(--ink)" stroke-width="2"/></svg>Lift</span>
         <span><svg viewBox="0 0 30 12" aria-hidden="true"><line x1="3" y1="6" x2="28" y2="6" stroke="var(--glacier)" stroke-width="2.6" stroke-dasharray="0.1 4.6" stroke-linecap="round"/></svg>Train or bus</span>
+        <span><svg viewBox="0 0 30 12" aria-hidden="true"><line x1="2" y1="6" x2="28" y2="6" stroke="var(--glacier)" stroke-width="2.4" stroke-dasharray="9 5" stroke-linecap="round"/></svg>Car</span>
         <span><svg viewBox="-8 -9 16 14" aria-hidden="true"><path d="M-6,4 L-6,-3 L0,-8 L6,-3 L6,4 Z" fill="var(--accent)" stroke="var(--surface)"/></svg>Your hut</span>
         <span><svg viewBox="-8 -6 16 12" aria-hidden="true"><path d="M0,-5 L5,4 L-5,4 Z" fill="var(--ink-2)"/></svg>Summit</span>
         <span><svg viewBox="-8 -6 16 12" aria-hidden="true"><path d="M0,-4 L4,0 L0,4 L-4,0 Z" fill="var(--surface)" stroke="var(--ink-2)"/></svg>Col</span>
@@ -538,7 +555,7 @@ footer .card{background:var(--surface);border-radius:18px;padding:22px 26px;box-
           <ul>
             <li>SWISS flies to Zürich several times a day from both cities, so there are seats when Geneva sells out.</li>
             <li>Train Zürich airport → Martigny → Chamonix takes about 4 h 30, roughly CHF 80–110 one way.</li>
-            <li>Handy for alternative F: Le Châble is on the way.</li>
+            <li>Handy for the Swiss road trips H and I: Martigny is on the way.</li>
           </ul>
           <div class="fare"><div><div class="lbl">Flight</div><div class="big">2 000–4 000</div></div><div><div class="lbl">Train, return</div><div class="big">≈ €170–230</div></div></div>
           <div class="fl-links">
@@ -573,7 +590,7 @@ footer .card{background:var(--surface);border-radius:18px;padding:22px 26px;box-
           <tr><th scope="row">Bus (FlixBus, Alpybus)</th><td class="mono">≈ €14–30</td><td>Cheapest. Fixed times, so check them against your landing time.</td></tr>
           <tr><th scope="row">Shared transfer</th><td class="mono">≈ €30–50</td><td>Door to door and waits for late flights. Book ahead at Easter.</td></tr>
           <tr><th scope="row">Private transfer for 4</th><td class="mono">≈ €60–90</td><td>Leaves when you land. Worth it with lots of ski bags.</td></tr>
-          <tr><th scope="row">Rental car</th><td class="mono">≈ €40–70</td><td>Handy for alternatives C, F and G with Swiss or Contamines starts. Add parking.</td></tr>
+          <tr><th scope="row">Rental car</th><td class="mono">≈ €40–70</td><td>Needed for the road trips E–I. Mont Blanc tunnel about €70 return; Swiss motorway vignette CHF 40 if the car has none.</td></tr>
         </tbody>
       </table></div>
       <p class="note"><a href="https://www.flixbus.com/bus-routes/bus-geneva-airport-chamonix" target="_blank" rel="noopener">FlixBus Geneva–Chamonix</a> · <a href="https://www.seechamonix.com/transfers/coach-transfer" target="_blank" rel="noopener">Coach and shared transfers</a></p>
@@ -582,21 +599,21 @@ footer .card{background:var(--surface);border-radius:18px;padding:22px 26px;box-
 </main>
 
 <footer><div class="wrap"><div class="card">
-  <p class="note" style="margin:0"><b>About the numbers.</b> Researched 15 November 2026. Hut prices are the latest published (often 2025) or marked as estimates. Flight ranges are estimates from fare sites. The hut pictures are terrain views rendered from open elevation data, not photos; each hut has a photo link. Line grades and height gains are rounded; check a topo, the avalanche bulletin and a guide on the day.</p>
+  <p class="note" style="margin:0"><b>About the numbers.</b> Researched 15 November 2026. All plans assume no guide. Hut prices are the latest published (often 2025) or marked as estimates. Driving costs use fuel per km plus tunnel, tolls and parking. Flight ranges are estimates from fare sites. The hut pictures are terrain views rendered from open elevation data, not photos; each hut has a photo link. Line grades and height gains are rounded; check a topo and the avalanche bulletin on the day.</p>
   <ul class="sources">
     <li><a href="https://seechamonix.com/accommodation/huts/argentiere-refuge-2771m-massif-du-mont-blanc" target="_blank" rel="noopener">Argentière refuge (seechamonix)</a></li>
     <li><a href="https://www.refuges.info/point/2441/refuge-garde/cabane-du-Trient/en/" target="_blank" rel="noopener">Cabane du Trient (refuges.info)</a></li>
     <li><a href="https://cas-diablerets.ch/wp-content/uploads/2026/07/2026-07-Annonce-gardien-Trient-v2-avec-photos.pdf" target="_blank" rel="noopener">Trient hut keeper notice (July 2026)</a></li>
     <li><a href="https://www.haute-savoie-tourisme.org/203434-refuge-des-conscrits" target="_blank" rel="noopener">Refuge des Conscrits</a></li>
-    <li><a href="https://www.rifugiotorino.com/en/" target="_blank" rel="noopener">Rifugio Torino</a></li>
-    <li><a href="https://www.refuges.info/point/342/refuge-garde/refuge-des-Cosmiques/en/" target="_blank" rel="noopener">Refuge des Cosmiques</a></li>
     <li><a href="https://www.salvan.ch/en/refuge-de-loriaz-fp214" target="_blank" rel="noopener">Refuge de Loriaz</a></li>
     <li><a href="https://www.verbier.ch/en/offers/cabane-mont-fort-verbier-en-2788465" target="_blank" rel="noopener">Cabane du Mont Fort</a></li>
     <li><a href="https://www.skiworld.co.uk/blog/grands-montets-reopening-2026-27/" target="_blank" rel="noopener">Grands Montets reopening 2026/27</a></li>
     <li><a href="https://cosleyhouston.com/alp-ski/hr-d2d/hr-day2.htm" target="_blank" rel="noopener">Haute Route: Argentière to Trient</a></li>
     <li><a href="https://www.flightconnections.com/flights-from-osl-to-gva" target="_blank" rel="noopener">OSL–GVA</a> and <a href="https://www.flightconnections.com/flights-from-arn-to-gva" target="_blank" rel="noopener">ARN–GVA</a> direct flights</li>
     <li><a href="https://deeparrival.com/news/easyjet-leaves-oslo-october-23-2026/" target="_blank" rel="noopener">easyJet leaves Oslo</a></li>
-    <li><a href="https://evolution2.com/en/chamonix/ski-guiding" target="_blank" rel="noopener">Guide day rates</a></li>
+    <li><a href="https://www.montagna.tv/254168/rifugio-benevolo-scialpinisti-in-valle-daosta/" target="_blank" rel="noopener">Rifugio Benevolo: open for ski touring from early March</a></li>
+    <li><a href="https://www.lovevda.it/en/sport/spring-open-huts" target="_blank" rel="noopener">Aosta Valley huts open in spring</a> and <a href="https://www.rifugiochabod.com/en/" target="_blank" rel="noopener">Rifugio Chabod</a></li>
+    <li><a href="https://www.refuges.info/point/1568/refuge-garde/cabane-des-Dix/en/" target="_blank" rel="noopener">Cabane des Dix</a> and <a href="https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/2147000287/" target="_blank" rel="noopener">Cabane des Vignettes</a></li>
     <li><a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">Map relief and hut views: AWS Terrain Tiles</a></li>
   </ul>
 </div></div></footer>
@@ -636,27 +653,6 @@ var HUTS={
     access:"From the Le Tour lifts over the Col du Tour (4–5 h), or from Argentière over the Col du Chardonnet and Fenêtre de Saleina.",
     book:"Online form at cas-diablerets.ch · trient@cas-diablerets.ch · +41 27 783 14 38",
     links:[["CAS Diablerets","https://cas-diablerets.ch/"],["refuges.info","https://www.refuges.info/point/2441/refuge-garde/cabane-du-Trient/en/"]]},
-  cosmiques:{name:"Refuge des Cosmiques",short:"Cosmiques",cc:"France",alt:3613,hb:80,cur:"EUR",est:true,img:"hut_cosmiques.webp",
-    priceNote:"Half board was €69 in 2020; budget about €80.",
-    season:"Usually opens in February for the Vallée Blanche season.",
-    status:"confirm",statusText:"Usually open · confirm by phone",glacier:true,demand:3,
-    access:"Aiguille du Midi cable car, then about 20 minutes on skis.",
-    book:"Phone only.",
-    links:[["refuges.info","https://www.refuges.info/point/342/refuge-garde/refuge-des-Cosmiques/en/"]]},
-  torino:{name:"Rifugio Torino",short:"Torino",cc:"Italy",alt:3375,hb:65,cur:"EUR",est:false,img:"hut_torino.webp",
-    priceNote:"Half board €65 (2025). Private room €250.",
-    season:"The hut says it can be reached all year by the Skyway, but some listings show only a winter room in winter. Confirm first.",
-    status:"confirm",statusText:"Winter status unclear · email to confirm",glacier:true,demand:2,
-    access:"Skyway Monte Bianco from Courmayeur, then 5 minutes on foot. From Chamonix: Aiguille du Midi, the Vallée Blanche and 1.5–2 h skinning to the Col du Géant.",
-    book:"Email only; no deposit at the moment.",
-    links:[["rifugiotorino.com","https://www.rifugiotorino.com/en/"],["skitourguru","https://skitourguru.com/en/hut/152-rifugio-torino"]]},
-  conscrits:{name:"Refuge des Conscrits",short:"Conscrits",cc:"France",alt:2602,hb:76.3,cur:"EUR",est:false,img:"hut_conscrits.webp",
-    priceNote:"Half board €76.30; bed only €34 (€17 for CAF members).",
-    season:"Guarded mid-March to early May (2026: 16 March – 4 May).",
-    status:"likely",statusText:"Expected guarded from mid-March",glacier:true,demand:2,
-    access:"From Notre-Dame de la Gorge above Les Contamines, up the Tré-la-Tête glacier: about 1400 m and 4–5 h.",
-    book:"Through the hut or CAF Saint-Gervais.",
-    links:[["Haute-Savoie Tourisme","https://www.haute-savoie-tourisme.org/203434-refuge-des-conscrits"]]},
   loriaz:{name:"Refuge de Loriaz",short:"Loriaz",cc:"France",alt:2020,hb:55,cur:"EUR",est:true,img:"hut_loriaz.webp",
     priceNote:"No published half-board price found; €55 is a placeholder.",
     season:"Staffed in winter for the ski season; 30 places in two heated dorms.",
@@ -664,11 +660,46 @@ var HUTS={
     access:"Train to Vallorcine, then 2–2.5 h on skins. No glacier.",
     book:"refuge.loriaz@orange.fr · +33 6 52 53 69 73",
     links:[["Salvan tourism","https://www.salvan.ch/en/refuge-de-loriaz-fp214"]]},
+  conscrits:{name:"Refuge des Conscrits",short:"Conscrits",cc:"France",alt:2602,hb:76.3,cur:"EUR",est:false,img:"hut_conscrits.webp",
+    priceNote:"Half board €76.30; bed only €34 (€17 for CAF members).",
+    season:"Guarded mid-March to early May (2026: 16 March – 4 May).",
+    status:"likely",statusText:"Expected guarded from mid-March",glacier:true,demand:2,
+    access:"Drive to Notre-Dame de la Gorge above Les Contamines, then up the Tré-la-Tête glacier: about 1400 m and 4–5 h.",
+    book:"Through the hut or CAF Saint-Gervais.",
+    links:[["Haute-Savoie Tourisme","https://www.haute-savoie-tourisme.org/203434-refuge-des-conscrits"]]},
+  benevolo:{name:"Rifugio Benevolo",short:"Benevolo",cc:"Italy",alt:2285,hb:62,cur:"EUR",est:true,img:"hut_benevolo.webp",
+    priceNote:"No current price found; CAI huts in the Aosta Valley charge about €60–65 for half board.",
+    season:"Opened for ski touring from early March every year since the 1980s. A classic Easter hut for Italian ski tourers.",
+    status:"likely",statusText:"Open from early March · confirm 2027",glacier:false,demand:2,
+    access:"Drive through the Mont Blanc tunnel to Rhêmes-Notre-Dame (about 1 h 30), then about 2 h on skins past Thumel.",
+    book:"Through the hut or CAI Torino.",
+    links:[["refuges.info","https://www.refuges.info/point/1172/refuge-garde/rifugio-Benevolo/en/"],["Hut history","https://www.montagna.tv/254168/rifugio-benevolo-scialpinisti-in-valle-daosta/"]]},
+  chabod:{name:"Rifugio Chabod",short:"Chabod",cc:"Italy",alt:2750,hb:65,cur:"EUR",est:true,img:"hut_chabod.webp",
+    priceNote:"No current price found; budget about €65 for half board.",
+    season:"Open in spring for ski touring until mid-May. Winter room at other times.",
+    status:"likely",statusText:"Spring ski season · confirm Easter",glacier:false,demand:3,
+    access:"Drive to Pravieux in Valsavarenche (about 1 h 45), then 2.5–3 h on skins, about 900 m up.",
+    book:"Through rifugiochabod.com or by phone.",
+    links:[["rifugiochabod.com","https://www.rifugiochabod.com/en/"],["refuges.info","https://www.refuges.info/point/2667/refuge-garde/refuge-Chabod/en/"]]},
+  dix:{name:"Cabane des Dix",short:"Dix",cc:"Switzerland",alt:2928,hb:100,cur:"CHF",est:true,img:"hut_dix.webp",
+    priceNote:"No current price found; Swiss huts charge about CHF 95–105 for half board.",
+    season:"Spring season roughly mid-March to end of May.",
+    status:"likely",statusText:"Spring season from mid-March",glacier:false,demand:3,
+    access:"Drive to Arolla (about 2 h 15 via Martigny and Sion), then 3–4 h on skins over the Pas de Chèvres ladders.",
+    book:"Online at cabanedesdix.com · info@cabanedesdix.ch",
+    links:[["refuges.info","https://www.refuges.info/point/1568/refuge-garde/cabane-des-Dix/en/"],["skitourguru","https://skitourguru.com/en/hut/60-cabane-des-dix"]]},
+  vignettes:{name:"Cabane des Vignettes",short:"Vignettes",cc:"Switzerland",alt:3158,hb:100,cur:"CHF",est:true,img:"hut_vignettes.webp",
+    priceNote:"No current price found; budget about CHF 100 for half board.",
+    season:"The Swiss Alpine Club lists it as partly open in March and open in April. Check that it is open at Easter.",
+    status:"confirm",statusText:"Partly open in March · confirm Easter",glacier:true,demand:3,
+    access:"From Arolla, 3–4 h up the Pièce glacier, or over the Pigne d'Arolla from the Dix hut.",
+    book:"Through the hut's own website.",
+    links:[["SAC portal","https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/2147000287/"],["refuges.info","https://www.refuges.info/point/1475/refuge-garde/cabane-des-Vignettes/en/"]]},
   montfort:{name:"Cabane du Mont Fort",short:"Mont Fort",cc:"Switzerland",alt:2457,hb:110,cur:"CHF",est:true,img:"hut_montfort.webp",
     priceNote:"Winter prices are higher than summer; CHF 110 is an estimate.",
     season:"Open through the winter with lift access (2026: 1 January – 30 April).",
     status:"likely",statusText:"Open in winter · confirm Easter",glacier:false,demand:2,
-    access:"Train Chamonix → Martigny → Le Châble, gondola to Verbier, then ski in from the lifts.",
+    access:"Drive to Le Châble (about 1 h 20), gondola to Verbier, then ski in from the lifts.",
     book:"Through the hut or Verbier tourism.",
     links:[["Verbier","https://www.verbier.ch/en/offers/cabane-mont-fort-verbier-en-2788465"],["SAC portal","https://www.sac-cas.ch/en/huts-and-tours/sac-route-portal/2147000179/"]]}
 };
@@ -678,19 +709,13 @@ var LINES={
   colargentiere:{name:"Col d'Argentière",top:3552,up:800,down:800,grade:"moderate",slope:"30–35°",glacier:true,note:"Long climb under the Triolet, Courtes, Droites and Verte north faces to the Swiss border."},
   chardonnet:{name:"Col du Chardonnet",top:3323,up:600,down:600,grade:"steep",slope:"≈40°",glacier:true,note:"Steep final slope, often with a fixed rope. The Haute Route's door into Switzerland."},
   passon:{name:"Col du Passon → Le Tour",top:3028,up:450,down:1500,grade:"steep",slope:"≈40° at the top",glacier:true,note:"Popular bootpack couloir, then the Glacier du Tour all the way down to Le Tour."},
-  milieu:{name:"Aiguille d'Argentière, Glacier du Milieu",top:3901,up:1150,down:1150,grade:"expert",slope:"40°+",glacier:true,note:"Big and serious, steeper every season; may need a short bootpack. Guide recommended."},
+  milieu:{name:"Aiguille d'Argentière, Glacier du Milieu",top:3901,up:1150,down:1150,grade:"expert",slope:"40°+",glacier:true,note:"Big and serious, steeper every season; may need a short bootpack. Only for a confident, experienced party."},
   skiout:{name:"Argentière glacier → Lognan → village",top:2771,up:0,down:1500,grade:"moderate",slope:"25–30°",glacier:true,note:"The way home if snow reaches the bottom; otherwise ride down from Lognan."},
   coldutour:{name:"Col du Tour from Le Tour",top:3281,up:1100,down:150,grade:"moderate",slope:"35° at the col",glacier:true,note:"The way onto the Trient plateau from Le Tour; short steep crampon pitch at the col."},
   teteblanche:{name:"Tête Blanche & Aiguilles du Tour",top:3544,up:350,down:350,grade:"easy",slope:"25–30°",glacier:true,note:"Short climbs from the plateau. The Aiguille du Tour summit is a rock scramble."},
   orny:{name:"Pointe d'Orny → Combe d'Orny",top:3271,up:150,down:800,grade:"easy",slope:"≈30°",glacier:true,note:"Quick laps on the plateau, or a longer run down the Combe d'Orny."},
   grandefourche:{name:"Grande Fourche",top:3610,up:450,down:450,grade:"moderate",slope:"≈35°",glacier:true,note:"High point on the plateau rim; short scramble to the top."},
   arpette:{name:"Col des Écandies → Val d'Arpette → Champex",top:2796,up:100,down:1700,grade:"moderate",slope:"35° entry",glacier:false,note:"Classic exit: a short steep entry, then a long valley run to Champex."},
-  vbclassic:{name:"Vallée Blanche, classic",top:3842,up:0,down:2800,grade:"easy",slope:"≈25°",glacier:true,note:"Starts with the arête on foot. Crevasses everywhere, so go with someone who knows the line."},
-  envers:{name:"Envers du Plan",top:3842,up:250,down:2800,grade:"steep",slope:"35°+",glacier:true,note:"Steeper, more crevassed variant past the Requin. Guide territory."},
-  tacul:{name:"Mont Blanc du Tacul",top:4248,up:700,down:700,grade:"expert",slope:"40°+",glacier:true,note:"A 4000 m summit on skis with serac exposure. Good conditions and a guide only."},
-  toula:{name:"Toula glacier → Pavillon",top:3466,up:100,down:1300,grade:"steep",slope:"≈40° at the top",glacier:true,note:"Ladders or a fixed rope at the start, then big freeride to Pavillon. Skyway back up."},
-  marbrees:{name:"Couloir des Marbrées",top:3535,up:150,down:1300,grade:"expert",slope:"≈45°",glacier:true,note:"Steep couloir toward the Toula side. Experts only."},
-  entreves:{name:"Aiguille & Col d'Entrèves",top:3600,up:300,down:300,grade:"moderate",slope:"30–35°",glacier:true,note:"Short tours on the Glacier du Géant straight from the hut."},
   domes:{name:"Dômes de Miage traverse",top:3673,up:1100,down:1100,grade:"moderate",slope:"≈35°",glacier:true,note:"Classic ridge traverse, partly on foot, then ski back down to the Tré-la-Tête glacier."},
   berangere:{name:"Aiguille de la Bérangère",top:3425,up:850,down:850,grade:"moderate",slope:"30–35°",glacier:true,note:"Friendly summit with a view of Mont Blanc's south side."},
   terrasse:{name:"Pointe de la Terrasse",top:2734,up:750,down:750,grade:"moderate",slope:"≈35°",glacier:false,note:"The summit above the hut, with descents on several aspects."},
@@ -698,74 +723,112 @@ var LINES={
   buet:{name:"Mont Buet from Le Buet",top:3096,up:1750,down:1750,grade:"moderate",slope:"≈30°",glacier:false,note:"A long classic day from the valley floor near Vallorcine."},
   balme:{name:"Le Tour – Balme off-piste",top:2270,up:0,down:800,grade:"easy",slope:"25–30°",glacier:false,note:"Lift-served afternoon with runs toward Vallorcine."},
   belvedere:{name:"Col du Belvédère, Aiguilles Rouges",top:2780,up:400,down:900,grade:"moderate",slope:"≈35°",glacier:false,note:"Short skin from the Index lift with Mont Blanc straight across the valley."},
+  grantaparei:{name:"Granta Parei",top:3387,up:1100,down:1100,grade:"moderate",slope:"≈35° near the top",glacier:true,note:"The emblem of Val di Rhêmes. Climbed round the back over its glacier; the last metres are on foot."},
+  tsanteleina:{name:"Punta Tsanteleina",top:3602,up:1320,down:1320,grade:"moderate",slope:"30–35°",glacier:true,note:"The highest top of the valley, on the French border. Long glacier climb with views into the Vanoise."},
+  calabre:{name:"Punta Calabre",top:3445,up:1160,down:1160,grade:"moderate",slope:"30–35°",glacier:true,note:"Wide slopes toward the French border; a favourite Easter tour from the hut."},
+  galisia:{name:"Punta Galisia",top:3346,up:1060,down:1060,grade:"moderate",slope:"≈30°",glacier:true,note:"Border summit at the head of the valley, with long open descents back toward the hut."},
+  granparadiso:{name:"Gran Paradiso",top:4061,up:1310,down:2230,grade:"steep",slope:"≈35°, exposed ridge",glacier:true,note:"A 4000 m summit on skis. Ski to below the top, then a short, exposed rock ridge on foot with crampons. Crevasses on the Laveciau glacier."},
+  luette:{name:"La Luette",top:3548,up:620,down:620,grade:"easy",slope:"≈30°",glacier:true,note:"The easy classic from the Dix hut, high above the Lac des Dix."},
+  cheilon:{name:"Mont Blanc de Cheilon",top:3870,up:940,down:940,grade:"expert",slope:"40°+",glacier:true,note:"The big peak above the hut. Steep, exposed finish; only in perfect conditions."},
+  pigne:{name:"Pigne d'Arolla",top:3790,up:860,down:630,grade:"moderate",slope:"30–35°",glacier:true,note:"The Haute Route classic: up from the Dix hut over the glacier and down to the Vignettes."},
+  eveque:{name:"L'Évêque",top:3716,up:560,down:560,grade:"moderate",slope:"≈35°",glacier:true,note:"Glacier tour from the Vignettes hut with a short scramble to the top."},
+  vigout:{name:"Vignettes → Arolla",top:3158,up:0,down:1150,grade:"moderate",slope:"≈30°",glacier:true,note:"The long run down the Pièce glacier to finish the trip in Arolla."},
+  paschevres:{name:"Pas de Chèvres from Arolla",top:2855,up:950,down:80,grade:"steep",slope:"ladders",glacier:false,note:"The way in to the Dix hut: steep metal ladders with your skis on your back."},
   rosablanche:{name:"Rosablanche",top:3336,up:900,down:900,grade:"moderate",slope:"30–35°",glacier:true,note:"The classic summit from the Mont Fort hut, over the Grand Désert glacier."},
   montgele:{name:"Mont Gelé faces",top:3023,up:0,down:800,grade:"steep",slope:"≈40°",glacier:false,note:"Lift-served steep faces above the hut when the Mont Gelé cable car runs."},
   louvie:{name:"Col de la Chaux & Col de Louvie",top:2921,up:550,down:550,grade:"moderate",slope:"≈30°",glacier:false,note:"Touring loop toward the Grand Désert; the start of the Verbier variant of the Haute Route."}
 };
 var GRADE_NAME={easy:"Easy",moderate:"Moderate",steep:"Steep",expert:"Expert"};
+var LEVELS={easy:"Easy",moderate:"Moderate",demanding:"Demanding",serious:"Serious"};
+var LEVEL_NOTE={easy:"No glacier; normal avalanche skills are enough.",moderate:"Glacier travel on mostly 30–35° slopes. Rope, harness and crevasse rescue for everyone.",demanding:"Steep or exposed sections and glaciers. For a strong, experienced, self-sufficient group.",serious:"Steep cols, an abseil or exposed ground on glaciers. Only for a very experienced group."};
 
 var CRITERIA=[
   {id:"ski",name:"Ski quality",hint:"Length and quality of the descents"},
   {id:"variety",name:"Line variety",hint:"How many good options from the base"},
-  {id:"logistics",name:"Easy logistics",hint:"Few moves, short approaches, simple exit"},
-  {id:"margin",name:"Safety margin",hint:"Less technical terrain, easy retreat"},
+  {id:"difficulty",name:"Difficulty",hint:"5 = easy to manage without a guide, 1 = serious"},
+  {id:"margin",name:"Safety margin",hint:"Crevasse and avalanche exposure, easy retreat"},
+  {id:"snow",name:"Snow in late March",hint:"Altitude and aspects for good spring snow"},
+  {id:"remote",name:"Remote & quiet",hint:"Away from Chamonix crowds and lift-served terrain"},
+  {id:"logistics",name:"Easy logistics",hint:"Drive, approach and way out"},
   {id:"comfort",name:"Comfort",hint:"Beds, food and showers at the hut"},
-  {id:"calm",name:"Calm at Easter",hint:"Fewer people on the hut and the lines"},
-  {id:"booking",name:"Booking odds",hint:"Chance of getting beds on these dates"},
+  {id:"booking",name:"Open & bookable",hint:"Hut open at Easter and beds likely"},
   {id:"value",name:"Price",hint:"From the cost estimate: cheapest is 5",auto:true}
 ];
 
+function R9(a){var k=["ski","variety","difficulty","margin","snow","remote","logistics","comfort","booking"],o={};k.forEach(function(x,i){o[x]=a[i];});return o;}
 var PLANS=[
-  {id:"A",name:"Argentière base camp",tag:"One hut, four nights and the best couloir menu in the valley.",suits:"Strong skiers who want the most descents with the least moving.",
+  {id:"A",group:"near",name:"Argentière base camp",tag:"One hut, four nights and the best couloir menu in the valley.",level:"demanding",drive:"No car: bus to Argentière",
+   summary:"Gondola to Lognan and skin up to the Argentière hut for four nights. Day tours to the Col du Tour Noir, the Col du Chardonnet and, if it is good, the Aiguille d'Argentière. Finish on Easter Sunday over the Col du Passon down to Le Tour.",
    nights:["argentiere","argentiere","argentiere","argentiere","valley"],
    days:{24:"Lognan gondola, then 2–3 h skinning up the Argentière glacier to the hut.",25:"Glacier des Améthystes to the Col du Tour Noir, a mellow first glacier day.",26:"Col du Chardonnet and back, or the long Col d'Argentière.",27:"Big day: Aiguille d'Argentière by the Glacier du Milieu if conditions are good.",28:"Col du Passon, then the Glacier du Tour all the way down to Le Tour.",29:"Transfer to Geneva and fly home."},
    tops:[["amethystes",25],["chardonnet",26],["milieu",27],["passon",28],["colargentiere",0],["skiout",0]],
-   lifts:25,transport:5,guideDays:5,
+   lifts:25,transport:5,car:null,
    weather:"Easy to retreat: two hours down to Lognan and the lifts.",
-   ratings:{ski:5,variety:5,logistics:5,margin:3,comfort:3,calm:2,booking:2}},
-  {id:"B",name:"Argentière → Trient",tag:"The first stage of the Chamonix–Zermatt Haute Route, two nights in each hut.",suits:"A real hut-to-hut crossing with a taste of the Haute Route.",
+   ratings:R9([5,5,2,3,5,2,5,3,2])},
+  {id:"B",group:"near",name:"Argentière → Trient",tag:"The first stage of the Chamonix–Zermatt Haute Route, two nights in each hut.",level:"serious",drive:"No car: bus out, train back",
+   summary:"Two nights at the Argentière hut, then cross the Col du Chardonnet and the Fenêtre de Saleina into Switzerland for two nights at Trient. Ski out down the long Val d'Arpette to Champex and take the bus and train back.",
    nights:["argentiere","argentiere","trient","trient","valley"],
    days:{24:"Lognan gondola, then skin up the Argentière glacier to the hut.",25:"Col du Passon couloir and back, or the Améthystes if you want it mellow.",26:"Traverse over the Col du Chardonnet and the Fenêtre de Saleina to Trient. About 1030 m up, 640 m down.",27:"Plateau du Trient: Tête Blanche, the Aiguilles du Tour and laps off the Pointe d'Orny.",28:"Col des Écandies and the long Val d'Arpette run to Champex, then bus and train back.",29:"Train or transfer to Geneva and fly home."},
    tops:[["passon",25],["chardonnet",26],["teteblanche",27],["orny",27],["arpette",28],["amethystes",0],["grandefourche",0]],
-   lifts:25,transport:45,guideDays:5,
+   lifts:25,transport:45,car:null,
    weather:"If wind or fog closes the cols on the 26th, stay a third night at Argentière and leave by Lognan.",
-   ratings:{ski:5,variety:4,logistics:3,margin:2,comfort:4,calm:2,booking:2}},
-  {id:"C",name:"Trient plateau base",tag:"A big, friendly glacier plateau with a modern Swiss hut in the middle.",suits:"Mixed groups who want glacier touring on gentler terrain.",
+   ratings:R9([5,4,1,2,5,3,3,4,2])},
+  {id:"C",group:"near",name:"Trient plateau base",tag:"A big, friendly glacier plateau with a modern Swiss hut in the middle.",level:"moderate",drive:"No car: bus out, train back",
+   summary:"Up from Le Tour over the Col du Tour to the Cabane du Trient for four nights on the glacier plateau. Easy summits like Tête Blanche and the Pointe d'Orny every day, then ski out down the Val d'Arpette to Champex.",
    nights:["trient","trient","trient","trient","valley"],
    days:{24:"Le Tour lifts, then the Glacier du Tour and the Col du Tour to the Trient hut. About 1100 m up, 4–5 h.",25:"Tête Blanche and the Aiguilles du Tour.",26:"Pointe d'Orny and the Combe d'Orny, or the Grande Fourche.",27:"Free day on the plateau: powder laps, or a look over the Fenêtre de Saleina.",28:"Val d'Arpette down to Champex, or back over the Col du Tour to Le Tour.",29:"Transfer to Geneva and fly home."},
    tops:[["coldutour",24],["teteblanche",25],["orny",26],["grandefourche",0],["arpette",28]],
-   lifts:35,transport:45,guideDays:5,
+   lifts:35,transport:45,car:null,
    weather:"The plateau is a whiteout trap. In fog, wait at the hut or leave early down the Val d'Arpette.",
-   ratings:{ski:4,variety:3,logistics:4,margin:4,comfort:4,calm:3,booking:3}},
-  {id:"D",name:"Vallée Blanche & Torino",tag:"Lift-served high mountain: three nights at 3375 m on the Italian side.",suits:"Big lift-served descents and a comfortable high hut.",
-   nights:["torino","torino","torino","cosmiques","valley"],
-   days:{24:"Aiguille du Midi, ski the Vallée Blanche to the Gros Rognon and skin 1.5–2 h up to the Torino hut.",25:"Toula glacier down to Pavillon, Skyway back up. Experts can try the Marbrées couloir.",26:"Aiguille and Col d'Entrèves, with laps on the Glacier du Géant.",27:"Cross the Glacier du Géant and skin up to the Cosmiques hut.",28:"Envers du Plan or the classic Vallée Blanche down to Chamonix.",29:"Transfer to Geneva and fly home."},
-   tops:[["toula",25],["entreves",26],["envers",28],["vbclassic",0],["marbrees",0],["tacul",0]],
-   lifts:110,transport:20,guideDays:5,
-   weather:"Wind stops the Midi and the Skyway and can leave you stuck up high. Keep Courmayeur's lifts as plan B.",
-   tip:"Tip: do a guided classic Vallée Blanche from the apartment on Tue 23 as a warm-up.",
-   ratings:{ski:4,variety:4,logistics:4,margin:3,comfort:4,calm:2,booking:3}},
-  {id:"E",name:"Loriaz, no glacier",tag:"No ropes, no crevasses: a cosy hut above Vallorcine and the Aiguilles Rouges.",suits:"Groups without glacier experience, or a lower-cost trip.",
+   ratings:R9([4,3,3,4,5,3,4,4,3])},
+  {id:"D",group:"near",name:"Loriaz, no glacier",tag:"No ropes, no crevasses: a cosy hut above Vallorcine and the Aiguilles Rouges.",level:"easy",drive:"No car: train to Vallorcine",
+   summary:"Train to Vallorcine and a short skin to the Refuge de Loriaz for three nights of glacier-free touring. Ski down on Saturday, then finish with Mont Buet, a big day straight from the valley, on Easter Sunday.",
    nights:["loriaz","loriaz","loriaz","valley","valley"],
    days:{24:"Train to Vallorcine and skin 2–2.5 h up to the Refuge de Loriaz.",25:"Pointe de la Terrasse.",26:"Laps in the Loriaz bowl, or a tour toward Emosson.",27:"Ski down to Vallorcine, then an afternoon on the Le Tour – Balme lifts.",28:"Mont Buet from Le Buet, about 1750 m up.",29:"Transfer to Geneva and fly home."},
    tops:[["terrasse",25],["loriazbowl",26],["balme",27],["buet",28],["belvedere",0]],
-   lifts:45,transport:10,guideDays:0,
+   lifts:45,transport:10,car:null,
    weather:"The lowest-risk plan here: no glacier, a short approach and trees close by.",
-   ratings:{ski:3,variety:3,logistics:5,margin:5,comfort:3,calm:4,booking:4}},
-  {id:"F",name:"Verbier & Mont Fort",tag:"The comfiest hut on the list, with Verbier's lifts as a turbo.",suits:"Comfort first, with lifts and easy bad-weather days.",
-   nights:["montfort","montfort","montfort","montfort","valley"],
-   days:{24:"Train to Le Châble, gondola to Verbier, then ski in to the Cabane du Mont Fort.",25:"Rosablanche over the Grand Désert glacier.",26:"Mont Gelé faces, or powder laps around the hut.",27:"Col de la Chaux and Col de Louvie loop, or a rest day.",28:"Ski down to Verbier and take the train back to Chamonix.",29:"Transfer to Geneva and fly home."},
-   tops:[["rosablanche",25],["montgele",26],["louvie",27]],
-   lifts:150,transport:60,guideDays:4,
-   weather:"Verbier's lifts and trees make bad-weather days easy.",
-   ratings:{ski:4,variety:4,logistics:4,margin:4,comfort:5,calm:3,booking:3}},
-  {id:"G",name:"Conscrits & Dômes de Miage",tag:"The quieter south-west corner of the massif and a classic ridge traverse.",suits:"Groups who would rather avoid the Easter crowds.",
+   ratings:R9([3,3,5,5,2,4,5,3,4])},
+  {id:"E",group:"car",name:"Conscrits & Dômes de Miage",tag:"The quieter south-west corner of the massif and a classic ridge traverse.",level:"moderate",drive:"45 min drive",
+   summary:"Drive 45 minutes to Les Contamines and skin up the Tré-la-Tête glacier to the Conscrits hut for four nights. Day tours to the Bérangère and the Dômes de Miage traverse, away from the Chamonix crowds.",
    nights:["conscrits","conscrits","conscrits","conscrits","valley"],
-   days:{24:"Bus or taxi to Les Contamines, then up the Tré-la-Tête glacier to the hut. About 1400 m up, 4–5 h.",25:"Aiguille de la Bérangère.",26:"Dômes de Miage traverse.",27:"Short day or rest, or a second run on the Bérangère.",28:"Ski out to Les Contamines and head back to Chamonix.",29:"Transfer to Geneva and fly home."},
+   days:{24:"Drive to Notre-Dame de la Gorge above Les Contamines, then up the Tré-la-Tête glacier to the hut. About 1400 m up, 4–5 h.",25:"Aiguille de la Bérangère.",26:"Dômes de Miage traverse.",27:"Short day or rest, or a second run on the Bérangère.",28:"Ski out to Notre-Dame de la Gorge and drive back.",29:"Transfer to Geneva and fly home."},
    tops:[["berangere",25],["domes",26]],
-   lifts:0,transport:40,guideDays:5,
+   lifts:0,transport:0,car:{km:70,tolls:0,parking:25},
    weather:"The long approach makes retreat slow, so wait for a clear window before going up.",
-   ratings:{ski:4,variety:3,logistics:3,margin:3,comfort:3,calm:4,booking:3}}
+   ratings:R9([4,3,3,3,4,4,3,3,3])},
+  {id:"F",group:"car",name:"Val di Rhêmes",tag:"A quiet Italian valley with a different 3300–3600 m summit every day.",level:"moderate",drive:"1 h 30 drive via the Mont Blanc tunnel",
+   summary:"Drive through the Mont Blanc tunnel to Val di Rhêmes and skin 2 h to Rifugio Benevolo for four nights. A different summit every day: Granta Parei, Tsanteleina, Punta Calabre and Punta Galisia. Ski out on Easter Sunday and drive back.",
+   nights:["benevolo","benevolo","benevolo","benevolo","valley"],
+   days:{24:"Drive through the Mont Blanc tunnel to Rhêmes-Notre-Dame (about 1 h 30), then skin about 2 h past Thumel to the hut.",25:"Granta Parei, the valley's signature peak, by its glacier side.",26:"Punta Tsanteleina, the highest top in the valley, on the French border.",27:"Punta Calabre, or a shorter day on the slopes around the hut.",28:"Punta Galisia in the morning, then ski down to Thumel and drive back.",29:"Transfer to Geneva and fly home."},
+   tops:[["grantaparei",25],["tsanteleina",26],["calabre",27],["galisia",28]],
+   lifts:0,transport:0,car:{km:180,tolls:85,parking:0},
+   weather:"The hut is only 2 h above the road, so you can sit out a storm or drive back to Chamonix in an hour and a half.",
+   ratings:R9([4,4,4,4,4,5,3,4,4])},
+  {id:"G",group:"car",name:"Gran Paradiso & Rhêmes",tag:"A 4000 m summit on skis, then a quiet valley next door.",level:"demanding",drive:"1 h 45 drive via the Mont Blanc tunnel",
+   summary:"Drive to Valsavarenche and skin up to Rifugio Chabod for two nights to climb Gran Paradiso (4061 m). Then drive round to Val di Rhêmes for two nights at Rifugio Benevolo and ski Granta Parei before heading home.",
+   nights:["chabod","chabod","benevolo","benevolo","valley"],
+   days:{24:"Drive to Pravieux in Valsavarenche (about 1 h 45) and skin 2.5–3 h up to Rifugio Chabod.",25:"Gran Paradiso, 4061 m, over the Laveciau glacier, with a short exposed ridge to the top on foot.",26:"Morning run down to Pravieux, drive 40 minutes round to Val di Rhêmes and skin up to Rifugio Benevolo.",27:"Granta Parei or Punta Tsanteleina.",28:"Morning tour, then ski down to Thumel and drive back.",29:"Transfer to Geneva and fly home."},
+   tops:[["granparadiso",25],["grantaparei",27],["tsanteleina",0],["calabre",0]],
+   lifts:0,transport:0,car:{km:210,tolls:85,parking:0},
+   weather:"Gran Paradiso needs a clear, calm day. Swap the 25th and 26th if the forecast says so.",
+   ratings:R9([5,4,2,3,5,4,2,3,3])},
+  {id:"H",group:"car",name:"Arolla: Dix & Vignettes",tag:"High, wild Haute Route country with two huts above 2900 m.",level:"demanding",drive:"2 h 15 drive via Martigny and Sion",
+   summary:"Drive to Arolla and climb the Pas de Chèvres ladders to the Cabane des Dix for two nights and La Luette. Cross the Pigne d'Arolla to the Cabane des Vignettes, ski L'Évêque, and finish with a long run back down to Arolla.",
+   nights:["dix","dix","vignettes","vignettes","valley"],
+   days:{24:"Drive to Arolla via Martigny and Sion (about 2 h 15), then 3–4 h up to the Cabane des Dix over the Pas de Chèvres ladders.",25:"La Luette, the friendly classic above the Lac des Dix. Strong skiers can look at Mont Blanc de Cheilon.",26:"Pigne d'Arolla, 3790 m, then down to the Cabane des Vignettes.",27:"L'Évêque from the Vignettes.",28:"Long run down the Pièce glacier to Arolla and drive back.",29:"Transfer to Geneva and fly home."},
+   tops:[["paschevres",24],["luette",25],["pigne",26],["eveque",27],["vigout",28],["cheilon",0]],
+   lifts:0,transport:0,car:{km:240,tolls:45,parking:40},
+   weather:"High and exposed: in a storm, stay put at the hut. Arolla is two to three hours below either hut.",
+   ratings:R9([5,5,2,3,5,4,2,4,2])},
+  {id:"I",group:"car",name:"Verbier & Mont Fort",tag:"The comfiest hut on the list, with Verbier's lifts as a turbo.",level:"moderate",drive:"1 h 20 drive via Martigny",
+   summary:"Drive to Le Châble and ride the Verbier lifts to the Cabane du Mont Fort for four nights. Tour Rosablanche and the Col de Louvie, with lift-served steeps close by and an easy fallback if the weather turns.",
+   nights:["montfort","montfort","montfort","montfort","valley"],
+   days:{24:"Drive to Le Châble (about 1 h 20), gondola to Verbier and the lifts up, then ski in to the Cabane du Mont Fort.",25:"Rosablanche over the Grand Désert glacier.",26:"Mont Gelé faces, or powder laps around the hut.",27:"Col de la Chaux and Col de Louvie loop, or a rest day.",28:"Ski down to Verbier, gondola to Le Châble and drive back.",29:"Transfer to Geneva and fly home."},
+   tops:[["rosablanche",25],["montgele",26],["louvie",27]],
+   lifts:120,transport:0,car:{km:130,tolls:0,parking:45},
+   weather:"Verbier's lifts and trees make bad-weather days easy.",
+   ratings:R9([4,4,4,4,4,2,4,5,3])}
 ];
 var PLAN_BY={};PLANS.forEach(function(p){PLAN_BY[p.id]=p;});
 
@@ -774,14 +837,14 @@ var CATS=[
   {id:"valley",name:"Valley bed",v:"--s2"},
   {id:"lifts",name:"Lifts",v:"--s3"},
   {id:"transport",name:"Trains & buses",v:"--s4"},
-  {id:"guide",name:"Guide",v:"--s5"},
+  {id:"car",name:"Car: fuel, tolls, parking",v:"--s5"},
   {id:"gear",name:"Gear rental",v:"--s6"},
   {id:"food",name:"Food, extras & buffer",v:"--s7"}
 ];
 var ASSUME=[
   {group:"Group",fields:[{k:"nOsl",label:"Travellers from Oslo",step:1,min:0},{k:"nArn",label:"Travellers from Stockholm",step:1,min:0}]},
   {group:"Beds & food",fields:[{k:"valleyBed",label:"Valley bed per night",u:"€, gîte or hotel at Easter",step:5,min:0},{k:"food",label:"Food per valley day",u:"€",step:5,min:0},{k:"hutExtras",label:"Hut extras per night",u:"€, lunch, drinks, water",step:5,min:0},{toggle:"club",label:"Alpine club card (cheaper hut beds)"},{k:"clubDisc",label:"Saving per hut night",u:"€",step:1,min:0}]},
-  {group:"Guide",fields:[{toggle:"guided",label:"Hire an IFMGA guide"},{k:"guideRate",label:"Guide day rate",u:"€ per guide",step:10,min:0},{k:"guideExp",label:"Guide expenses per day",u:"€, hut and lifts",step:5,min:0},{k:"perGuide",label:"Clients per guide",step:1,min:1}]},
+  {group:"Car",fields:[{k:"fuelKm",label:"Fuel per km",u:"€",step:0.01,min:0},{k:"carPeople",label:"People per car",step:1,min:1},{toggle:"rentCar",label:"Rent a car for the touring days"},{k:"carDay",label:"Car rental per day",u:"€",step:5,min:0}]},
   {group:"Gear & money",fields:[{toggle:"rent",label:"Rent touring kit"},{k:"gearDay",label:"Skis, skins, boots",u:"€ per day",step:1,min:0},{k:"avyDay",label:"Beacon, shovel, probe",u:"€ per day",step:1,min:0},{k:"glacierDay",label:"Harness, crampons, axe",u:"€ per day, glacier plans",step:1,min:0},{k:"buffer",label:"Contingency",u:"%",step:1,min:0},{k:"eurNok",label:"1 EUR in NOK",step:0.05,min:0.01},{k:"eurSek",label:"1 EUR in SEK",step:0.05,min:0.01},{k:"chfEur",label:"1 CHF in EUR",step:0.01,min:0.01}]}
 ];
 var FLIGHT_FIELDS=[
@@ -793,11 +856,11 @@ var FLIGHT_FIELDS=[
   {k:"arnBag",label:"Ski bag + bag, Stockholm",u:"SEK, both ways",step:50,min:0},
   {k:"transfer",label:"Geneva ⇄ Chamonix",u:"€ return per person",step:5,min:0}
 ];
-var DEFAULT_COST={nOsl:2,nArn:2,oslFare:3200,oslBag:800,arnFare:3000,arnBag:700,transfer:60,valleyBed:80,food:35,hutExtras:20,club:false,clubDisc:12,guided:true,guideRate:550,guideExp:60,perGuide:4,rent:true,gearDay:40,avyDay:10,glacierDay:10,buffer:10,eurNok:11.7,eurSek:11.0,chfEur:1.07};
-var DEFAULT_WEIGHTS={ski:5,variety:4,logistics:3,margin:2,comfort:1,calm:1,booking:2,value:2};
+var DEFAULT_COST={nOsl:2,nArn:2,oslFare:3200,oslBag:800,arnFare:3000,arnBag:700,transfer:60,valleyBed:80,food:35,hutExtras:20,club:false,clubDisc:12,fuelKm:0.13,carPeople:4,rentCar:false,carDay:70,rent:true,gearDay:40,avyDay:10,glacierDay:10,buffer:10,eurNok:11.7,eurSek:11.0,chfEur:1.07};
+var DEFAULT_WEIGHTS={ski:5,variety:3,difficulty:4,margin:3,snow:3,remote:3,logistics:2,comfort:1,booking:3,value:2};
 
 /* ================= state ================= */
-var KEY="pask2027-planner-v2";
+var KEY="pask2027-planner-v3";
 function defaults(){var r={};PLANS.forEach(function(p){r[p.id]=clone(p.ratings);});
   return {updatedAt:0,cur:"NOK",origin:"osl",ratings:r,weights:clone(DEFAULT_WEIGHTS),cost:clone(DEFAULT_COST),mapLayers:{lifts:true,huts:false,peaks:true}};}
 var S=defaults();
@@ -815,8 +878,8 @@ function loadLocal(k){try{var raw=localStorage.getItem(k);return raw?JSON.parse(
 function writeLocal(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 var pushTimer=null;
 function persist(){S.updatedAt=Date.now();writeLocal();clearTimeout(pushTimer);pushTimer=setTimeout(pushRemote,1500);}
-(function(){var v2=loadLocal(KEY);if(v2){applySaved(v2);return;}var v1=loadLocal("pask2027-planner-v1");
-  if(v1){var keep={cur:v1.cur,origin:v1.origin,cost:v1.cost,ratings:{}};if(v1.ratings)PLANS.forEach(function(p){if(v1.ratings[p.id])keep.ratings[p.id]=v1.ratings[p.id];});applySaved(keep);S.updatedAt=0;}})();
+(function(){var v3=loadLocal(KEY);if(v3){applySaved(v3);return;}var old=loadLocal("pask2027-planner-v2")||loadLocal("pask2027-planner-v1");
+  if(old){applySaved({cur:old.cur,origin:old.origin,cost:old.cost,mapLayers:old.mapLayers});S.updatedAt=0;}})();
 
 /* ================= model ================= */
 function nightType(n){return n==="valley"?"valley":"hut";}
@@ -824,14 +887,14 @@ function nightLabel(n){return n==="valley"?"Valley bed":HUTS[n].short;}
 function people(){return Math.max(1,S.cost.nOsl+S.cost.nArn);}
 function isGlacier(p){return p.nights.some(function(n){return HUTS[n]&&HUTS[n].glacier;})||p.tops.some(function(t){return t[1]&&LINES[t[0]].glacier;});}
 function cost(p){
-  var c=S.cost,r={huts:0,valley:0,lifts:p.lifts,transport:p.transport,guide:0,gear:0,food:0};
+  var c=S.cost,r={huts:0,valley:0,lifts:p.lifts,transport:p.transport,car:0,gear:0,food:0};
   p.nights.forEach(function(n){
     if(n==="valley"){r.valley+=c.valleyBed;r.food+=c.food;}
     else{var h=HUTS[n],x=h.cur==="CHF"?h.hb*c.chfEur:h.hb;if(c.club)x=Math.max(0,x-c.clubDisc);r.huts+=x;r.food+=c.hutExtras;}
   });
-  if(c.guided&&p.guideDays>0){var g=Math.ceil(people()/Math.max(1,c.perGuide));r.guide=p.guideDays*(c.guideRate+c.guideExp)*g/people();}
+  if(p.car){var cp=Math.max(1,Math.min(c.carPeople,people()));r.car=(p.car.km*c.fuelKm+p.car.tolls+p.car.parking+(c.rentCar?c.carDay*TOUR_DAYS:0))/cp;}
   if(c.rent)r.gear=TOUR_DAYS*(c.gearDay+c.avyDay)+(isGlacier(p)?TOUR_DAYS*c.glacierDay:0);
-  var sub=r.huts+r.valley+r.lifts+r.transport+r.guide+r.gear+r.food;
+  var sub=r.huts+r.valley+r.lifts+r.transport+r.car+r.gear+r.food;
   r.food+=sub*c.buffer/100;
   r.total=0;CATS.forEach(function(k){r.total+=r[k.id];});
   return r;
@@ -856,10 +919,11 @@ function scoreOf(id){return scoreAll().filter(function(s){return s.id===id;})[0]
 /* ================= router ================= */
 var SHEETS=["compare"].concat(PLANS.map(function(p){return "plan-"+p.id.toLowerCase();}),["flights"]);
 var current={sheet:null,plan:null};
-function shortName(p){return p.name.replace(/ base camp| plateau base| & .*| → .*|, no glacier/,"");}
+function shortName(p){return p.name.replace(/ base camp| plateau base| & .*| → .*|, no glacier|^Val di |^Arolla: .*/,function(m){return m.indexOf("Arolla")===0?"Arolla":"";});}
 function renderTabs(){
   var sc={};scoreAll().forEach(function(s){sc[s.id]=s.score;});
-  $("#tabs").innerHTML='<a class="plain" href="#compare">Compare</a>'+PLANS.map(function(p){return '<a href="#plan-'+p.id.toLowerCase()+'" title="'+esc(p.name)+' · score '+sc[p.id]+'"><span class="code">'+p.id+'</span>'+esc(shortName(p))+'</a>';}).join('')+'<a class="plain" href="#flights">Flights</a>';
+  var tab=function(p){return '<a href="#plan-'+p.id.toLowerCase()+'" title="'+esc(p.name)+' · score '+sc[p.id]+'"><span class="code">'+p.id+'</span>'+esc(shortName(p))+'</a>';};
+  $("#tabs").innerHTML='<a class="plain" href="#compare">Compare</a><span class="tab-sep">From Chamonix</span>'+PLANS.filter(function(p){return p.group==="near";}).map(tab).join('')+'<span class="tab-sep">By car</span>'+PLANS.filter(function(p){return p.group==="car";}).map(tab).join('')+'<span class="tab-sep"></span><a class="plain" href="#flights">Flights</a>';
   markTabs();
 }
 function markTabs(){$$("#tabs a").forEach(function(a){if(a.getAttribute("href")==="#"+current.sheet)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
@@ -877,11 +941,12 @@ window.addEventListener("hashchange",function(){route(true);});
 /* ================= compare sheet ================= */
 function seg(){$$('[data-act="origin"]').forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.v===S.origin));});$$('[data-act="cur"]').forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.v===S.cur));});}
 function renderCompare(){seg();renderRank();renderMatrix();renderCostChart();renderGroup();}
+function lvlPill(p){return '<span class="lvl '+p.level+'">'+LEVELS[p.level]+'</span>';}
 function hutList(p){var h=[];p.nights.forEach(function(n){if(HUTS[n]&&h.indexOf(n)<0)h.push(n);});return h;}
 function renderRank(){
   var sc=scoreAll().sort(function(a,b){return a.rank-b.rank;}),hc=homeCur();
   $("#rank").innerHTML=sc.map(function(s){var p=s.plan;
-    return '<a class="rank-row'+(s.rank===1?' first':'')+'" href="#plan-'+p.id.toLowerCase()+'"><span class="rank-pos">'+s.rank+'</span><span class="rank-code">'+p.id+'</span><span class="rank-name"><b>'+esc(p.name)+'</b><span>'+esc(hutList(p).map(function(x){return HUTS[x].short;}).join(' + '))+' · '+(isGlacier(p)?'glacier':'no glacier')+'</span></span><span class="rank-bar"><span class="track"><i style="width:'+s.score+'%"></i></span><b>'+s.score+'</b></span><span class="rank-cost">'+fmt(s.cost,hc)+'<small>touring, per person</small></span><span class="rank-go" aria-hidden="true">→</span></a>';
+    return '<a class="rank-row'+(s.rank===1?' first':'')+'" href="#plan-'+p.id.toLowerCase()+'"><span class="rank-pos">'+s.rank+'</span><span class="rank-code">'+p.id+'</span><span class="rank-name"><b>'+esc(p.name)+'</b><span class="sum">'+esc(p.summary)+'</span><span class="mini">'+lvlPill(p)+'<span class="drv">'+esc(p.drive)+'</span></span></span><span class="rank-bar"><span class="track"><i style="width:'+s.score+'%"></i></span><b>'+s.score+'</b></span><span class="rank-cost">'+fmt(s.cost,hc)+'<small>touring, per person</small></span><span class="rank-go" aria-hidden="true">→</span></a>';
   }).join('');
   $("#rankNote").textContent="Score out of 100 · prices for a traveller from "+(S.origin==="arn"?"Stockholm":"Oslo");
 }
@@ -925,9 +990,11 @@ function gradeIcon(g){return '<span class="g '+g+'" aria-hidden="true">'+(g==="e
 function renderPlanSheet(){
   var p=PLAN_BY[current.plan];if(!p)return;
   var s=scoreOf(p.id),c=cost(p),hc=homeCur(),hutIds=hutList(p),hutN=p.nights.filter(function(n){return HUTS[n];}).length,valN=p.nights.length-hutN;
-  $("#planHead").innerHTML='<div class="sheet-head"><div class="big-code">'+p.id+'</div><div><p class="eyebrow">Alternative '+p.id+' · 24–29 March</p><h2 id="plan-h">'+esc(p.name)+'</h2><p class="lede">'+esc(p.tag)+'</p><p class="suits"><b>Best for:</b> '+esc(p.suits)+'</p></div>'+
+  $("#planHead").innerHTML='<div class="sheet-head"><div class="big-code">'+p.id+'</div><div><p class="eyebrow">Alternative '+p.id+' · 24–29 March</p><h2 id="plan-h">'+esc(p.name)+'</h2><p class="lede">'+esc(p.tag)+'</p></div>'+
     '<div class="head-stats"><div class="stat"><div class="k">Score</div><div class="v">'+s.score+'<span style="font-size:16px;color:var(--muted)">/100</span></div><div class="d">Rank '+s.rank+' of '+PLANS.length+'</div></div><div class="stat"><div class="k">Per person</div><div class="v num">'+fmt(c.total,hc)+'</div><div class="d">touring, excl. flights</div></div></div></div>'+
-    '<div class="facts"><span class="fact">'+hutN+' hut night'+(hutN>1?'s':'')+' + '+valN+' valley night'+(valN>1?'s':'')+'</span><span class="fact">'+esc(hutIds.map(function(h){return HUTS[h].short+' '+HUTS[h].alt+' m';}).join(' · '))+'</span><span class="fact">'+(isGlacier(p)?'Glacier: rope and crevasse kit':'No glacier')+'</span><span class="fact">'+(p.guideDays?p.guideDays+' guide days':'No guide needed')+'</span>'+(p.tip?'<span class="fact warn">'+esc(p.tip)+'</span>':'')+'</div>';
+    '<div class="inshort"><span class="k">The plan in short</span><p>'+esc(p.summary)+'</p></div>'+
+    '<div class="facts"><span class="lvl big '+p.level+'" title="'+esc(LEVEL_NOTE[p.level])+'">Difficulty: '+LEVELS[p.level]+'</span><span class="fact">'+esc(p.drive)+'</span><span class="fact">'+hutN+' hut night'+(hutN>1?'s':'')+' + '+valN+' valley night'+(valN>1?'s':'')+'</span><span class="fact">'+esc(hutIds.map(function(h){return HUTS[h].short+' '+HUTS[h].alt+' m';}).join(' · '))+'</span></div>'+
+    '<p class="note" style="margin:10px 0 0">'+esc(LEVEL_NOTE[p.level])+(isGlacier(p)?' No guide, so the group must be able to rescue someone from a crevasse.':'')+'</p>';
   $("#planDays").innerHTML=DAYS.map(function(d,i){var n=p.nights[i];
     var bed=i<5?'<span class="bed '+nightType(n)+'">Night: '+esc(nightLabel(n))+'</span>':'<span class="bed home">Fly home</span>';
     return '<div class="dcard" data-day="'+d.d+'"><div class="dh"><span class="dn">'+d.d+'</span><span class="wd">'+d.wd+' · Mar</span></div><div class="hol">'+esc(d.hol)+'</div><p>'+esc(p.days[d.d]||'')+'</p>'+bed+'</div>';}).join('');
@@ -948,7 +1015,7 @@ function renderPlanSheet(){
     '<article class="top-card" style="background:var(--surface-2);border-style:dashed"><span class="when opt">If the weather turns</span><p style="font-size:16px;color:var(--ink)">'+esc(p.weather)+'</p><p>Symbols follow piste colours: blue circle easy, red square moderate, black diamond steep, double diamond expert. The bar shows height gain on skins.</p></article>';
   var fo=flightEur("osl"),fa=flightEur("arn");
   var stack=CATS.map(function(k){if(c[k.id]<=0.5)return '';return '<span style="width:'+(c[k.id]/c.total*100).toFixed(2)+'%;background:var('+k.v+')" data-tip="'+esc('<b>'+k.name+'</b><br>'+fmt(c[k.id],hc))+'"></span>';}).join('');
-  $("#planCost").innerHTML='<div class="cost-grid"><div><div class="stack">'+stack+'</div><div class="legend">'+CATS.filter(function(k){return c[k.id]>0.5;}).map(function(k){return '<span><i style="background:var('+k.v+')"></i>'+esc(k.name)+'</span>';}).join('')+'</div><p class="note">Per person with '+people()+' people'+(S.cost.guided&&p.guideDays?', sharing '+Math.ceil(people()/Math.max(1,S.cost.perGuide))+' guide':'')+'. '+(S.cost.rent?'Includes renting touring kit for '+TOUR_DAYS+' days. ':'Own gear. ')+'Change the assumptions on the <a href="#compare">Compare</a> sheet and flights on the <a href="#flights">Flights</a> sheet.</p></div>'+
+  $("#planCost").innerHTML='<div class="cost-grid"><div><div class="stack">'+stack+'</div><div class="legend">'+CATS.filter(function(k){return c[k.id]>0.5;}).map(function(k){return '<span><i style="background:var('+k.v+')"></i>'+esc(k.name)+'</span>';}).join('')+'</div><p class="note">Per person with '+people()+' people, no guide'+(p.car?', '+Math.max(1,Math.min(S.cost.carPeople,people()))+' per car':'')+'. '+(S.cost.rent?'Includes renting touring kit for '+TOUR_DAYS+' days. ':'Own gear. ')+'Change the assumptions on the <a href="#compare">Compare</a> sheet and flights on the <a href="#flights">Flights</a> sheet.</p></div>'+
     '<div class="table-scroll"><table class="money"><thead><tr><th scope="col">Item</th><th scope="col">Oslo</th><th scope="col">Stockholm</th><th scope="col">EUR</th></tr></thead><tbody>'+
     CATS.map(function(k){return '<tr><td>'+esc(k.name)+'</td><td>'+fmt(c[k.id],"NOK")+'</td><td>'+fmt(c[k.id],"SEK")+'</td><td>'+fmt(c[k.id],"EUR")+'</td></tr>';}).join('')+
     '<tr class="total"><td>Touring total</td><td>'+fmt(c.total,"NOK")+'</td><td>'+fmt(c.total,"SEK")+'</td><td>'+fmt(c.total,"EUR")+'</td></tr>'+
@@ -963,8 +1030,8 @@ function renderFlights(){var c=S.cost;
   $("#flightTotal").innerHTML='Flights, bags and airport transfer per person: <b>'+esc(fmt(flightEur("osl"),"NOK"))+'</b> from Oslo and <b>'+esc(fmt(flightEur("arn"),"SEK"))+'</b> from Stockholm. Group of '+people()+': '+c.nOsl+' from Oslo, '+c.nArn+' from Stockholm.';}
 
 /* ================= map ================= */
-var MAPM={gx0:543745,gy0:372498,s:0.8200922603792927,W:1600,H:1305,n:1048576};
-var M_PER_UNIT=156543.03392*Math.cos(45.94*Math.PI/180)/4096/MAPM.s;
+var MAPM={gx0:543745,gy0:372498,s:0.8583690987124464,W:2200,H:2403,n:1048576};
+var M_PER_UNIT=156543.03392*Math.cos(45.8*Math.PI/180)/4096/MAPM.s;
 function proj(ll){var x=(ll[1]+180)/360*MAPM.n-MAPM.gx0,r=ll[0]*Math.PI/180;var y=(1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*MAPM.n-MAPM.gy0;return [x*MAPM.s,y*MAPM.s];}
 var PL={
   chamonix:{n:"Chamonix",t:"town",ll:[45.9237,6.8694],alt:1035,major:1},
@@ -983,6 +1050,12 @@ var PL={
   contamines:{n:"Les Contamines",t:"town",ll:[45.8217,6.7269],alt:1164,major:1},
   ndgorge:{n:"N.-D. de la Gorge",t:"town",ll:[45.79649,6.7226],alt:1210},
   courmayeur:{n:"Courmayeur",t:"town",ll:[45.7969,6.969],alt:1224,major:1},
+  aosta:{n:"Aosta",t:"town",ll:[45.7375,7.32],alt:583,major:1},
+  rhemes:{n:"Rhêmes-Notre-Dame",t:"town",ll:[45.56959,7.11811],alt:1725},
+  thumel:{n:"Thumel",t:"town",ll:[45.53473,7.10335],alt:1879},
+  pravieux:{n:"Pravieux",t:"town",ll:[45.56527,7.21561],alt:1835},
+  arolla:{n:"Arolla",t:"town",ll:[46.02414,7.481],alt:2006,major:1},
+  evolene:{n:"Evolène",t:"town",ll:[46.11299,7.49474],alt:1370},
   montblanc:{n:"Mont Blanc",t:"peak",ll:[45.83287,6.86405],alt:4806,major:1},
   tacul:{n:"Mont Blanc du Tacul",t:"peak",ll:[45.85726,6.88637],alt:4248},
   verte:{n:"Aiguille Verte",t:"peak",ll:[45.93492,6.96911],alt:4122},
@@ -998,8 +1071,15 @@ var PL={
   rosablanche:{n:"Rosablanche",t:"peak",ll:[46.06537,7.33921],alt:3336},
   montfort_pk:{n:"Mont Fort",t:"peak",ll:[46.08038,7.31827],alt:3329},
   montgele:{n:"Mont Gelé",t:"peak",ll:[46.09681,7.27913],alt:3023},
-  marbrees:{n:"Aig. de Marbrées",t:"peak",ll:[45.85128,6.9413],alt:3535},
-  entreves:{n:"Aig. d'Entrèves",t:"peak",ll:[45.8432,6.916],alt:3600},
+  granparadiso:{n:"Gran Paradiso",t:"peak",ll:[45.51693,7.2678],alt:4061,major:1},
+  grantaparei:{n:"Granta Parei",t:"peak",ll:[45.49744,7.04464],alt:3387},
+  tsanteleina:{n:"Punta Tsanteleina",t:"peak",ll:[45.47891,7.04601],alt:3602},
+  calabre:{n:"Punta Calabre",t:"peak",ll:[45.52198,7.05528],alt:3445},
+  galisia:{n:"Punta Galisia",t:"peak",ll:[45.47048,7.11056],alt:3346},
+  cheilon:{n:"Mont Blanc de Cheilon",t:"peak",ll:[45.99291,7.41714],alt:3870},
+  pigne:{n:"Pigne d'Arolla",t:"peak",ll:[45.98456,7.43671],alt:3790},
+  luette:{n:"La Luette",t:"peak",ll:[46.01055,7.38796],alt:3548},
+  eveque:{n:"L'Évêque",t:"peak",ll:[45.96499,7.50229],alt:3716},
   col_chardonnet:{n:"Col du Chardonnet",t:"col",ll:[45.9743,7.00996],alt:3323},
   col_passon:{n:"Col du Passon",t:"col",ll:[45.97788,6.99177],alt:3028},
   col_tour:{n:"Col du Tour",t:"col",ll:[45.99792,7.00893],alt:3281},
@@ -1008,8 +1088,8 @@ var PL={
   col_tournoir:{n:"Col du Tour Noir",t:"col",ll:[45.95473,7.03674],alt:3535},
   col_argentiere:{n:"Col d'Argentière",t:"col",ll:[45.9385,7.03537],alt:3552},
   col_belvedere:{n:"Col du Belvédère",t:"col",ll:[45.98694,6.87023],alt:2780},
-  col_geant:{n:"Col du Géant",t:"col",ll:[45.8465,6.92654],alt:3365},
   col_chassoure:{n:"Col de Chassoure",t:"col",ll:[46.09466,7.27432],alt:2740},
+  pas_chevres:{n:"Pas de Chèvres",t:"col",ll:[46.00602,7.44873],alt:2855},
   midi:{n:"Aiguille du Midi",t:"lift",ll:[45.87854,6.88637],alt:3842,major:1},
   plan_aig:{n:"Plan de l'Aiguille",t:"lift",ll:[45.89311,6.88122],alt:2317},
   montenvers:{n:"Montenvers",t:"lift",ll:[45.93014,6.91761],alt:1913},
@@ -1025,16 +1105,21 @@ var PL={
   helbronner:{n:"Punta Helbronner",t:"lift",ll:[45.8462,6.9352],alt:3466},
   ruinettes:{n:"Les Ruinettes",t:"lift",ll:[46.08823,7.25235],alt:2195},
   albert:{n:"Albert 1er",t:"hut2",ll:[45.99675,6.98663],alt:2706},
-  requin:{n:"Requin",t:"hut2",ll:[45.88463,6.9297],alt:2516},
   saleina_gl:{t:"wp",ll:[45.978,7.03]},
-  vb_mid:{t:"wp",ll:[45.87,6.905]},
   glacier_tour:{t:"wp",ll:[45.9915,6.9745]},
   tre_la_tete:{t:"wp",ll:[45.80248,6.74389]},
   sembrancher:{t:"wp",ll:[46.0778,7.1498]},
   finhaut:{t:"wp",ll:[46.083,6.977]},
-  chatelard:{t:"wp",ll:[46.06,6.958]}
+  chatelard:{t:"wp",ll:[46.06,6.958]},
+  morgex:{t:"wp",ll:[45.75698,7.03983]},
+  villeneuve:{t:"wp",ll:[45.7021,7.20703]},
+  introd:{t:"wp",ll:[45.69203,7.18403]},
+  degioz:{t:"wp",ll:[45.5916,7.2077]},
+  rhone:{t:"wp",ll:[46.2,7.27]},
+  sion:{t:"wp",ll:[46.233,7.359]},
+  euseigne:{t:"wp",ll:[46.17,7.42]}
 };
-var HUT_LL={argentiere:[45.94636,7.00457],trient:[45.99956,7.04355],cosmiques:[45.87323,6.88557],torino:[45.84436,6.93384],conscrits:[45.78695,6.76605],loriaz:[46.039,6.9132],montfort:[46.0836,7.281]};
+var HUT_LL={argentiere:[45.94636,7.00457],trient:[45.99956,7.04355],loriaz:[46.039,6.9132],conscrits:[45.78695,6.76605],benevolo:[45.51573,7.08451],chabod:[45.5403,7.2389],dix:[46.011,7.4176],vignettes:[45.98983,7.47567],montfort:[46.0836,7.281]};
 Object.keys(HUTS).forEach(function(id){PL[id]={n:HUTS[id].short,t:"hut",ll:HUT_LL[id],alt:HUTS[id].alt,major:1};});
 for(var pid0 in PL)PL[pid0].xy=proj(PL[pid0].ll);
 var LIFTS=[
@@ -1047,20 +1132,26 @@ var LIFTS=[
   {n:"Skyway Monte Bianco",ids:["pontal","pavillon","helbronner"]},
   {n:"Verbier gondolas",ids:["lechable","verbier","ruinettes"]}
 ];
-var COUNTRIES=[["FRANCE",[45.958,6.735]],["ITALY",[45.772,7.05]],["SWITZERLAND",[46.045,7.17]]];
+var COUNTRIES=[["FRANCE",[45.958,6.735]],["ITALY",[45.63,6.93]],["SWITZERLAND",[46.045,7.2]]];
+var NOTES=[["Mont Blanc tunnel",[45.86,6.92]],["to Sion ↑",[46.122,7.40]]];
 function L(d,t,ids,label){return {d:d,t:t,ids:ids,label:label};}
 var TO_ARG=[L(24,"transport",["chamonix","argentiere_v"],"Bus or train to Argentière"),L(24,"lift",["argentiere_v","lognan"],"Lognan gondola"),L(24,"ski",["lognan","argentiere"],"Skin up the Argentière glacier to the hut")];
 var HOME_CH=[L(28,"ski",["trient","col_ecandies","champex"],"Col des Écandies and the Val d'Arpette to Champex"),L(28,"transport",["champex","orsieres","sembrancher","martigny","finhaut","chatelard","vallorcine","argentiere_v","chamonix"],"Bus and train back to Chamonix")];
+var TO_ITALY=["chamonix","courmayeur","morgex","villeneuve","introd"];
+var TO_SWISS=["chamonix","argentiere_v","vallorcine","chatelard","trient_v","martigny"];
+function rev(a){return a.slice().reverse();}
 var LEGS={
   A:TO_ARG.concat([L(25,"tour",["argentiere","col_tournoir"],"Glacier des Améthystes to the Col du Tour Noir"),L(26,"tour",["argentiere","col_chardonnet"],"Col du Chardonnet and back"),L(27,"tour",["argentiere","aigargentiere"],"Aiguille d'Argentière by the Glacier du Milieu"),L(28,"ski",["argentiere","col_passon","glacier_tour","letour"],"Col du Passon, then the Glacier du Tour to Le Tour"),L(28,"transport",["letour","argentiere_v","chamonix"],"Bus back to Chamonix")]),
   B:TO_ARG.concat([L(25,"tour",["argentiere","col_passon"],"Col du Passon couloir and back"),L(26,"ski",["argentiere","col_chardonnet","saleina_gl","fen_saleina","trient"],"Traverse over the Col du Chardonnet and Fenêtre de Saleina to Trient"),L(27,"tour",["trient","aigtour"],"Tête Blanche and the Aiguilles du Tour"),L(27,"tour",["trient","orny_pt"],"Laps off the Pointe d'Orny")],HOME_CH),
   C:[L(24,"transport",["chamonix","argentiere_v","letour"],"Bus to Le Tour"),L(24,"lift",["letour","autannes"],"Le Tour lifts"),L(24,"ski",["autannes","albert","col_tour","trient"],"Glacier du Tour and the Col du Tour to the Trient hut"),L(25,"tour",["trient","aigtour"],"Tête Blanche and the Aiguilles du Tour"),L(26,"tour",["trient","orny_pt"],"Pointe d'Orny and the Combe d'Orny"),L(27,"tour",["trient","fen_saleina"],"Over to the Fenêtre de Saleina")].concat(HOME_CH),
-  D:[L(24,"lift",["chamonix","plan_aig","midi"],"Aiguille du Midi"),L(24,"ski",["midi","vb_mid","col_geant","torino"],"Vallée Blanche, then skin up to the Torino hut"),L(25,"ski",["torino","helbronner","pavillon"],"Toula glacier down to Pavillon"),L(25,"lift",["pavillon","helbronner"],"Skyway back up"),L(26,"tour",["torino","entreves"],"Aiguille d'Entrèves"),L(27,"ski",["torino","col_geant","vb_mid","cosmiques"],"Across the Glacier du Géant to the Cosmiques hut"),L(28,"ski",["cosmiques","vb_mid","requin","montenvers"],"Envers du Plan or the Vallée Blanche"),L(28,"transport",["montenvers","chamonix"],"Montenvers train down")],
-  E:[L(24,"transport",["chamonix","argentiere_v","vallorcine"],"Train to Vallorcine"),L(24,"ski",["vallorcine","loriaz"],"Skin up to the Refuge de Loriaz"),L(25,"tour",["loriaz","terrasse"],"Pointe de la Terrasse"),L(27,"ski",["loriaz","vallorcine"],"Ski down to Vallorcine"),L(27,"transport",["vallorcine","letour"],"Bus to Le Tour"),L(27,"lift",["letour","autannes"],"Afternoon on the Le Tour lifts"),L(27,"transport",["letour","argentiere_v","chamonix"],"Back to Chamonix"),L(28,"transport",["chamonix","argentiere_v","lebuet"],"Train to Le Buet"),L(28,"tour",["lebuet","buet"],"Mont Buet")],
-  F:[L(24,"transport",["chamonix","argentiere_v","vallorcine","chatelard","finhaut","martigny","sembrancher","lechable"],"Train to Le Châble"),L(24,"lift",["lechable","verbier","ruinettes"],"Gondolas to Les Ruinettes"),L(24,"ski",["ruinettes","montfort"],"Ski in to the Mont Fort hut"),L(25,"tour",["montfort","rosablanche"],"Rosablanche"),L(26,"tour",["montfort","col_chassoure","montgele"],"Mont Gelé faces"),L(28,"ski",["montfort","ruinettes","verbier"],"Ski down to Verbier"),L(28,"lift",["verbier","lechable"],"Gondola down to Le Châble"),L(28,"transport",["lechable","sembrancher","martigny","finhaut","chatelard","vallorcine","argentiere_v","chamonix"],"Train back to Chamonix")],
-  G:[L(24,"transport",["chamonix","leshouches","stgervais","contamines","ndgorge"],"Bus or taxi to Notre-Dame de la Gorge"),L(24,"ski",["ndgorge","tre_la_tete","conscrits"],"Up the Tré-la-Tête glacier to the hut"),L(25,"tour",["conscrits","berangere"],"Aiguille de la Bérangère"),L(26,"tour",["conscrits","domes"],"Dômes de Miage traverse"),L(28,"ski",["conscrits","tre_la_tete","ndgorge"],"Ski out to Notre-Dame de la Gorge"),L(28,"transport",["ndgorge","contamines","stgervais","leshouches","chamonix"],"Back to Chamonix")]
+  D:[L(24,"transport",["chamonix","argentiere_v","vallorcine"],"Train to Vallorcine"),L(24,"ski",["vallorcine","loriaz"],"Skin up to the Refuge de Loriaz"),L(25,"tour",["loriaz","terrasse"],"Pointe de la Terrasse"),L(27,"ski",["loriaz","vallorcine"],"Ski down to Vallorcine"),L(27,"transport",["vallorcine","letour"],"Bus to Le Tour"),L(27,"lift",["letour","autannes"],"Afternoon on the Le Tour lifts"),L(27,"transport",["letour","argentiere_v","chamonix"],"Back to Chamonix"),L(28,"transport",["chamonix","argentiere_v","lebuet"],"Train to Le Buet"),L(28,"tour",["lebuet","buet"],"Mont Buet")],
+  E:[L(24,"car",["chamonix","leshouches","stgervais","contamines","ndgorge"],"Drive to Notre-Dame de la Gorge"),L(24,"ski",["ndgorge","tre_la_tete","conscrits"],"Up the Tré-la-Tête glacier to the hut"),L(25,"tour",["conscrits","berangere"],"Aiguille de la Bérangère"),L(26,"tour",["conscrits","domes"],"Dômes de Miage traverse"),L(28,"ski",["conscrits","tre_la_tete","ndgorge"],"Ski out to Notre-Dame de la Gorge"),L(28,"car",["ndgorge","contamines","stgervais","leshouches","chamonix"],"Drive back to Chamonix")],
+  F:[L(24,"car",TO_ITALY.concat(["rhemes","thumel"]),"Drive through the Mont Blanc tunnel to Thumel"),L(24,"ski",["thumel","benevolo"],"Skin up to Rifugio Benevolo"),L(25,"tour",["benevolo","grantaparei"],"Granta Parei"),L(26,"tour",["benevolo","tsanteleina"],"Punta Tsanteleina"),L(27,"tour",["benevolo","calabre"],"Punta Calabre"),L(28,"tour",["benevolo","galisia"],"Punta Galisia"),L(28,"ski",["benevolo","thumel"],"Ski down to Thumel"),L(28,"car",rev(TO_ITALY.concat(["rhemes","thumel"])),"Drive back to Chamonix")],
+  G:[L(24,"car",TO_ITALY.concat(["degioz","pravieux"]),"Drive through the Mont Blanc tunnel to Pravieux"),L(24,"ski",["pravieux","chabod"],"Skin up to Rifugio Chabod"),L(25,"tour",["chabod","granparadiso"],"Gran Paradiso, 4061 m"),L(26,"ski",["chabod","pravieux"],"Ski down to Pravieux"),L(26,"car",["pravieux","degioz","introd","rhemes","thumel"],"Drive round to Val di Rhêmes"),L(26,"ski",["thumel","benevolo"],"Skin up to Rifugio Benevolo"),L(27,"tour",["benevolo","grantaparei"],"Granta Parei"),L(28,"ski",["benevolo","thumel"],"Ski down to Thumel"),L(28,"car",rev(TO_ITALY.concat(["rhemes","thumel"])),"Drive back to Chamonix")],
+  H:[L(24,"car",TO_SWISS.concat(["rhone","sion","euseigne","evolene","arolla"]),"Drive to Arolla via Martigny and Sion"),L(24,"ski",["arolla","pas_chevres","dix"],"Over the Pas de Chèvres ladders to the Cabane des Dix"),L(25,"tour",["dix","luette"],"La Luette"),L(26,"ski",["dix","pigne","vignettes"],"Pigne d'Arolla, then down to the Vignettes"),L(27,"tour",["vignettes","eveque"],"L'Évêque"),L(28,"ski",["vignettes","arolla"],"Down the Pièce glacier to Arolla"),L(28,"car",rev(TO_SWISS.concat(["rhone","sion","euseigne","evolene","arolla"])),"Drive back to Chamonix")],
+  I:[L(24,"car",TO_SWISS.concat(["sembrancher","lechable"]),"Drive to Le Châble"),L(24,"lift",["lechable","verbier","ruinettes"],"Gondolas to Les Ruinettes"),L(24,"ski",["ruinettes","montfort"],"Ski in to the Mont Fort hut"),L(25,"tour",["montfort","rosablanche"],"Rosablanche"),L(26,"tour",["montfort","col_chassoure","montgele"],"Mont Gelé faces"),L(28,"ski",["montfort","ruinettes","verbier"],"Ski down to Verbier"),L(28,"lift",["verbier","lechable"],"Gondola down to Le Châble"),L(28,"car",rev(TO_SWISS.concat(["sembrancher","lechable"])),"Drive back to Chamonix")]
 };
-var TYPE_NAME={ski:"On skis",tour:"Day tour, out and back",lift:"Lift",transport:"Train or bus"};
+var TYPE_NAME={ski:"On skis",tour:"Day tour, out and back",lift:"Lift",transport:"Train or bus",car:"By car"};
 function dayName(d){var x=DAYS.filter(function(y){return y.d===d;})[0];return x?x.wd+" "+d+" Mar":String(d);}
 var MV={x:0,y:0,w:MAPM.W,h:MAPM.H},MS={plan:null,day:"all",peek:null,drag:null};
 function mapAspect(){var b=$("#mapSvg").getBoundingClientRect();return b.width>0&&b.height>0?b.height/b.width:MAPM.H/MAPM.W;}
@@ -1069,7 +1160,7 @@ function clampView(){var a=mapAspect(),maxW=Math.max(MAPM.W,MAPM.H/a),minW=MAPM.
   MV.x=MV.w>=MAPM.W?(MAPM.W-MV.w)/2:clamp(MV.x,0,MAPM.W-MV.w);MV.y=MV.h>=MAPM.H?(MAPM.H-MV.h)/2:clamp(MV.y,0,MAPM.H-MV.h);}
 function fitBox(x0,y0,x1,y1,pad){var a=mapAspect(),w=Math.max(x1-x0,60)*(1+2*pad),h=Math.max(y1-y0,60)*(1+2*pad);if(h/w<a)h=w*a;else w=h/a;MV={x:(x0+x1)/2-w/2,y:(y0+y1)/2-h/2,w:w,h:h};clampView();}
 function fitPlan(){var p=PLAN_BY[current.plan];if(!p)return;var pts=[];
-  (LEGS[p.id]||[]).forEach(function(l){if(l.t!=="transport")l.ids.forEach(function(id){pts.push(PL[id].xy);});});
+  (LEGS[p.id]||[]).forEach(function(l){if(l.t!=="transport"&&l.t!=="car")l.ids.forEach(function(id){pts.push(PL[id].xy);});});
   p.nights.forEach(function(n){if(PL[n])pts.push(PL[n].xy);});
   var xs=pts.map(function(q){return q[0];}),ys=pts.map(function(q){return q[1];});
   fitBox(Math.min.apply(null,xs),Math.min.apply(null,ys),Math.max.apply(null,xs),Math.max.apply(null,ys),0.16);}
@@ -1098,10 +1189,11 @@ function renderMap(){
   var h='';
   COUNTRIES.forEach(function(c){var q=proj(c[1]);h+='<text class="country" x="'+f1(q[0])+'" y="'+f1(q[1])+'" font-size="30" text-anchor="middle">'+c[0]+'</text>';});
   if(Ly.lifts)LIFTS.forEach(function(l){h+='<polyline class="lift-net'+(l.closed?' closed':'')+'" points="'+ptsStr(l.ids)+'" stroke-width="'+f1(1.5*u)+'"'+(l.closed?' stroke-dasharray="'+f1(4*u)+' '+f1(3*u)+'"':'')+'/><polyline class="leg-hit" points="'+ptsStr(l.ids)+'" stroke-width="'+f1(10*u)+'" data-tip="'+esc('<b>'+esc(l.n)+'</b>')+'"/>';});
-  var order={transport:0,lift:1,tour:2,ski:3};
+  NOTES.forEach(function(nn){var q=proj(nn[1]);h+='<text class="map-note" x="'+f1(q[0])+'" y="'+f1(q[1])+'" font-size="'+f1(Math.max(12*u,10))+'" text-anchor="middle">'+esc(nn[0])+'</text>';});
+  var order={car:0,transport:0,lift:1,tour:2,ski:3};
   legs.slice().sort(function(a,b){return order[a.t]-order[b.t];}).forEach(function(l){
-    var d=ptsStr(l.ids),w=l.t==="ski"?3.6:l.t==="tour"?2.8:l.t==="lift"?2.2:2.6;
-    var dash=l.t==="tour"?f1(7*u)+" "+f1(5*u):l.t==="transport"?f1(0.1*u)+" "+f1(5*u):"";
+    var d=ptsStr(l.ids),w=l.t==="ski"?3.6:l.t==="tour"?2.8:l.t==="lift"?2.2:l.t==="car"?2.4:2.6;
+    var dash=l.t==="tour"?f1(7*u)+" "+f1(5*u):l.t==="transport"?f1(0.1*u)+" "+f1(5*u):l.t==="car"?f1(10*u)+" "+f1(5*u):"";
     var tip='<b>'+dayName(l.d)+'</b><br>'+esc(l.label)+'<br><span style="opacity:.75">'+TYPE_NAME[l.t]+'</span>';
     h+='<g class="leg-g" data-day="'+l.d+'"><polyline class="leg-halo" points="'+d+'" stroke-width="'+f1((w+3.5)*u)+'"/><polyline class="leg '+l.t+'" points="'+d+'" stroke-width="'+f1(w*u)+'"'+(dash?' stroke-dasharray="'+dash+'"':'')+'/><polyline class="leg-hit" points="'+d+'" stroke-width="'+f1(16*u)+'" data-tip="'+esc(tip)+'"/></g>';});
   var ids=Object.keys(PL).filter(function(id){var pl=PL[id];if(pl.t==="wp")return false;if(used[id])return true;
@@ -1228,7 +1320,7 @@ async function shareScores(){
   renderGroup();
 }
 async function pushRemote(){if(!R.db||!R.id)return;if(R.writing){R.pending=true;return;}R.writing=true;
-  try{await R.db.doc("data/users/"+R.id+"/planner").set({state:JSON.stringify(S),updatedAt:S.updatedAt,v:2});}catch(e){}
+  try{await R.db.doc("data/users/"+R.id+"/planner").set({state:JSON.stringify(S),updatedAt:S.updatedAt,v:3});}catch(e){}
   finally{R.writing=false;if(R.pending){R.pending=false;pushRemote();}}}
 async function initRemote(){
   if(!window.claude||typeof window.claude.use!=="function"){renderGroup();return;}
@@ -1238,7 +1330,7 @@ async function initRemote(){
   R.db=db;R.user=user;R.id=id;try{R.canWrite=await user.can("data.write");}catch(e){R.canWrite=null;}
   if(!id){R.note="Sign in to claude.ai to share your scores with the group.";renderGroup();return;}
   try{var snap=await db.doc("data/users/"+id+"/planner").get();
-    if(snap.exists){var d=snap.data();if(d&&d.v===2&&typeof d.updatedAt==="number"&&d.updatedAt>(S.updatedAt||0)&&typeof d.state==="string"){applySaved(JSON.parse(d.state));S.updatedAt=d.updatedAt;writeLocal();syncWeights();syncInputs();renderTabs();route(false);}}}catch(e){}
+    if(snap.exists){var d=snap.data();if(d&&d.v===3&&typeof d.updatedAt==="number"&&d.updatedAt>(S.updatedAt||0)&&typeof d.state==="string"){applySaved(JSON.parse(d.state));S.updatedAt=d.updatedAt;writeLocal();syncWeights();syncInputs();renderTabs();route(false);}}}catch(e){}
   var timer=setTimeout(function(){if(!R.loaded){R.loaded=true;R.note="The group's scores can't be reached yet.";renderGroup();}},10000);
   db.collection("votes").onSnapshot(function(s){R.votes=s.docs.filter(function(x){return x.exists;}).map(function(x){return {id:x.id,data:x.data()};});
     if(!s.metadata.fromCache){R.loaded=true;clearTimeout(timer);if(/can't be reached/.test(R.note))R.note="";}renderGroup();},
